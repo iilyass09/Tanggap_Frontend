@@ -80,7 +80,7 @@ fun AkunScreen(navController: NavController) {
                         modifier = Modifier
                             .offset(y = (-30).dp)
                             .fillMaxWidth(),
-                        text = "Apakah kamu yakin ingin keluar?",
+                        text = "Apakah anda yakin ingin keluar?",
                         fontFamily = poppins,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center
