@@ -1,0 +1,257 @@
+package com.example.massive.screen
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.massive.R
+import com.example.massive.navigation.PengaduanNavigation
+import com.example.massive.ui.theme.Biru
+import com.example.massive.ui.theme.poppins
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AkunScreen(navController: NavController) {
+
+    val sheetState = rememberModalBottomSheetState()
+    val keluarBottomSheet = rememberSaveable { mutableStateOf(false) }
+
+    Surface (
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(800.dp)
+            .background(color = Color.White)
+        ) {
+            if (keluarBottomSheet.value) {
+                ModalBottomSheet(
+                    sheetState = sheetState,
+                    onDismissRequest = { keluarBottomSheet.value = false }
+                ) {
+                    Column (
+                        modifier = Modifier.fillMaxWidth().padding(20.dp),
+                        Arrangement.Center,
+                        Alignment.CenterHorizontally
+                    ) {
+                    Image(
+                        modifier = Modifier
+                            .offset(y = (-45).dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(horizontal = 40.dp),
+                        painter = painterResource(id = R.drawable.popupkeluar),
+                        contentDescription = null
+                    )
+                    Text(
+                        modifier = Modifier
+                            .offset(y = (-30).dp)
+                            .fillMaxWidth(),
+                        text = "Apakah kamu yakin ingin keluar?",
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center
+                    )
+                    Button(
+                        onClick = { PengaduanNavigation.goTologin() },
+                        shape = RoundedCornerShape(20),
+                        modifier = Modifier
+                            .offset(y = (-20).dp)
+                            .fillMaxWidth()
+                            .heightIn(55.dp),
+                        contentPadding = PaddingValues(),
+                        colors = ButtonDefaults.buttonColors(Color.Transparent)
+                    ) {
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(55.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(listOf(Biru, Biru))
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Keluar",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = poppins
+                            )
+                        }
+                    }
+
+                    }
+                }
+            }
+        }
+
+    Surface(
+        color = Color.White,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White)
+            .padding(28.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "Akun",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppins,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.akun),
+                contentDescription = null,
+            )
+            Text(
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth(),
+                text = "Ahmad",
+                color = Color.Black,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = poppins,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.akunsaya),
+                    contentDescription = null,
+                    Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.widthIn(10.dp))
+                Text(
+                    text = "Akun Saya",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppins
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.pengaduansaya),
+                    contentDescription = null,
+                    Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.widthIn(10.dp))
+                Text(
+                    text = "Pengaduan Saya",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppins
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.pengaturan),
+                    contentDescription = null,
+                    Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.widthIn(10.dp))
+                Text(
+                    text = "Pengaturan",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppins
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.hubungikami),
+                    contentDescription = null,
+                    Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.widthIn(10.dp))
+                Text(
+                    text = "Hubungi Kami",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppins
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { keluarBottomSheet.value = true }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.keluar),
+                    contentDescription = null,
+                    Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.widthIn(10.dp))
+                Text(
+                    text = "Keluar",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppins
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun AkunPrev() {
+    AkunScreen(navController = rememberNavController())
+}

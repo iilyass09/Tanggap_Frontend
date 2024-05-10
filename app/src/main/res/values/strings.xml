@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tugas</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_komunitas">Komunitas</string>
+    <string name="menu_pengaduan">Pengaduan</string>
+    <string name="menu_berita">Berita</string>
+    <string name="menu_akun">Akun</string>
+    <string name="menu_chatbot">Chatbot</string>
+    <string name="menu_sepatu">Sepatu</string>
+    <string name="menu_klub">Klub Sepak Bola</string>
+    <string name="menu_gunung">Gunung</string>
+    <string name="search_club">Cari Klub</string>
+</resources>
