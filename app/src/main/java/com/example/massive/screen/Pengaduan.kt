@@ -30,15 +30,7 @@ fun PengaduanScreen(navController: NavController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "Pengaduan",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = poppins,
-                textAlign = TextAlign.Center
-            )
+
         }
     }
 }

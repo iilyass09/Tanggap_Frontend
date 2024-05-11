@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -43,20 +44,9 @@ fun CommunityScreen(navController: NavController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(17.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "Komunitas",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = poppins,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy((-15).dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().offset(y = (-5).dp)
             ) {
                 items(komunitass.take(10)) { komunitas ->
                     KomunitasItem(komunitas = komunitas)

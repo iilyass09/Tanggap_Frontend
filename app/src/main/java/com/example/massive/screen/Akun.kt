@@ -1,5 +1,6 @@
 package com.example.massive.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,12 +17,14 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -45,29 +48,31 @@ import com.example.massive.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AkunScreen(navController: NavController) {
-
     val sheetState = rememberModalBottomSheetState()
     val keluarBottomSheet = rememberSaveable { mutableStateOf(false) }
 
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(800.dp)
             .background(color = Color.White)
-        ) {
-            if (keluarBottomSheet.value) {
-                ModalBottomSheet(
-                    sheetState = sheetState,
-                    onDismissRequest = { keluarBottomSheet.value = false }
+    ) {
+        if (keluarBottomSheet.value) {
+            ModalBottomSheet(
+                sheetState = sheetState,
+                onDismissRequest = { keluarBottomSheet.value = false }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    Arrangement.Center,
+                    Alignment.CenterHorizontally
                 ) {
-                    Column (
-                        modifier = Modifier.fillMaxWidth().padding(20.dp),
-                        Arrangement.Center,
-                        Alignment.CenterHorizontally
-                    ) {
                     Image(
                         modifier = Modifier
                             .offset(y = (-45).dp)
@@ -89,7 +94,7 @@ fun AkunScreen(navController: NavController) {
                         onClick = { PengaduanNavigation.goTologin() },
                         shape = RoundedCornerShape(20),
                         modifier = Modifier
-                            .offset(y = (-20).dp)
+                            .offset(y = (-18).dp)
                             .fillMaxWidth()
                             .heightIn(55.dp),
                         contentPadding = PaddingValues(),
@@ -113,144 +118,137 @@ fun AkunScreen(navController: NavController) {
                             )
                         }
                     }
-
-                    }
                 }
             }
         }
+    }
 
-    Surface(
-        color = Color.White,
+    Scaffold(
+        containerColor = Color.White,
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .padding(28.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "Akun",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = poppins,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.akun),
-                contentDescription = null,
-            )
-            Text(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .fillMaxWidth(),
-                text = "Ahmad",
-                color = Color.Black,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = poppins,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .fillMaxSize(),
+        content = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.akunsaya),
+                    modifier = Modifier
+                        .offset(y = 10.dp)
+                        .width(150.dp)
+                        .height(150.dp),
+                    painter = painterResource(id = R.drawable.akun),
                     contentDescription = null,
-                    Modifier.size(50.dp)
                 )
-                Spacer(modifier = Modifier.widthIn(10.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "Akun Saya",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppins
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "Muhammad Aziz",
+                    color = Color.Black,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = poppins,
+                    textAlign = TextAlign.Center
                 )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.pengaduansaya),
-                    contentDescription = null,
-                    Modifier.size(50.dp)
-                )
-                Spacer(modifier = Modifier.widthIn(10.dp))
-                Text(
-                    text = "Pengaduan Saya",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppins
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.pengaturan),
-                    contentDescription = null,
-                    Modifier.size(50.dp)
-                )
-                Spacer(modifier = Modifier.widthIn(10.dp))
-                Text(
-                    text = "Pengaturan",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppins
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.hubungikami),
-                    contentDescription = null,
-                    Modifier.size(50.dp)
-                )
-                Spacer(modifier = Modifier.widthIn(10.dp))
-                Text(
-                    text = "Hubungi Kami",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppins
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { keluarBottomSheet.value = true }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.keluar),
-                    contentDescription = null,
-                    Modifier.size(50.dp)
-                )
-                Spacer(modifier = Modifier.widthIn(10.dp))
-                Text(
-                    text = "Keluar",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppins
-                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.akunsaya),
+                        contentDescription = null,
+                        Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.widthIn(10.dp))
+                    Text(
+                        text = "Akun Saya",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = poppins
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.pengaduansaya),
+                        contentDescription = null,
+                        Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.widthIn(10.dp))
+                    Text(
+                        text = "Pengaduan Saya",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = poppins
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.pengaturan),
+                        contentDescription = null,
+                        Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.widthIn(10.dp))
+                    Text(
+                        text = "Pengaturan",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = poppins
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.hubungikami),
+                        contentDescription = null,
+                        Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.widthIn(10.dp))
+                    Text(
+                        text = "Hubungi Kami",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = poppins
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { keluarBottomSheet.value = true }
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.keluar),
+                        contentDescription = null,
+                        Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.widthIn(10.dp))
+                    Text(
+                        text = "Keluar",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = poppins
+                    )
+                }
             }
         }
-    }
+    )
 }
 
-@Preview
+    @Preview
 @Composable
 fun AkunPrev() {
     AkunScreen(navController = rememberNavController())

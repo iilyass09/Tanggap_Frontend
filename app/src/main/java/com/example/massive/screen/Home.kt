@@ -1,7 +1,9 @@
 package com.example.massive.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -22,12 +25,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.data.Berita
 import com.example.massive.data.DataBerita
 import com.example.massive.data.DataKomunitas
 import com.example.massive.data.Komunitas
+import com.example.massive.navigation.PengaduanNavigation
+import com.example.massive.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -39,43 +45,43 @@ fun HomeScreen(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy((-15).dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item {
-                    Card1()
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                items(komunitass.take(3)) { komunitas ->
-                    KomunitasItem(komunitas = komunitas)
-                }
-                item {
-                    Text(
-                        modifier = Modifier.
-                        padding(start = 10.dp, top = 20.dp),
-                        text = "Berita Terkini",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = Color.Black,
-                    )
-                    Text(
-                        modifier = Modifier.
-                        padding(start = 10.dp, top = 5.dp),
-                        text = "Temukan berita terupdate tentang\n" + "Kota Bandung",
-                        color = Abu,
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = poppins
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                items(beritas.take(3)) { berita ->
-                    BeritaItem(berita = berita)
+        Column {
+            HomeTopBar()
+            Box(modifier = Modifier.fillMaxSize().padding(10.dp)) {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy((-15).dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item {
+                        Card1()
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                    items(komunitass.take(3)) { komunitas ->
+                        KomunitasItem(komunitas = komunitas)
+                    }
+                    item {
+                        Text(
+                            modifier = Modifier.padding(start = 10.dp, top = 20.dp),
+                            text = "Berita Terkini",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black,
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 10.dp, top = 5.dp),
+                            text = "Temukan berita terupdate tentang\n" + "Kota Bandung",
+                            color = Abu,
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = poppins
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                    items(beritas.take(3)) { berita ->
+                        BeritaItem(berita = berita)
+                    }
                 }
             }
         }
@@ -83,6 +89,69 @@ fun HomeScreen(navController: NavController) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeTopBar() {
+    TopAppBar(
+        title = {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ){
+            Text(
+                modifier = Modifier.offset(y = 4.dp),
+                text = "Muhammad Aziz",
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontStyle = FontStyle.Normal,
+                fontFamily = poppins
+            )
+            Text(
+                modifier = Modifier.offset(y = (-3).dp),
+                text = "Cibeunying Kaler",
+                color = Color.Black,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Normal,
+                fontFamily = poppins
+            )
+        }
+    },
+        navigationIcon = {
+            Box{
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.user),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(7.dp)
+                        .size(40.dp)
+                        .clickable { }
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = { }) {
+                Image(
+                    painter = painterResource(id = R.drawable.iconbot),
+                    contentDescription = "Chatbot",
+                    modifier = Modifier
+                        .padding(end = 15.dp)
+                        .size(40.dp)
+                )
+            }
+            IconButton(onClick = {  }) {
+                Image(
+                    painter = painterResource(id = R.drawable.notif),
+                    contentDescription = "Notif",
+                    modifier = Modifier
+                        .padding(end = 15.dp)
+                        .size(23.dp)
+                )
+            }
+        }
+    )
+}
 
 @Composable
 fun Card1() {
@@ -264,7 +333,7 @@ fun BeritaItem(
                         fontSize = 14.sp,
                         fontStyle = FontStyle.Normal,
                         fontFamily = poppins,
-                        modifier = Modifier.weight(1f)
+                        lineHeight = 18.sp
                     )
                     Text(
                         text = berita.waktu,

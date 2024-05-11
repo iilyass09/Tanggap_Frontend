@@ -9,6 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.EarthquakeApp.screen.Splash3
 import com.example.massive.Massive
+import com.example.massive.screen.BeritaScreen
+import com.example.massive.screen.ChatbotScreen
 import com.example.massive.screen.LoginScreen
 import com.example.massive.screen.Register
 import com.example.massive.screen.Splash1

@@ -176,77 +176,7 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             ClickableRegisterTextComponent(onTextSelected = { PengaduanNavigation.goToRegister() })
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Button(
-                onClick = { },
-                shape = RoundedCornerShape(25),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(60.dp),
-                contentPadding = PaddingValues(),
-                colors = ButtonDefaults.buttonColors(Color.Transparent)
-            ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(45.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Abu2, Abu2))
-                    ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Masuk dengan Google",
-                        color = Color.Black,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        fontFamily = poppins
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.juno),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(45.dp)
-                            .width(45.dp)
-                            .align(Alignment.CenterStart)
-                            .padding(start = 20.dp)
-                    )
-                }
             }
-            Button(
-                onClick = { },
-                shape = RoundedCornerShape(25),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(60.dp),
-                contentPadding = PaddingValues(),
-                colors = ButtonDefaults.buttonColors(Color.Transparent)
-            ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(45.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Abu2, Abu2))
-                    ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Masuk dengan Telepon",
-                        color = Color.Black,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        fontFamily = poppins
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.juno),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(45.dp)
-                            .width(45.dp)
-                            .align(Alignment.CenterStart)
-                            .padding(start = 20.dp)
-                    )
-                }
-            }
-        }
     }
 }
 

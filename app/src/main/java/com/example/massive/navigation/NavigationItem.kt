@@ -5,6 +5,7 @@ import com.example.massive.navigation.Screen
 
 data class NavigationItem (
     val title: String,
-    val icon : ImageVector,
+    val iconClick : Int,
+    val iconUnclick : Int,
     val screen: Screen
 )

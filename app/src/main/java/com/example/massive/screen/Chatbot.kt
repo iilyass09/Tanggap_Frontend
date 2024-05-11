@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,41 +40,31 @@ fun ChatbotScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
-            .padding(28.dp)
+            .padding(20.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row {
-                Image(
-                    painter = painterResource(id = R.drawable.back),
-                    contentDescription = null,
-                    modifier = Modifier.clickable { navController.popBackStack() }
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = "Chatbot",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = poppins,
-                    textAlign = TextAlign.Center
-                )
-            }
-            Spacer(modifier = Modifier.height(70.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Image(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(200.dp),
                 painter = painterResource(id = R.drawable.chatbot),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = "Membutuhkan respon dengan cepat?",
                 fontFamily = poppins,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 17.sp
+                fontSize = 17.sp,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = "Chat dengan bot untuk mempercepat\n"+
                         "respon pengaduan kamu",
                 fontFamily = poppins,
@@ -81,7 +72,7 @@ fun ChatbotScreen(navController: NavController) {
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(250.dp))
+            Spacer(modifier = Modifier.height(190.dp))
             Button(onClick = {  },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(Biru),

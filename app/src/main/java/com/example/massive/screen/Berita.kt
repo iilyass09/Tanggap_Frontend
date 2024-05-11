@@ -43,6 +43,7 @@ import com.example.massive.data.Berita
 import com.example.massive.data.DataBerita
 import com.example.massive.data.DataKomunitas
 import com.example.massive.data.Komunitas
+import com.example.massive.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.poppins
 
@@ -57,20 +58,9 @@ fun BeritaScreen(navController: NavController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(17.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "Berita",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = poppins,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy((-15).dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().offset(y = (-10).dp)
             ) {
                 item {
                     LazyRow(
@@ -78,8 +68,10 @@ fun BeritaScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.spacedBy((20).dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(beritas.take(3)) {berita ->
-                            BeritaTerbaru(berita = berita)
+                        items(beritas.filter { it.id in 1..3 }, key = { it.id }) {
+                            BeritaTerbaru(berita = it) { beritaId->
+                                navController.navigate(Screen.DetailBerita.route + "/$beritaId")
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.height(15.dp))
@@ -94,8 +86,10 @@ fun BeritaScreen(navController: NavController) {
                         fontSize = 18.sp,
                     )
                 }
-                items(beritas) { berita ->
-                    BeritaLainnya(berita = berita)
+                items(beritas, key = { it.id }) {
+                    BeritaLainnya(berita = it) { beritaId ->
+                        navController.navigate(Screen.DetailBerita.route + "/$beritaId")
+                    }
                 }
             }
         }
@@ -104,9 +98,14 @@ fun BeritaScreen(navController: NavController) {
 
 @Composable
 fun BeritaTerbaru(
-    berita: Berita
+    berita: Berita,
+    onItemClicked : (Int) -> Unit
 ) {
-    Box(modifier = Modifier.size(320.dp, 180.dp)) {
+    Box(
+        modifier = Modifier
+            .size(320.dp, 180.dp)
+            .clickable { onItemClicked(berita.id) }
+    ) {
         Image(
             painter = painterResource(id = berita.foto),
             contentDescription = null,
@@ -142,7 +141,8 @@ fun BeritaTerbaru(
 
 @Composable
 fun BeritaLainnya(
-    berita: Berita
+    berita: Berita,
+    onItemClicked2 : (Int) -> Unit
 ) {
     if (berita.id in 4..10) {
     Surface(
@@ -157,6 +157,7 @@ fun BeritaLainnya(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onItemClicked2(berita.id) }
                 .padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -164,13 +165,13 @@ fun BeritaLainnya(
                 modifier = Modifier.width(150.dp)
             ) {
                 Text(
+                    modifier = Modifier.width(250.dp),
                     text = berita.judul,
                     color = Color.Black,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp,
-                    fontStyle = FontStyle.Normal,
                     fontFamily = poppins,
-                    modifier = Modifier.weight(1f)
+                    lineHeight = 18.sp
                 )
                 Text(
                     text = berita.waktu,

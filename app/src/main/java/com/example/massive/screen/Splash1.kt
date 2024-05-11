@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -55,14 +56,15 @@ fun Splash1(navController: NavController) {
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = poppins
             )
-            Spacer(modifier = Modifier.height(150.dp))
             Image(
                 painter = painterResource(id = R.drawable.splash1),
                 contentDescription = null,
                 modifier = Modifier
-                    .scale(1.9f)
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .offset(y = 50.dp)
             )
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(100.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
