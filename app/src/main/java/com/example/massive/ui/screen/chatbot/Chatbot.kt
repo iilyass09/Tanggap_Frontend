@@ -1,10 +1,8 @@
-package com.example.massive.screen
+package com.example.massive.ui.screen.chatbot
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
+import com.example.massive.ui.screen.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
-import com.example.massive.navigation.Screen
+import com.example.massive.ui.screen.navigation.Screen
 
 @Composable
 fun ChatbotScreen(navController: NavController) {
@@ -72,8 +71,8 @@ fun ChatbotScreen(navController: NavController) {
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(190.dp))
-            Button(onClick = {  },
+            Spacer(modifier = Modifier.height(270.dp))
+            Button(onClick = { navController.navigate(Screen.Chatbot2.route)},
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(Biru),
                 modifier = Modifier

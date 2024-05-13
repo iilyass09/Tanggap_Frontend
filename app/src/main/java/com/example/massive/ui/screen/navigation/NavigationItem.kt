@@ -1,7 +1,7 @@
-package com.example.massive.navigation
+package com.example.massive.ui.screen.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.massive.navigation.Screen
+import com.example.massive.ui.screen.navigation.Screen
 
 data class NavigationItem (
     val title: String,

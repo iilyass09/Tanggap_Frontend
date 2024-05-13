@@ -12,5 +12,6 @@ val Pink40 = Color(0xFF7D5260)
 
 val Gray2 = Color(0xFFF8F8F8)
 val Biru = Color(0xFF0096D6)
+val Biru2 = Color(0x2C0096D6)
 val Abu  = Color(0xFF8A8A8A)
 val Abu2 = Color(0xFFF3F3F3)

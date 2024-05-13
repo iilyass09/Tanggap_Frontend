@@ -1,6 +1,5 @@
-package com.example.massive.screen
+package com.example.massive.ui.screen.home
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,15 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.data.Berita
 import com.example.massive.data.DataBerita
 import com.example.massive.data.DataKomunitas
 import com.example.massive.data.Komunitas
-import com.example.massive.navigation.PengaduanNavigation
-import com.example.massive.navigation.Screen
+import com.example.massive.ui.screen.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -79,8 +75,10 @@ fun HomeScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(beritas.take(3)) { berita ->
-                        BeritaItem(berita = berita)
+                    items(beritas.filter { it.id in 1..3 }, key = { it.id }) {
+                        BeritaItem(berita = it) { beritaId ->
+                            navController.navigate(Screen.DetailBerita.route + "/$beritaId")
+                        }
                     }
                 }
             }
@@ -306,8 +304,10 @@ fun KomunitasItem(
 
 @Composable
 fun BeritaItem(
-    berita: Berita
+    berita: Berita,
+    onItemClicked : (Int) -> Unit
 ) {
+    if (berita.id in 1..3) {
     Surface(
         color = Color.White,
         shape = RoundedCornerShape(20.dp),
@@ -317,43 +317,45 @@ fun BeritaItem(
             .height(150.dp)
             .fillMaxWidth()
     ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onItemClicked(berita.id) }
+                .padding(20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier.width(150.dp)
             ) {
-                Column(
-                    modifier = Modifier.width(150.dp)
-                ) {
-                    Text(
-                        text = berita.judul,
-                        color = Color.Black,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
-                        fontStyle = FontStyle.Normal,
-                        fontFamily = poppins,
-                        lineHeight = 18.sp
-                    )
-                    Text(
-                        text = berita.waktu,
-                        color = Abu,
-                        fontSize = 10.sp,
-                        fontFamily = poppins,
-                        fontWeight = FontWeight.Normal,
-                    )
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                Image(
-                    painter = painterResource(id = berita.foto),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                Text(
+                    text = berita.judul,
+                    color = Color.Black,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    fontStyle = FontStyle.Normal,
+                    fontFamily = poppins,
+                    lineHeight = 18.sp
                 )
-
+                Text(
+                    text = berita.waktu,
+                    color = Abu,
+                    fontSize = 10.sp,
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.Normal,
+                )
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            Image(
+                painter = painterResource(id = berita.foto),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+
+        }
+    }
     }
 }
 

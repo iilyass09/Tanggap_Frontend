@@ -1,4 +1,4 @@
-package com.example.massive.screen
+package com.example.massive.ui.screen.akun
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.navigation.PengaduanNavigation
+import com.example.massive.ui.screen.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 

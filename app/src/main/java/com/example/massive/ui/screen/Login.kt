@@ -1,4 +1,4 @@
-package com.example.massive.screen
+package com.example.massive.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -45,8 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.navigation.PengaduanNavigation
-import com.example.massive.ui.theme.Abu2
+import com.example.massive.ui.screen.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins

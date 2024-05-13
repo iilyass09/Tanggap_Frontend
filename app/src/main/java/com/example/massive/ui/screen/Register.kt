@@ -1,12 +1,12 @@
-package com.example.massive.screen
+package com.example.massive.ui.screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -38,7 +39,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -46,24 +46,25 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.navigation.PengaduanNavigation
-import com.example.massive.ui.theme.Abu
-import com.example.massive.ui.theme.Abu2
+import com.example.massive.ui.screen.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Register(navController: NavController) {
     val sheetState = rememberModalBottomSheetState()
     val registerBottomSheet = rememberSaveable { mutableStateOf(false) }
 
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
@@ -76,8 +77,10 @@ fun Register(navController: NavController) {
                 sheetState = sheetState,
                 onDismissRequest = { registerBottomSheet.value = false }
             ) {
-                Column (
-                    modifier = Modifier.fillMaxWidth().padding(20.dp),
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     Arrangement.Center,
                     Alignment.CenterHorizontally
                 ) {
@@ -133,36 +136,36 @@ fun Register(navController: NavController) {
 
     Surface(
         color = Color.White,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(28.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
-        Column {
-            Spacer(modifier = Modifier.height(20.dp))
+        Column(
+            modifier = Modifier
+                .padding(28.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top
+        ) {
             Text(
                 text = "Daftar",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(),
+                    .heightIn(25.dp),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 fontFamily = poppins
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo2),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(220.dp)
-                    .height(220.dp)
-                    .padding(top = 40.dp)
+                    .width(175.dp)
+                    .height(175.dp)
                     .align(Alignment.CenterHorizontally),
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
-            //TEXTFIELD USERNAME
+            // TEXTFIELD USERNAME
             val textValueRegister = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
@@ -183,7 +186,7 @@ fun Register(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
 
-            //TEXTFIELD EMAIL
+            // TEXTFIELD EMAIL
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -203,7 +206,7 @@ fun Register(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
 
-            //TEXTFIELD PASSWORD
+            // TEXTFIELD PASSWORD
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -223,7 +226,7 @@ fun Register(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
 
-            //TEXTFIELD KONFIRMASI PASSWORD
+            // TEXTFIELD KONFIRMASI PASSWORD
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -243,7 +246,7 @@ fun Register(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(30.dp))
 
-            //BUTTON REGISTER
+            // BUTTON REGISTER
             Button(
                 onClick = { registerBottomSheet.value = true },
                 shape = RoundedCornerShape(20),
@@ -253,15 +256,17 @@ fun Register(navController: NavController) {
                 contentPadding = PaddingValues(),
                 colors = ButtonDefaults.buttonColors(Color.Transparent)
             ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(55.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Biru, Biru))
-                    ),
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(55.dp)
+                        .background(
+                            brush = Brush.horizontalGradient(listOf(Biru, Biru))
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Daftar",
+                    Text(
+                        text = "Daftar",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = poppins
@@ -270,7 +275,7 @@ fun Register(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            //TEKS LOGIN
+            // TEKS LOGIN
             ClickableLoginTextComponent(
                 onTextSelected = {
                     PengaduanNavigation.goTologin()
@@ -280,39 +285,46 @@ fun Register(navController: NavController) {
     }
 }
 
-@Composable
-fun ClickableLoginTextComponent(onTextSelected : (String) -> Unit) {
-    val initialText = "Sudah Punya Akun?  "
-    val loginText = "Masuk"
+    @Composable
+    fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
+        val initialText = "Sudah Punya Akun?  "
+        val loginText = "Masuk"
 
-    val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = Biru)){
-            pushStringAnnotation(tag = loginText, annotation = loginText)
-            append(loginText)
+        val annotatedString = buildAnnotatedString {
+            append(initialText)
+            withStyle(style = SpanStyle(color = Biru)) {
+                pushStringAnnotation(tag = loginText, annotation = loginText)
+                append(loginText)
+            }
         }
-    }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 20.dp),
-        style = TextStyle(
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-            textAlign = TextAlign.Center,
-            fontFamily = poppins
-        ),
-        text = annotatedString, onClick = {offset ->
+        ClickableText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 20.dp),
+            style = TextStyle(
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Normal,
+                textAlign = TextAlign.Center,
+                fontFamily = poppins
+            ),
+            text = annotatedString, onClick = { offset ->
 
-            annotatedString.getStringAnnotations(offset,offset)
-                .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent","{${span.item}}")
+                annotatedString.getStringAnnotations(offset, offset)
+                    .firstOrNull()?.also { span ->
+                        Log.d("ClickableTextComponent", "{${span.item}}")
 
-                    if (span.item == loginText) {
-                        onTextSelected(span.item)
+                        if (span.item == loginText) {
+                            onTextSelected(span.item)
+                        }
                     }
-                }
 
-        })
+            }
+        )
+}
+
+@Preview
+@Composable
+fun PrevRegister() {
+    Register(navController = rememberNavController())
 }
