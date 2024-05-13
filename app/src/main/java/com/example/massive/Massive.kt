@@ -24,8 +24,8 @@ import com.example.massive.ui.screen.chatbot.Chatbot2
 import com.example.massive.ui.screen.chatbot.ChatbotScreen
 import com.example.massive.ui.screen.community.CommunityScreen
 import com.example.massive.ui.screen.home.HomeScreen
-import com.example.massive.ui.screen.navigation.NavigationItem
-import com.example.massive.ui.screen.navigation.Screen
+import com.example.massive.ui.navigation.NavigationItem
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.PengaduanContentStep0
 import com.example.massive.ui.screen.pengaduan.PengaduanContentStep1

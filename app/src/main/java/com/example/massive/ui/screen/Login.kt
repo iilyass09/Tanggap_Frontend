@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.ui.screen.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.PengaduanNavigation
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins

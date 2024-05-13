@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.massive.ui.screen.navigation.Pengaduan
+import com.example.massive.ui.navigation.Pengaduan
 import com.example.massive.ui.theme.MassiveTheme
 
 

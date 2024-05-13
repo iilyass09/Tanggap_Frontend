@@ -10,12 +10,7 @@ import androidx.compose.material.icons.filled.Masks
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.massive.R
-
-data class Kategori(
-    val id: Int,
-    val nama : String,
-    val foto : ImageVector
-)
+import com.example.massive.model.Kategori
 
 object DataKategori {
     val ListKategori = listOf(

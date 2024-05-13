@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.massive.data.Berita
+import com.example.massive.model.Berita
 import com.example.massive.data.DataBerita
-import com.example.massive.ui.screen.navigation.Screen
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.poppins
 

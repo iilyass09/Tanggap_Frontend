@@ -1,14 +1,7 @@
 package com.example.massive.data
 
 import com.example.massive.R
-
-data class Berita(
-    val id: Int,
-    val judul : String,
-    val uraian : String,
-    val foto : Int = 0,
-    val waktu : String
-)
+import com.example.massive.model.Berita
 
 object DataBerita {
     val ListBerita = listOf(

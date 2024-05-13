@@ -66,10 +66,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.ChipDefaults
 import com.example.massive.R
-import com.example.massive.data.DataKategori
-import com.example.massive.data.Kategori
-import com.example.massive.ui.screen.navigation.PengaduanNavigation
-import com.example.massive.ui.screen.navigation.Screen
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru

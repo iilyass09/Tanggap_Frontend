@@ -1,14 +1,8 @@
 package com.example.massive.data
 
 import com.example.massive.R
+import com.example.massive.model.Komunitas
 
-data class Komunitas(
-    val id: Int,
-    val nama: String,
-    val uraian : String,
-    val profil : Int = 0,
-    val bukti : Int? = null
-)
 
 object DataKomunitas {
     val ListKomunitas = listOf(

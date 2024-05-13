@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen.navigation
+package com.example.massive.ui.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

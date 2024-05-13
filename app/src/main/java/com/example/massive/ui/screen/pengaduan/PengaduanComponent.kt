@@ -57,8 +57,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.data.DataKategori
-import com.example.massive.data.Kategori
-import com.example.massive.ui.screen.navigation.Screen
+import com.example.massive.model.Kategori
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru

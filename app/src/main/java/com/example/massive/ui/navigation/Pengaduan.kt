@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen.navigation
+package com.example.massive.ui.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
