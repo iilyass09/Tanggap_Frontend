@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.ui.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 
@@ -91,7 +91,7 @@ fun AkunScreen(navController: NavController) {
                         textAlign = TextAlign.Center
                     )
                     Button(
-                        onClick = { PengaduanNavigation.goTologin() },
+                        onClick = { navController.navigate(Screen.Login.route) },
                         shape = RoundedCornerShape(20),
                         modifier = Modifier
                             .offset(y = (-18).dp)

@@ -26,6 +26,11 @@ import com.example.massive.ui.screen.community.CommunityScreen
 import com.example.massive.ui.screen.home.HomeScreen
 import com.example.massive.ui.navigation.NavigationItem
 import com.example.massive.ui.navigation.Screen
+import com.example.massive.ui.screen.LoginScreen
+import com.example.massive.ui.screen.Onboarding1
+import com.example.massive.ui.screen.Onboarding2
+import com.example.massive.ui.screen.Onboarding3
+import com.example.massive.ui.screen.Register
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.PengaduanContentStep0
 import com.example.massive.ui.screen.pengaduan.PengaduanContentStep1
@@ -44,12 +49,11 @@ fun Massive(
     Scaffold(
         floatingActionButton = {
             val currentRoute = currentRoute(navController = navController)
-            if (currentRoute !in listOf(
-                    Screen.Pengaduan.route,
-                    Screen.Panduan.route,
-                    Screen.DetailBerita.route + "/{beritaId}",
-                    Screen.Chatbot.route,
-                    Screen.Chatbot2.route,)
+            if (currentRoute in listOf(
+                    Screen.Home.route,
+                    Screen.Community.route,
+                    Screen.Berita.route,
+                    Screen.Akun.route,)
                 ) {
                 FloatingActionButton(
                     onClick = { navController.navigate(Screen.Chatbot.route) },
@@ -70,7 +74,13 @@ fun Massive(
         containerColor = Color.White,
         topBar = {
             val currentRoute = currentRoute(navController = navController)
-            if (currentRoute != Screen.Home.route && currentRoute != Screen.Chatbot2.route)
+            if (currentRoute != Screen.Onboarding1.route &&
+                currentRoute != Screen.Onboarding2.route &&
+                currentRoute != Screen.Onboarding3.route &&
+                currentRoute != Screen.Login.route &&
+                currentRoute != Screen.Register.route &&
+                currentRoute != Screen.Home.route &&
+                currentRoute != Screen.Chatbot2.route)
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(Color.White),
                 title = {
@@ -83,8 +93,8 @@ fun Massive(
                             horizontalArrangement = Arrangement.Start
                         ) {
                             if (currentRoute in listOf(
-                                    Screen.Panduan.route,
                                     Screen.Pengaduan.route,
+                                    Screen.Panduan.route,
                                     Screen.DetailBerita.route + "/{beritaId}",
                                     Screen.Chatbot.route)
                             ) {
@@ -111,12 +121,11 @@ fun Massive(
         },
         bottomBar = {
             val currentRoute = currentRoute(navController = navController)
-            if (currentRoute !in listOf(
-                    Screen.Pengaduan.route,
-                    Screen.Chatbot.route,
-                    Screen.Chatbot2.route,
-                    Screen.Panduan.route,
-                    Screen.DetailBerita.route + "/{beritaId}")
+            if (currentRoute in listOf(
+                    Screen.Home.route,
+                    Screen.Community.route,
+                    Screen.Berita.route,
+                    Screen.Akun.route,)
                 ) {
                 BottomBar(navController)
             }
@@ -125,9 +134,14 @@ fun Massive(
     ) { contentPadding->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Onboarding1.route,
             modifier = Modifier.padding(contentPadding)
         ) {
+            composable(Screen.Onboarding1.route){ Onboarding1(navController) }
+            composable(Screen.Onboarding2.route){ Onboarding2(navController) }
+            composable(Screen.Onboarding3.route){ Onboarding3(navController) }
+            composable(Screen.Login.route){ LoginScreen(navController) }
+            composable(Screen.Register.route){ Register(navController) }
             composable(Screen.Home.route){ HomeScreen(navController) }
             composable(Screen.Community.route){ CommunityScreen(navController) }
             composable(Screen.Pengaduan.route) { PengaduanScreen(navController) }

@@ -19,20 +19,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +48,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +59,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.ui.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
@@ -63,6 +70,11 @@ import com.example.massive.ui.theme.poppins
 fun Register(navController: NavController) {
     val sheetState = rememberModalBottomSheetState()
     val registerBottomSheet = rememberSaveable { mutableStateOf(false) }
+    var PasswordVisibility by remember { mutableStateOf(false) }
+    val icon = if (PasswordVisibility)
+        painterResource(id = R.drawable.password_visibility)
+    else
+        painterResource(id = R.drawable.password_visibility_off)
 
     Surface(
         modifier = Modifier
@@ -102,7 +114,7 @@ fun Register(navController: NavController) {
                         textAlign = TextAlign.Center
                     )
                     Button(
-                        onClick = { PengaduanNavigation.goTologin() },
+                        onClick = { navController.navigate(Screen.Login.route) },
                         shape = RoundedCornerShape(20),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -166,7 +178,7 @@ fun Register(navController: NavController) {
             Spacer(modifier = Modifier.height(30.dp))
 
             // TEXTFIELD USERNAME
-            val textValueRegister = remember { mutableStateOf("") }
+            val textUsername = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -179,14 +191,15 @@ fun Register(navController: NavController) {
                     cursorColor = Biru,
                 ),
                 keyboardActions = KeyboardActions.Default,
-                value = textValueRegister.value,
+                value = textUsername.value,
                 onValueChange = {
-                    textValueRegister.value = it
+                    textUsername.value = it
                 },
             )
             Spacer(modifier = Modifier.height(10.dp))
 
             // TEXTFIELD EMAIL
+            val textEmail = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -199,49 +212,81 @@ fun Register(navController: NavController) {
                     cursorColor = Biru,
                 ),
                 keyboardActions = KeyboardActions.Default,
-                value = textValueRegister.value,
+                value = textEmail.value,
                 onValueChange = {
-                    textValueRegister.value = it
+                    textEmail.value = it
                 },
             )
             Spacer(modifier = Modifier.height(10.dp))
 
             // TEXTFIELD PASSWORD
+            val textPassword = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(componentsShapes.small),
                 label = { Text(text = "Buat kata sandi") },
+                trailingIcon = {
+                    IconButton(onClick = {
+                        PasswordVisibility = !PasswordVisibility
+                    }, modifier = Modifier.padding(end = 5.dp)) {
+                        Icon(
+                            painter = icon,
+                            contentDescription = null)
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+                visualTransformation =
+                if (PasswordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,
                     focusedLabelColor = Biru,
                     cursorColor = Biru,
                 ),
                 keyboardActions = KeyboardActions.Default,
-                value = textValueRegister.value,
+                value = textPassword.value,
                 onValueChange = {
-                    textValueRegister.value = it
+                    textPassword.value = it
                 },
             )
             Spacer(modifier = Modifier.height(10.dp))
 
             // TEXTFIELD KONFIRMASI PASSWORD
+            val textConfirmPassword = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(componentsShapes.small),
                 label = { Text(text = "Konfirmasi kata sandi") },
+                trailingIcon = {
+                    IconButton(onClick = {
+                        PasswordVisibility = !PasswordVisibility
+                    }, modifier = Modifier.padding(end = 5.dp)) {
+                        Icon(
+                            painter = icon,
+                            contentDescription = null)
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+                visualTransformation =
+                if (PasswordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,
                     focusedLabelColor = Biru,
                     cursorColor = Biru,
                 ),
                 keyboardActions = KeyboardActions.Default,
-                value = textValueRegister.value,
+                value = textConfirmPassword.value,
                 onValueChange = {
-                    textValueRegister.value = it
+                    textConfirmPassword.value = it
                 },
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -278,53 +323,45 @@ fun Register(navController: NavController) {
             // TEKS LOGIN
             ClickableLoginTextComponent(
                 onTextSelected = {
-                    PengaduanNavigation.goTologin()
+                    navController.navigate(Screen.Login.route)
                 }
             )
         }
     }
 }
 
-    @Composable
-    fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
-        val initialText = "Sudah Punya Akun?  "
-        val loginText = "Masuk"
-
-        val annotatedString = buildAnnotatedString {
-            append(initialText)
-            withStyle(style = SpanStyle(color = Biru)) {
-                pushStringAnnotation(tag = loginText, annotation = loginText)
-                append(loginText)
-            }
-        }
-        ClickableText(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 20.dp),
-            style = TextStyle(
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Normal,
-                textAlign = TextAlign.Center,
-                fontFamily = poppins
-            ),
-            text = annotatedString, onClick = { offset ->
-
-                annotatedString.getStringAnnotations(offset, offset)
-                    .firstOrNull()?.also { span ->
-                        Log.d("ClickableTextComponent", "{${span.item}}")
-
-                        if (span.item == loginText) {
-                            onTextSelected(span.item)
-                        }
-                    }
-
-            }
-        )
-}
-
-@Preview
 @Composable
-fun PrevRegister() {
-    Register(navController = rememberNavController())
+fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
+    val initialText = "Sudah Punya Akun?  "
+    val loginText = "Masuk"
+
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = Biru)) {
+            pushStringAnnotation(tag = loginText, annotation = loginText)
+            append(loginText)
+        }
+    }
+    ClickableText(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 20.dp),
+        style = TextStyle(
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal,
+            textAlign = TextAlign.Center,
+            fontFamily = poppins
+        ),
+        text = annotatedString, onClick = { offset ->
+            annotatedString.getStringAnnotations(offset, offset)
+                .firstOrNull()?.also { span ->
+                    Log.d("ClickableTextComponent", "{${span.item}}")
+                    if (span.item == loginText) {
+                        onTextSelected(span.item)
+                    }
+                }
+
+        }
+    )
 }

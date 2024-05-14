@@ -16,9 +16,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,13 +44,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.ui.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
@@ -55,17 +63,28 @@ import com.example.massive.ui.theme.poppins
 fun LoginScreen(navController: NavController) {
     val teksPassword = remember { mutableStateOf("") }
     val teksEmail = remember { mutableStateOf("") }
+    var PasswordVisibility by remember { mutableStateOf(false) }
+    val icon = if (PasswordVisibility)
+        painterResource(id = R.drawable.password_visibility)
+    else
+        painterResource(id = R.drawable.password_visibility_off)
+
     var isEmailError by remember { mutableStateOf(false) }
     var isPasswordError by remember { mutableStateOf(false) }
 
     Surface(
         color = Color.White,
-        modifier = Modifier.fillMaxSize().background(Color.White).padding(28.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(28.dp)
     ) {
         Column {
             Text(
                 text = "Masuk",
-                modifier = Modifier.fillMaxWidth().heightIn(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
@@ -74,13 +93,19 @@ fun LoginScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.logo2),
                 contentDescription = null,
-                modifier = Modifier.width(220.dp).height(220.dp).padding(top = 40.dp).align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .width(220.dp)
+                    .height(220.dp)
+                    .padding(top = 40.dp)
+                    .align(Alignment.CenterHorizontally),
             )
             Spacer(modifier = Modifier.height(40.dp))
 
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
-                modifier = Modifier.fillMaxWidth().clip(componentsShapes.small),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(componentsShapes.small),
                 label = {
                     Text(
                         text = if (isEmailError) "Email harus diisi" else "Masukan email anda",
@@ -114,6 +139,21 @@ fun LoginScreen(navController: NavController) {
                         color = if (isPasswordError) Color.Red else Color.Black
                     )
                 },
+                trailingIcon = {
+                    IconButton(onClick = {
+                                         PasswordVisibility = !PasswordVisibility
+                    }, modifier = Modifier.padding(end = 5.dp)) {
+                        Icon(
+                            painter = icon,
+                            contentDescription = null)
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+                visualTransformation =
+                if (PasswordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,
                     focusedLabelColor = Biru,
@@ -130,7 +170,7 @@ fun LoginScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(15.dp))
 
-            ClickableForgotTextComponent(onTextSelected = { PengaduanNavigation.goToRegister() })
+            ClickableForgotTextComponent(onTextSelected = {  })
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
@@ -145,7 +185,7 @@ fun LoginScreen(navController: NavController) {
                         isEmailError = false
                         isPasswordError = true
                     } else {
-                        PengaduanNavigation.goToHome()
+                        navController.navigate(Screen.Home.route)
                     }
                 },
                 shape = RoundedCornerShape(20),
@@ -174,7 +214,7 @@ fun LoginScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(10.dp))
 
-            ClickableRegisterTextComponent(onTextSelected = { PengaduanNavigation.goToRegister() })
+            ClickableRegisterTextComponent(onTextSelected = { navController.navigate(Screen.Register.route) })
             }
     }
 }
@@ -211,7 +251,6 @@ fun ClickableForgotTextComponent(onTextSelected : () -> Unit) {
                 }
         })
 }
-
 
 @Composable
 fun ClickableRegisterTextComponent(onTextSelected : (String) -> Unit) {

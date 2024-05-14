@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.ui.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.poppins
 
 @Composable
@@ -90,7 +90,7 @@ fun Onboarding3(navController: NavController) {
                 .width(40.dp)
                 .align(Alignment.BottomEnd)
                 .clickable {
-                    PengaduanNavigation.goTologin()
+                    navController.navigate(Screen.Login.route)
                 }
         )
         Image(
@@ -103,7 +103,7 @@ fun Onboarding3(navController: NavController) {
                 .width(40.dp)
                 .align(Alignment.BottomStart)
                 .clickable {
-                    PengaduanNavigation.goToSplash2()
+                    navController.navigate(Screen.Onboarding2.route)
                 }
         )
     }

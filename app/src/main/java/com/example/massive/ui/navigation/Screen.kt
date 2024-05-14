@@ -20,29 +20,3 @@ sealed class Screen(val route : String) {
     object Chatbot : Screen("chatbot")
     object Chatbot2 : Screen("chatbot2")
 }
-
-object PengaduanNavigation {
-    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.Onboarding1)
-
-    fun goToPanduan(){
-        currentScreen.value = Screen.Panduan
-    }
-    fun goToSplash1(){
-        currentScreen.value = Screen.Onboarding1
-    }
-    fun goToSplash2(){
-        currentScreen.value = Screen.Onboarding2
-    }
-    fun goToSplash3(){
-        currentScreen.value = Screen.Onboarding3
-    }
-    fun goTologin(){
-        currentScreen.value = Screen.Login
-    }
-    fun goToRegister(){
-        currentScreen.value = Screen.Register
-    }
-    fun goToHome(){
-        currentScreen.value = Screen.Home
-    }
-}

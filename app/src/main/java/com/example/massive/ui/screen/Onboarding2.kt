@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
-import com.example.massive.ui.navigation.PengaduanNavigation
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 
@@ -47,7 +47,7 @@ fun Onboarding2(navController: NavController) {
                 modifier = Modifier
                     .padding(end = 30.dp, top = 40.dp)
                     .fillMaxWidth()
-                    .clickable { PengaduanNavigation.goTologin() },
+                    .clickable { navController.navigate(Screen.Login.route) },
                 textAlign = TextAlign.End,
                 text = "Lewati",
                 color = Biru,
@@ -103,7 +103,7 @@ fun Onboarding2(navController: NavController) {
                 .width(40.dp)
                 .align(Alignment.BottomEnd)
                 .clickable {
-                    PengaduanNavigation.goToSplash3()
+                    navController.navigate(Screen.Onboarding3.route)
                 }
         )
         Image(
@@ -116,7 +116,7 @@ fun Onboarding2(navController: NavController) {
                 .width(40.dp)
                 .align(Alignment.BottomStart)
                 .clickable {
-                    PengaduanNavigation.goToSplash1()
+                    navController.navigate(Screen.Onboarding1.route)
                 }
         )
     }

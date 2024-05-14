@@ -50,7 +50,7 @@ fun HomeScreen(navController: NavController) {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     item {
-                        Card1()
+                        Banner()
                         Spacer(modifier = Modifier.height(10.dp))
                     }
                     items(komunitass.take(3)) { komunitas ->
@@ -92,11 +92,7 @@ fun HomeScreen(navController: NavController) {
 fun HomeTopBar() {
     TopAppBar(
         title = {
-        Column(
-            verticalArrangement = Arrangement.Center
-        ){
             Text(
-                modifier = Modifier.offset(y = 4.dp),
                 text = "Muhammad Aziz",
                 color = Color.Black,
                 fontSize = 16.sp,
@@ -104,17 +100,7 @@ fun HomeTopBar() {
                 fontStyle = FontStyle.Normal,
                 fontFamily = poppins
             )
-            Text(
-                modifier = Modifier.offset(y = (-3).dp),
-                text = "Cibeunying Kaler",
-                color = Color.Black,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Normal,
-                fontFamily = poppins
-            )
-        }
-    },
+        },
         navigationIcon = {
             Box{
                 Spacer(modifier = Modifier.width(10.dp))
@@ -129,15 +115,6 @@ fun HomeTopBar() {
             }
         },
         actions = {
-            IconButton(onClick = { }) {
-                Image(
-                    painter = painterResource(id = R.drawable.iconbot),
-                    contentDescription = "Chatbot",
-                    modifier = Modifier
-                        .padding(end = 15.dp)
-                        .size(40.dp)
-                )
-            }
             IconButton(onClick = {  }) {
                 Image(
                     painter = painterResource(id = R.drawable.notif),
@@ -152,7 +129,7 @@ fun HomeTopBar() {
 }
 
 @Composable
-fun Card1() {
+fun Banner() {
     Column {
         Surface(
             modifier = Modifier
@@ -352,15 +329,8 @@ fun BeritaItem(
                 modifier = Modifier
                     .size(120.dp)
                     .clip(RoundedCornerShape(8.dp))
-            )
-
+                )
+            }
         }
     }
-    }
-}
-
-@Preview
-@Composable
-fun HomePrev() {
-    HomeScreen(navController = rememberNavController())
 }
