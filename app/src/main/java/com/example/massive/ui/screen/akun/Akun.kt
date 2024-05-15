@@ -247,9 +247,3 @@ fun AkunScreen(navController: NavController) {
         }
     )
 }
-
-    @Preview
-@Composable
-fun AkunPrev() {
-    AkunScreen(navController = rememberNavController())
-}

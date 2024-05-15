@@ -53,11 +53,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
@@ -70,8 +68,8 @@ import com.example.massive.ui.theme.poppins
 fun Register(navController: NavController) {
     val sheetState = rememberModalBottomSheetState()
     val registerBottomSheet = rememberSaveable { mutableStateOf(false) }
-    var PasswordVisibility by remember { mutableStateOf(false) }
-    val icon = if (PasswordVisibility)
+    var passwordVisibility by remember { mutableStateOf(false) }
+    val icon = if (passwordVisibility)
         painterResource(id = R.drawable.password_visibility)
     else
         painterResource(id = R.drawable.password_visibility_off)
@@ -229,7 +227,7 @@ fun Register(navController: NavController) {
                 label = { Text(text = "Buat kata sandi") },
                 trailingIcon = {
                     IconButton(onClick = {
-                        PasswordVisibility = !PasswordVisibility
+                        passwordVisibility = !passwordVisibility
                     }, modifier = Modifier.padding(end = 5.dp)) {
                         Icon(
                             painter = icon,
@@ -240,7 +238,7 @@ fun Register(navController: NavController) {
                     keyboardType = KeyboardType.Password
                 ),
                 visualTransformation =
-                if (PasswordVisibility) VisualTransformation.None
+                if (passwordVisibility) VisualTransformation.None
                 else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,
@@ -265,7 +263,7 @@ fun Register(navController: NavController) {
                 label = { Text(text = "Konfirmasi kata sandi") },
                 trailingIcon = {
                     IconButton(onClick = {
-                        PasswordVisibility = !PasswordVisibility
+                        passwordVisibility = !passwordVisibility
                     }, modifier = Modifier.padding(end = 5.dp)) {
                         Icon(
                             painter = icon,
@@ -276,7 +274,7 @@ fun Register(navController: NavController) {
                     keyboardType = KeyboardType.Password
                 ),
                 visualTransformation =
-                if (PasswordVisibility) VisualTransformation.None
+                if (passwordVisibility) VisualTransformation.None
                 else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,

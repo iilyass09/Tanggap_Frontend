@@ -1,6 +1,7 @@
 package com.example.massive
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.navigation.*
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.example.massive.ui.screen.akun.AkunScreen
 import com.example.massive.ui.screen.berita.BeritaScreen
@@ -31,13 +31,17 @@ import com.example.massive.ui.screen.Onboarding1
 import com.example.massive.ui.screen.Onboarding2
 import com.example.massive.ui.screen.Onboarding3
 import com.example.massive.ui.screen.Register
+import com.example.massive.ui.screen.community.DetailCommunity
 import com.example.massive.ui.screen.pengaduan.Panduan
-import com.example.massive.ui.screen.pengaduan.PengaduanContentStep0
-import com.example.massive.ui.screen.pengaduan.PengaduanContentStep1
-import com.example.massive.ui.screen.pengaduan.PengaduanContentStep2
-import com.example.massive.ui.screen.pengaduan.PengaduanScreen
+import com.example.massive.ui.screen.pengaduan.Pengaduan
+import com.example.massive.ui.screen.pengaduan.Pengaduan2
+import com.example.massive.ui.screen.pengaduan.Pengaduan3
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
+import com.example.massive.ui.utils.HideTopBar
+import com.example.massive.ui.utils.ShowBottomBar
+import com.example.massive.ui.utils.ShowFAB
+import com.example.massive.ui.utils.ShowTopBarWithIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
@@ -48,13 +52,11 @@ fun Massive(
 ) {
     Scaffold(
         floatingActionButton = {
-            val currentRoute = currentRoute(navController = navController)
-            if (currentRoute in listOf(
-                    Screen.Home.route,
-                    Screen.Community.route,
-                    Screen.Berita.route,
-                    Screen.Akun.route,)
-                ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
+            AnimatedVisibility(visible = currentRoute.ShowFAB()
+            ) {
                 FloatingActionButton(
                     onClick = { navController.navigate(Screen.Chatbot.route) },
                     shape = CircleShape,
@@ -73,60 +75,60 @@ fun Massive(
         floatingActionButtonPosition = FabPosition.End,
         containerColor = Color.White,
         topBar = {
-            val currentRoute = currentRoute(navController = navController)
-            if (currentRoute != Screen.Onboarding1.route &&
-                currentRoute != Screen.Onboarding2.route &&
-                currentRoute != Screen.Onboarding3.route &&
-                currentRoute != Screen.Login.route &&
-                currentRoute != Screen.Register.route &&
-                currentRoute != Screen.Home.route &&
-                currentRoute != Screen.Chatbot2.route)
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(Color.White),
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
+            AnimatedVisibility(visible = currentRoute.HideTopBar()) {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(Color.White),
+                    title = {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.CenterStart
                         ) {
-                            if (currentRoute in listOf(
-                                    Screen.Pengaduan.route,
-                                    Screen.Panduan.route,
-                                    Screen.DetailBerita.route + "/{beritaId}",
-                                    Screen.Chatbot.route)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start
                             ) {
-                                IconButton(onClick = { navController.popBackStack() }) {
-                                    Icon(
-                                        modifier = Modifier.padding(top = 15.dp).offset(x = (-5).dp),
-                                        imageVector = Icons.Default.ArrowBackIosNew,
-                                        contentDescription = null,
-                                    )
+                                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                val currentRoute = navBackStackEntry?.destination?.route
+
+                                AnimatedVisibility(
+                                    visible = currentRoute.ShowTopBarWithIcon()
+                                ) {
+                                    IconButton(
+                                        onClick = { navController.popBackStack() }
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier
+                                                .padding(top = 15.dp)
+                                                .offset(x = (-5).dp),
+                                            imageVector = Icons.Default.ArrowBackIosNew,
+                                            contentDescription = null
+                                        )
+                                    }
                                 }
                             }
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .offset(x = (-10).dp, y = (7.dp)),
+                                text = getTitleForRoute(route = currentRoute),
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = poppins,
+                                textAlign = TextAlign.Center,
+                            )
                         }
-                        Text(
-                            modifier = Modifier.fillMaxWidth().offset(x = (-10).dp, y = (7.dp)),
-                            text = getTitleForRoute(route = currentRoute),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = poppins,
-                            textAlign = TextAlign.Center,
-                        )
                     }
-                }
-            )
+                )
+            }
         },
         bottomBar = {
-            val currentRoute = currentRoute(navController = navController)
-            if (currentRoute in listOf(
-                    Screen.Home.route,
-                    Screen.Community.route,
-                    Screen.Berita.route,
-                    Screen.Akun.route,)
-                ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
+            AnimatedVisibility(visible = currentRoute.ShowBottomBar()) {
                 BottomBar(navController)
             }
         },
@@ -144,7 +146,9 @@ fun Massive(
             composable(Screen.Register.route){ Register(navController) }
             composable(Screen.Home.route){ HomeScreen(navController) }
             composable(Screen.Community.route){ CommunityScreen(navController) }
-            composable(Screen.Pengaduan.route) { PengaduanScreen(navController) }
+            composable(Screen.Pengaduan.route) { Pengaduan(navController) }
+            composable(Screen.Pengaduan2.route) { Pengaduan2(navController) }
+            composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
             composable(Screen.Berita.route){ BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
@@ -155,6 +159,12 @@ fun Massive(
                 arguments = listOf(navArgument("beritaId") { type = NavType.IntType})
             ) { navBackStackEntry ->
                 DetailBerita(navController = navController, beritasId = navBackStackEntry.arguments?.getInt("beritaId"))
+            }
+            composable(
+                Screen.DetailCommunity.route + "/{komunitasId}",
+                arguments = listOf(navArgument("komunitasId") { type = NavType.IntType})
+            ) { navBackStackEntry ->
+                DetailCommunity(navController = navController, komunitassId = navBackStackEntry.arguments?.getInt("komunitasId"))
             }
         }
     }
@@ -167,7 +177,7 @@ fun BottomBar(
 ) {
     BottomAppBar(
         modifier = modifier,
-        containerColor = Color.White
+        containerColor = Color.White,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -213,9 +223,6 @@ fun BottomBar(
                 IconButton(
                     onClick = {
                         navController.navigate(item.screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
                             restoreState = true
                             launchSingleTop = true
                         }
@@ -242,16 +249,12 @@ fun BottomBar(
 }
 
 @Composable
-fun currentRoute(navController: NavController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
-}
-
-@Composable
 fun getTitleForRoute(route: String?): String {
     return when (route) {
         Screen.Community.route -> stringResource(id = R.string.menu_komunitas)
         Screen.Pengaduan.route -> stringResource(id = R.string.menu_pengaduan)
+        Screen.Pengaduan2.route -> stringResource(id = R.string.menu_pengaduan)
+        Screen.Pengaduan3.route -> stringResource(id = R.string.menu_pengaduan)
         Screen.Berita.route -> stringResource(id = R.string.menu_berita)
         Screen.Akun.route -> stringResource(id = R.string.menu_akun)
         Screen.Chatbot.route -> stringResource(id = R.string.menu_chatbot)
@@ -259,6 +262,9 @@ fun getTitleForRoute(route: String?): String {
         else -> {
             if (route?.startsWith(Screen.DetailBerita.route) == true) {
                 stringResource(id = R.string.menu_berita)
+            }
+            if (route?.startsWith(Screen.DetailCommunity.route) == true) {
+                stringResource(id = R.string.menu_komunitas)
             } else {
                 stringResource(id = R.string.app_name)
             }

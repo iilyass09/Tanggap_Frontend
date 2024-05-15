@@ -19,11 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.model.Berita
 import com.example.massive.data.DataBerita
@@ -44,7 +42,9 @@ fun HomeScreen(navController: NavController) {
     ) {
         Column {
             HomeTopBar()
-            Box(modifier = Modifier.fillMaxSize().padding(10.dp)) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy((-15).dp),
                     modifier = Modifier.fillMaxSize()
@@ -53,8 +53,10 @@ fun HomeScreen(navController: NavController) {
                         Banner()
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(komunitass.take(3)) { komunitas ->
-                        KomunitasItem(komunitas = komunitas)
+                    items(komunitass.take(3), key = {it.id}) {
+                        KomunitasItem(komunitas = it) { komunitasId ->
+                            navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+                        }
                     }
                     item {
                         Text(
@@ -210,7 +212,8 @@ fun Banner() {
 
 @Composable
 fun KomunitasItem(
-    komunitas: Komunitas
+    komunitas: Komunitas,
+    onItemClicked : (Int) -> Unit
 ) {
     Surface(
         color = Color.White,
@@ -218,18 +221,20 @@ fun KomunitasItem(
         shadowElevation = 10.dp,
         modifier = Modifier
             .padding(20.dp)
+            .clickable { onItemClicked(komunitas.id) }
             .height(
                 if (komunitas.bukti != null) {
-                    400.dp
+                    380.dp
                 } else {
-                    220.dp
+                    230.dp
                 }
             )
             .fillMaxWidth()
     ) {
         Column {
             Row(
-                modifier = Modifier.padding(start = 10.dp, top = 15.dp)
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 15.dp)
             ) {
                 Image(
                     painter = painterResource(id = komunitas.profil),
@@ -275,6 +280,42 @@ fun KomunitasItem(
                 fontWeight = FontWeight.Normal,
                 lineHeight = 20.sp
             )
+            Spacer(modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .padding(bottom = 10.dp)
+            ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.comment),
+                            contentDescription = null
+                        )
+                        Text(text = "20", modifier = Modifier.padding(start = 4.dp))
+                    }
+                }
+                Spacer(modifier = Modifier.width(5.dp))
+                IconButton(onClick = { /*TODO*/ }) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.like),
+                            contentDescription = null
+                        )
+                        Text(text = "10", modifier = Modifier.padding(start = 4.dp))
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { /*TODO*/ }) {
+                    Row(Modifier.padding(end = 5.dp),verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.share),
+                            contentDescription = null
+                        )
+                        Text(text = "2", modifier = Modifier.padding(start = 4.dp))
+                    }
+                }
+            }
         }
     }
 }

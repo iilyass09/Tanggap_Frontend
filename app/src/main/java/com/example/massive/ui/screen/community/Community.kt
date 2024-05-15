@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.massive.data.DataKomunitas
 import com.example.massive.model.Komunitas
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.home.KomunitasItem
 
 @Composable
@@ -32,8 +33,10 @@ fun CommunityScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy((-15).dp),
                 modifier = Modifier.fillMaxSize().offset(y = (-5).dp)
             ) {
-                items(komunitass.take(10)) { komunitas ->
-                    KomunitasItem(komunitas = komunitas)
+                items(komunitass.take(10), key = {it.id}) {
+                    KomunitasItem(komunitas = it) { komunitasId ->
+                        navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+                    }
                 }
             }
         }
