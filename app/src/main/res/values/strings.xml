@@ -7,8 +7,5 @@
     <string name="menu_akun">Akun</string>
     <string name="menu_chatbot">Chatbot</string>
     <string name="menu_panduan">Panduan Pengaduan</string>
-    <string name="menu_sepatu">Sepatu</string>
-    <string name="menu_klub">Klub Sepak Bola</string>
-    <string name="menu_gunung">Gunung</string>
-    <string name="search_club">Cari Klub</string>
+    <string name="salah"> </string>
 </resources>

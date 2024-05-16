@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 
 
 sealed class Screen(val route : String) {
+    object Splash : Screen("splash")
     object Panduan : Screen("panduan")
     object Onboarding1 : Screen("splash1")
     object Onboarding2 : Screen("splash2")

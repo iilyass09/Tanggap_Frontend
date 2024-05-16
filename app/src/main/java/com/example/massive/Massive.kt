@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.navigation.*
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.example.massive.ui.screen.akun.AkunScreen
 import com.example.massive.ui.screen.berita.BeritaScreen
@@ -26,12 +27,13 @@ import com.example.massive.ui.screen.community.CommunityScreen
 import com.example.massive.ui.screen.home.HomeScreen
 import com.example.massive.ui.navigation.NavigationItem
 import com.example.massive.ui.navigation.Screen
-import com.example.massive.ui.screen.LoginScreen
+import com.example.massive.ui.screen.login.LoginScreen
 import com.example.massive.ui.screen.Onboarding1
 import com.example.massive.ui.screen.Onboarding2
 import com.example.massive.ui.screen.Onboarding3
 import com.example.massive.ui.screen.Register
 import com.example.massive.ui.screen.community.DetailCommunity
+import com.example.massive.ui.screen.SplashScreen
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
@@ -101,7 +103,7 @@ fun Massive(
                                     ) {
                                         Icon(
                                             modifier = Modifier
-                                                .padding(top = 15.dp)
+                                                .padding(top = 5.dp)
                                                 .offset(x = (-5).dp),
                                             imageVector = Icons.Default.ArrowBackIosNew,
                                             contentDescription = null
@@ -112,7 +114,7 @@ fun Massive(
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .offset(x = (-10).dp, y = (7.dp)),
+                                    .offset(x = (-10).dp),
                                 text = getTitleForRoute(route = currentRoute),
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.SemiBold,
@@ -136,9 +138,10 @@ fun Massive(
     ) { contentPadding->
         NavHost(
             navController = navController,
-            startDestination = Screen.Onboarding1.route,
+            startDestination = Screen.Splash.route,
             modifier = Modifier.padding(contentPadding)
         ) {
+            composable(Screen.Splash.route){ SplashScreen(navController) }
             composable(Screen.Onboarding1.route){ Onboarding1(navController) }
             composable(Screen.Onboarding2.route){ Onboarding2(navController) }
             composable(Screen.Onboarding3.route){ Onboarding3(navController) }
@@ -223,10 +226,13 @@ fun BottomBar(
                 IconButton(
                     onClick = {
                         navController.navigate(item.screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             restoreState = true
                             launchSingleTop = true
                         }
-                    }
+                    },
                 ) {
                     val icon = if (currentRoute == item.screen.route) item.iconClick else item.iconUnclick
                     Icon(
@@ -262,11 +268,10 @@ fun getTitleForRoute(route: String?): String {
         else -> {
             if (route?.startsWith(Screen.DetailBerita.route) == true) {
                 stringResource(id = R.string.menu_berita)
-            }
-            if (route?.startsWith(Screen.DetailCommunity.route) == true) {
+            } else if (route?.startsWith(Screen.DetailCommunity.route) == true) {
                 stringResource(id = R.string.menu_komunitas)
             } else {
-                stringResource(id = R.string.app_name)
+                stringResource(id = R.string.salah)
             }
         }
     }

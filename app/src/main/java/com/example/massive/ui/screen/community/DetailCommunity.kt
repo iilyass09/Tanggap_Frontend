@@ -11,13 +11,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +41,7 @@ import com.example.massive.R
 import com.example.massive.data.DataKomunitas
 import com.example.massive.model.Komunitas
 import com.example.massive.ui.theme.Abu
+import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.poppins
 
 @Composable
@@ -41,20 +52,20 @@ fun DetailCommunity(
     val newKomunitasList = DataKomunitas.ListKomunitas.filter { komunitas ->
         komunitas.id == komunitassId
     }
-    LazyColumn(
+    Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        item{
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color.White)
-            ) {
-                DetailCommunityContent(
-                    navController = rememberNavController(),
-                    newKomunitasList = newKomunitasList
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.White)
+        ) {
+            DetailCommunityContent(
+                navController = rememberNavController(),
+                newKomunitasList = newKomunitasList
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            SendComment()
         }
     }
 }
@@ -67,18 +78,7 @@ fun DetailCommunityContent(
 ) {
     Surface(
         color = Color.White,
-        shape = RoundedCornerShape(20.dp),
-        shadowElevation = 10.dp,
-        modifier = Modifier
-            .padding(20.dp)
-            .height(
-                if (newKomunitasList[0].bukti != null) {
-                    380.dp
-                } else {
-                    230.dp
-                }
-            )
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column {
             Row(
@@ -114,21 +114,20 @@ fun DetailCommunityContent(
                     painter = painterResource(id = buktiId),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(horizontal = 20.dp)
+                        .padding(horizontal = 15.dp)
                         .fillMaxWidth()
                         .height(140.dp)
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                modifier = Modifier.padding(horizontal = 20.dp),
+                modifier = Modifier.padding(horizontal = 15.dp),
                 text = newKomunitasList[0].uraian,
                 fontSize = 14.sp,
                 fontFamily = poppins,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 20.sp
             )
-            Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier
                     .padding(horizontal = 15.dp)
@@ -164,6 +163,45 @@ fun DetailCommunityContent(
                     }
                 }
             }
+            HorizontalDivider()
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SendComment() {
+    var message by remember { mutableStateOf("") }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        TextField(
+            value = message,
+            onValueChange = { message = it },
+            modifier = Modifier
+                .fillMaxWidth(),
+            placeholder = { Text("Tulis Komentar...") },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Abu2,
+                cursorColor = Color.Black,
+                disabledTextColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            trailingIcon = {
+                IconButton(
+                    onClick = { },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Send,
+                        contentDescription = "Send message"
+                    )
+                }
+            }
+        )
     }
 }

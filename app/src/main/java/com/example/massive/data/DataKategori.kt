@@ -8,8 +8,6 @@ import androidx.compose.material.icons.filled.CastForEducation
 import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.Masks
 import androidx.compose.material.icons.filled.Money
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.massive.R
 import com.example.massive.model.Kategori
 
 object DataKategori {

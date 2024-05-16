@@ -9,12 +9,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +28,7 @@ import com.example.massive.R
 import com.example.massive.model.Berita
 import com.example.massive.data.DataBerita
 import com.example.massive.data.DataKomunitas
+import com.example.massive.data.SharedPreferencesManager
 import com.example.massive.model.Komunitas
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
@@ -36,12 +39,16 @@ import com.example.massive.ui.theme.poppins
 fun HomeScreen(navController: NavController) {
     val komunitass: List<Komunitas> = DataKomunitas.ListKomunitas
     val beritas: List<Berita> = DataBerita.ListBerita
+    val context = LocalContext.current
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val name = sharedPreferencesManager.name ?: ""
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Column {
-            HomeTopBar()
+            HomeTopBar(name = name)
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)) {
@@ -53,8 +60,8 @@ fun HomeScreen(navController: NavController) {
                         Banner()
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(komunitass.take(3), key = {it.id}) {
-                        KomunitasItem(komunitas = it) { komunitasId ->
+                    items(komunitass.take(3)) { komunitas ->
+                        KomunitasItem(komunitas = komunitas) { komunitasId ->
                             navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
                         }
                     }
@@ -77,8 +84,8 @@ fun HomeScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(beritas.filter { it.id in 1..3 }, key = { it.id }) {
-                        BeritaItem(berita = it) { beritaId ->
+                    items(beritas.filter { it.id in 1..3 }) { berita ->
+                        BeritaItem(berita = berita) { beritaId ->
                             navController.navigate(Screen.DetailBerita.route + "/$beritaId")
                         }
                     }
@@ -91,11 +98,11 @@ fun HomeScreen(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(name : String) {
     TopAppBar(
         title = {
             Text(
-                text = "Muhammad Aziz",
+                text = name,
                 color = Color.Black,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,

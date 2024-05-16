@@ -30,23 +30,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
+import com.example.massive.data.UserDataStore
+import com.example.massive.data.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +58,11 @@ import com.example.massive.ui.theme.poppins
 fun AkunScreen(navController: NavController) {
     val sheetState = rememberModalBottomSheetState()
     val keluarBottomSheet = rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val userDataStore = UserDataStore(context)
+    val name = sharedPreferencesManager.name ?: ""
 
     Surface(
         modifier = Modifier
@@ -91,7 +100,17 @@ fun AkunScreen(navController: NavController) {
                         textAlign = TextAlign.Center
                     )
                     Button(
-                        onClick = { navController.navigate(Screen.Login.route) },
+                        onClick = {
+                            sharedPreferencesManager.clear()
+                            coroutineScope.launch {
+                                userDataStore.clearStatus()
+                            }
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(Screen.Home.route) {
+                                    inclusive = true
+                                }
+                            }
+                        },
                         shape = RoundedCornerShape(20),
                         modifier = Modifier
                             .offset(y = (-18).dp)
@@ -144,7 +163,7 @@ fun AkunScreen(navController: NavController) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "Muhammad Aziz",
+                    text = name,
                     color = Color.Black,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,

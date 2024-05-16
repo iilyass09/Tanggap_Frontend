@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.compose.material:material-icons-extended-android:1.6.7")
     implementation("androidx.core:core-ktx:1.9.0")
