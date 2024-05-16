@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -20,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -41,9 +44,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.data.UserDataStore
 import com.example.massive.data.SharedPreferencesManager
@@ -92,13 +97,6 @@ fun LoginScreen(
                 Toast.LENGTH_SHORT
             ).show()
         },
-        onGoogleClick = {
-            Toast.makeText(
-                context,
-                "Nanti akan dibahas saat Materi Firebase",
-                Toast.LENGTH_SHORT
-            ).show()
-        },
         onSignUpClick = {
             navController.navigate(Screen.Register.route)
         },
@@ -114,24 +112,29 @@ fun LoginContent(
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     moveToForgot: () -> Unit,
-    onGoogleClick: () -> Unit,
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier,
-    scrollState: ScrollState = rememberScrollState()
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
+            .background(Color.White)
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 20.dp)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.verticalScroll(scrollState)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(100.dp))
-
-
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "Masuk",
+                fontSize = 25.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(30.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo2),
                 contentDescription = null,
@@ -140,26 +143,18 @@ fun LoginContent(
                     .height(175.dp)
                     .align(Alignment.CenterHorizontally),
             )
-            Text(
-                text = "Untuk Belajar tentang Android Development",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    textAlign = TextAlign.Center
-                ),
-                modifier = Modifier
-                    .padding(top = 4.dp)
-            )
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             NameTextField(
                 value = name,
                 onValueChange = onNameChange,
                 imageVector = Icons.Outlined.Person,
                 contentDescription = "Icon Person",
-                label = "Nama",
+                label = "Nama Pengguna",
             )
             PasswordTextField(
                 text = password,
                 onValueChange = onPasswordChange,
-                label = "Password"
+                label = "Kata Sandi"
             )
             TextButton(
                 onClick = moveToForgot,
@@ -169,109 +164,51 @@ fun LoginContent(
             ) {
                 Text(
                     text = "Lupa Kata Sandi?",
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.Normal,
+                    color = Biru
                 )
             }
             Button(
                 onClick = onLoginClick,
-                shape = MaterialTheme.shapes.large,
+                colors = ButtonDefaults.buttonColors(Biru),
+                shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-                    .height(48.dp)
+                    .height(55.dp)
             ) {
                 Text(
                     text = "Masuk",
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-            Text(
-                text = "atau",
-                style = MaterialTheme.typography.bodyMedium
-            )
             Row(
-                modifier = Modifier.padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Belum Punya Akun?")
+                Text(
+                    text = "Belum Punya Akun?",
+                    fontFamily = poppins,
+                    fontSize = 15.sp,
+                )
                 TextButton(onClick = onSignUpClick) {
                     Text(
+                        modifier = Modifier.offset(x = (-7).dp),
                         text = "Daftar",
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Biru,
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.Normal
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(128.dp))
+            Spacer(modifier = Modifier.height(160.dp))
         }
     }
 }
 
+@Preview
 @Composable
-fun ClickableForgotTextComponent(onTextSelected : () -> Unit) {
-    val text = "Lupa Kata Sandi?"
-    val annotatedString = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Biru)){
-            pushStringAnnotation(tag = text, annotation = text)
-            append(text)
-        }
-    }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 20.dp),
-        style = TextStyle(
-            color = Color.Blue,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-            textAlign = TextAlign.End,
-            fontFamily = poppins
-        ),
-        text = annotatedString, onClick = {offset ->
-            annotatedString.getStringAnnotations(offset,offset)
-                .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent","{${span.item}}")
-
-                    if (span.item == text) {
-                        onTextSelected()
-                    }
-                }
-        })
-}
-
-@Composable
-fun ClickableRegisterTextComponent(onTextSelected : (String) -> Unit) {
-    val initialText = "Belum punya akun?  "
-    val registerText = "Daftar"
-
-    val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = Biru)){
-            pushStringAnnotation(tag = registerText, annotation = registerText)
-            append(registerText)
-        }
-    }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 20.dp),
-        style = TextStyle(
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-            textAlign = TextAlign.Center,
-            fontFamily = poppins
-        ),
-        text = annotatedString, onClick = {offset ->
-
-            annotatedString.getStringAnnotations(offset,offset)
-                .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent","{${span.item}}")
-
-                    if (span.item == registerText) {
-                        onTextSelected(span.item)
-                    }
-                }
-
-        })
+fun LoginPrev() {
+    LoginScreen(navController = rememberNavController())
 }

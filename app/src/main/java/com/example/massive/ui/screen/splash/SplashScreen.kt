@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen
+package com.example.massive.ui.screen.splash
 
 import android.util.Log
 import androidx.compose.animation.core.Animatable

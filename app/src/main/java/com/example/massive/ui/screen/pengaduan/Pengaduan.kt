@@ -150,7 +150,7 @@ fun Pengaduan(navController: NavController) {
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { navController.navigate(Screen.Pengaduan2.route) },
                 shape = RoundedCornerShape(20),

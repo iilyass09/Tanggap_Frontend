@@ -28,12 +28,13 @@ import com.example.massive.ui.screen.home.HomeScreen
 import com.example.massive.ui.navigation.NavigationItem
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.login.LoginScreen
-import com.example.massive.ui.screen.Onboarding1
-import com.example.massive.ui.screen.Onboarding2
-import com.example.massive.ui.screen.Onboarding3
-import com.example.massive.ui.screen.Register
+import com.example.massive.ui.screen.onboarding.Onboarding1
+import com.example.massive.ui.screen.onboarding.Onboarding2
+import com.example.massive.ui.screen.onboarding.Onboarding3
+import com.example.massive.ui.screen.register.Register
 import com.example.massive.ui.screen.community.DetailCommunity
-import com.example.massive.ui.screen.SplashScreen
+import com.example.massive.ui.screen.splash.SplashScreen
+import com.example.massive.ui.screen.akun.AkunSaya
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
@@ -154,6 +155,7 @@ fun Massive(
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
             composable(Screen.Berita.route){ BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController) }
+            composable(Screen.AkunSaya.route){ AkunSaya(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
@@ -263,6 +265,7 @@ fun getTitleForRoute(route: String?): String {
         Screen.Pengaduan3.route -> stringResource(id = R.string.menu_pengaduan)
         Screen.Berita.route -> stringResource(id = R.string.menu_berita)
         Screen.Akun.route -> stringResource(id = R.string.menu_akun)
+        Screen.AkunSaya.route -> stringResource(id = R.string.menu_akunSaya)
         Screen.Chatbot.route -> stringResource(id = R.string.menu_chatbot)
         Screen.Panduan.route -> stringResource(id = R.string.menu_panduan)
         else -> {

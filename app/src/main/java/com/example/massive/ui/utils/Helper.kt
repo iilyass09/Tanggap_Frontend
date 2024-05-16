@@ -22,6 +22,7 @@ fun String? .ShowTopBarWithIcon(): Boolean{
         Screen.DetailBerita.route + "/{beritaId}",
         Screen.DetailCommunity.route + "/{komunitasId}",
         Screen.Chatbot.route,
+        Screen.AkunSaya.route,
     )
 }
 

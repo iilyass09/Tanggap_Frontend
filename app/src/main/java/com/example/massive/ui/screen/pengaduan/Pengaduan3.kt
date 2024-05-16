@@ -191,7 +191,7 @@ fun Pengaduan3(navController: NavController) {
                     KomunitasItem(komunitas = it) { komunitasId -> }
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { pengaduanBottomSheet.value = true },
                 shape = RoundedCornerShape(20),

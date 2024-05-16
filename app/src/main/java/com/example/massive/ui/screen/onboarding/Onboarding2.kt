@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen
+package com.example.massive.ui.screen.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

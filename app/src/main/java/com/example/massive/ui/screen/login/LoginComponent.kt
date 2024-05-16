@@ -57,9 +57,7 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     label: String,
 ) {
-    val passwordVisible = remember {
-        mutableStateOf(false)
-    }
+    val passwordVisible = remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = text,

@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen
+package com.example.massive.ui.screen.register
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -154,6 +154,7 @@ fun Register(navController: NavController) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
+            Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = "Daftar",
                 modifier = Modifier
