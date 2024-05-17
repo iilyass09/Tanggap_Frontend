@@ -22,12 +22,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,13 +56,14 @@ import com.example.massive.model.Kategori
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.Biru2
+import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Pengaduan(navController: NavController) {
     val currentStep = remember { mutableStateOf(0) }
-    var selectedCategory by remember { mutableStateOf(0) }
     Scaffold(
         modifier = Modifier
             .offset(y = (-10).dp)
@@ -86,12 +91,12 @@ fun Pengaduan(navController: NavController) {
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
                 Text(
-                    text = "Pilih Kategori",
+                    text = "Isi Form",
                     fontSize = 14.sp,
                     color = Biru
                 )
                 Text(
-                    text = "Isi Form",
+                    text = "Bukti",
                     fontSize = 14.sp
                 )
                 Text(
@@ -112,44 +117,49 @@ fun Pengaduan(navController: NavController) {
             )
             ClickableTextPanduan(onTextSelected = { navController.navigate(Screen.Panduan.route) })
             Spacer(modifier = Modifier.height(10.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(25.dp)
-            ) {
-                DataKategori.ListKategori.take(3).forEach { kategori ->
-                    Category(
-                        kategori = kategori,
-                        isSelected = kategori.id == selectedCategory,
-                        onClick = { selectedCategory = kategori.id }
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(25.dp))
 
-            // Second row with items 4 to 6
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(25.dp)
-            ) {
-                DataKategori.ListKategori.subList(3, 6).forEach { kategori ->
-                    Category(
-                        kategori = kategori,
-                        isSelected = kategori.id == selectedCategory,
-                        onClick = { selectedCategory = kategori.id }
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(25.dp))
+            // TEXTFIELD JUDUL
+            val textJudul = remember { mutableStateOf("") }
+            OutlinedTextField(
+                shape = RoundedCornerShape(20),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(componentsShapes.small),
+                label = { Text(text = "Judul Pengaduan") },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Biru,
+                    focusedLabelColor = Biru,
+                    cursorColor = Biru,
+                ),
+                keyboardActions = KeyboardActions.Default,
+                value = textJudul.value,
+                onValueChange = {
+                    textJudul.value = it
+                },
+            )
+            Spacer(modifier = Modifier.height(10.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(25.dp)
-            ) {
-                DataKategori.ListKategori.subList(6, 8).forEach { kategori ->
-                    Category(
-                        kategori = kategori,
-                        isSelected = kategori.id == selectedCategory,
-                        onClick = { selectedCategory = kategori.id }
-                    )
-                }
-            }
+            // TEXTFIELD URAIAN
+            val textUraian = remember { mutableStateOf("") }
+            OutlinedTextField(
+                shape = RoundedCornerShape(5),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(320.dp)
+                    .clip(componentsShapes.small),
+                label = { Text(text = "Uraian Pengaduan") },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Biru,
+                    focusedLabelColor = Biru,
+                    cursorColor = Biru,
+                ),
+                keyboardActions = KeyboardActions.Default,
+                value = textUraian.value,
+                onValueChange = {
+                    textUraian.value = it
+                },
+            )
+
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { navController.navigate(Screen.Pengaduan2.route) },
@@ -215,46 +225,6 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean)
                 drawCircle(color = innerCircleColor)
             }
         )
-    }
-}
-
-@Composable
-fun Category(kategori: Kategori, isSelected: Boolean, onClick: () -> Unit) {
-    val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) Biru else Biru2, label = "")
-    val contentColor by animateColorAsState(
-        targetValue = if (isSelected) Color.White else Biru, label = "")
-    val clickableModifier = Modifier
-        .clickable(onClick = onClick)
-
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
-            .width(100.dp)
-            .height(100.dp)
-            .clip(shape = RoundedCornerShape(10.dp))
-            .background(backgroundColor)
-            .then(clickableModifier)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                modifier = Modifier.size(70.dp),
-                imageVector = kategori.foto,
-                contentDescription = null,
-                tint = contentColor
-            )
-            Text(
-                text = kategori.nama,
-                fontFamily = poppins,
-                fontSize = 13.sp,
-                textAlign = TextAlign.Center,
-                color = contentColor
-            )
-        }
     }
 }
 

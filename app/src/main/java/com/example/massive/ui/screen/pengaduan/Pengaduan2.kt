@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.massive.Modol
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
@@ -77,11 +78,11 @@ fun Pengaduan2(navController: NavController) {
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
                 Text(
-                    text = "Pilih Kategori",
+                    text = "Isi Form",
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Isi Form",
+                    text = "Bukti Foto",
                     fontSize = 14.sp,
                     color = Biru
                 )
@@ -93,48 +94,7 @@ fun Pengaduan2(navController: NavController) {
                 )
             }
             Spacer(modifier = Modifier.height(15.dp))
-
-            // TEXTFIELD JUDUL
-            val textJudul = remember { mutableStateOf("") }
-            OutlinedTextField(
-                shape = RoundedCornerShape(20),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(componentsShapes.small),
-                label = { Text(text = "Judul Pengaduan") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Biru,
-                    focusedLabelColor = Biru,
-                    cursorColor = Biru,
-                ),
-                keyboardActions = KeyboardActions.Default,
-                value = textJudul.value,
-                onValueChange = {
-                    textJudul.value = it
-                },
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            // TEXTFIELD URAIAN
-            val textUraian = remember { mutableStateOf("") }
-            OutlinedTextField(
-                shape = RoundedCornerShape(8),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .clip(componentsShapes.small),
-                label = { Text(text = "Uraian Pengaduan") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Biru,
-                    focusedLabelColor = Biru,
-                    cursorColor = Biru,
-                ),
-                keyboardActions = KeyboardActions.Default,
-                value = textUraian.value,
-                onValueChange = {
-                    textUraian.value = it
-                },
-            )
+            Modol()
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { navController.navigate(Screen.Pengaduan3.route) },

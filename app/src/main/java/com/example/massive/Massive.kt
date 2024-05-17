@@ -165,6 +165,7 @@ fun Massive(
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
+            composable(Screen.Modol.route){ Modol() }
             composable(
                 Screen.DetailBerita.route + "/{beritaId}",
                 arguments = listOf(navArgument("beritaId") { type = NavType.IntType})

@@ -165,11 +165,11 @@ fun Pengaduan3(navController: NavController) {
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
                 Text(
-                    text = "Pilih Kategori",
+                    text = "Isi Form",
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Isi Form",
+                    text = "Bukti Foto",
                     fontSize = 14.sp
                 )
                 Text(
