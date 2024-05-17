@@ -35,6 +35,9 @@ import com.example.massive.ui.screen.register.Register
 import com.example.massive.ui.screen.community.DetailCommunity
 import com.example.massive.ui.screen.splash.SplashScreen
 import com.example.massive.ui.screen.akun.AkunSaya
+import com.example.massive.ui.screen.akun.Bantuan
+import com.example.massive.ui.screen.akun.HubungiKami
+import com.example.massive.ui.screen.akun.Pengaturan
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
@@ -156,6 +159,9 @@ fun Massive(
             composable(Screen.Berita.route){ BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController) }
             composable(Screen.AkunSaya.route){ AkunSaya(navController) }
+            composable(Screen.HubungiKami.route){ HubungiKami(navController) }
+            composable(Screen.Pengaturan.route){ Pengaturan(navController) }
+            composable(Screen.Bantuan.route){ Bantuan(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
@@ -266,6 +272,9 @@ fun getTitleForRoute(route: String?): String {
         Screen.Berita.route -> stringResource(id = R.string.menu_berita)
         Screen.Akun.route -> stringResource(id = R.string.menu_akun)
         Screen.AkunSaya.route -> stringResource(id = R.string.menu_akunSaya)
+        Screen.HubungiKami.route -> stringResource(id = R.string.hubungi_kami)
+        Screen.Pengaturan.route -> stringResource(id = R.string.pengaturan)
+        Screen.Bantuan.route -> stringResource(id = R.string.bantuan)
         Screen.Chatbot.route -> stringResource(id = R.string.menu_chatbot)
         Screen.Panduan.route -> stringResource(id = R.string.menu_panduan)
         else -> {

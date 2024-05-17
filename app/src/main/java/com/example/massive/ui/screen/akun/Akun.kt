@@ -20,9 +20,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -145,7 +148,7 @@ fun AkunScreen(navController: NavController) {
     Scaffold(
         containerColor = Color.White,
         modifier = Modifier
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 24.dp)
             .fillMaxSize(),
         content = {
             Column(
@@ -189,6 +192,8 @@ fun AkunScreen(navController: NavController) {
                         fontWeight = FontWeight.Medium,
                         fontFamily = poppins
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(imageVector = Icons.Filled.NavigateNext, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
@@ -207,11 +212,15 @@ fun AkunScreen(navController: NavController) {
                         fontWeight = FontWeight.Medium,
                         fontFamily = poppins
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(imageVector = Icons.Filled.NavigateNext, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navController.navigate(Screen.Pengaturan.route) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.pengaturan),
@@ -225,11 +234,15 @@ fun AkunScreen(navController: NavController) {
                         fontWeight = FontWeight.Medium,
                         fontFamily = poppins
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(imageVector = Icons.Filled.NavigateNext, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navController.navigate(Screen.HubungiKami.route) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.hubungikami),
@@ -243,6 +256,8 @@ fun AkunScreen(navController: NavController) {
                         fontWeight = FontWeight.Medium,
                         fontFamily = poppins
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(imageVector = Icons.Filled.NavigateNext, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
