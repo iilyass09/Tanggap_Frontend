@@ -27,7 +27,8 @@ fun String? .ShowTopBarWithIcon(): Boolean{
         Screen.DetailPengaduanSaya.route,
         Screen.HubungiKami.route,
         Screen.Pengaturan.route,
-        Screen.Bantuan.route
+        Screen.Bantuan.route,
+        Screen.KebijakanPrivasi.route
     )
 }
 

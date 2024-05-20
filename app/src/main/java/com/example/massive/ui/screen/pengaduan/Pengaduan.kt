@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
@@ -78,8 +79,8 @@ fun Pengaduan(navController: NavController) {
             Spacer(modifier = Modifier.height(5.dp))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(50.dp)
+                    .padding(start = 30.dp),
+                horizontalArrangement = Arrangement.spacedBy(85.dp)
             ) {
                 Text(
                     text = "Isi Form",
@@ -91,13 +92,12 @@ fun Pengaduan(navController: NavController) {
                     fontSize = 14.sp
                 )
                 Text(
-                    modifier = Modifier
-                        .offset(x = 18.dp),
+                    modifier = Modifier.offset(x = (-7).dp),
                     text = "Pratinjau",
                     fontSize = 14.sp
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Pilih kategori pengaduan anda",

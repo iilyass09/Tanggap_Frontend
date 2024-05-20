@@ -161,20 +161,19 @@ fun Pengaduan3(navController: NavController) {
             Spacer(modifier = Modifier.height(5.dp))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(50.dp)
+                    .padding(start = 30.dp),
+                horizontalArrangement = Arrangement.spacedBy(85.dp)
             ) {
                 Text(
                     text = "Isi Form",
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Bukti Foto",
+                    text = "Bukti",
                     fontSize = 14.sp
                 )
                 Text(
-                    modifier = Modifier
-                        .offset(x = 18.dp),
+                    modifier = Modifier.offset(x = (-7).dp),
                     text = "Pratinjau",
                     fontSize = 14.sp,
                     color = Biru
