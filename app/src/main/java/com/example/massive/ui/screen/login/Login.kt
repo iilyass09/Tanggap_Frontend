@@ -180,7 +180,9 @@ fun LoginContent(
             ) {
                 Text(
                     text = "Masuk",
-                    style = MaterialTheme.typography.bodyLarge
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 18.sp,
                 )
             }
             Row(

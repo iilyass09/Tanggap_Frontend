@@ -46,7 +46,7 @@ fun NameTextField(
         label = { Text(text = label) },
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp)
+            .padding(bottom = 10.dp)
     )
 }
 

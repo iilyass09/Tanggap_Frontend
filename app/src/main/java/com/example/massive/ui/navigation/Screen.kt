@@ -22,10 +22,11 @@ sealed class Screen(val route : String) {
     object DetailBerita : Screen("detail_berita")
     object Akun : Screen("akun")
     object AkunSaya : Screen("akun_saya")
+    object PengaduanSaya : Screen("pengaduan_saya")
+    object DetailPengaduanSaya : Screen("detail_pengaduan_saya")
     object HubungiKami : Screen("hubungi_kami")
     object Pengaturan : Screen("pengaturan")
     object Bantuan : Screen("bantuan")
     object Chatbot : Screen("chatbot")
     object Chatbot2 : Screen("chatbot2")
-    object Modol : Screen("modol")
 }

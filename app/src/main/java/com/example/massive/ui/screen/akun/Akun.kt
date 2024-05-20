@@ -198,7 +198,9 @@ fun AkunScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navController.navigate(Screen.PengaduanSaya.route) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.pengaduansaya),

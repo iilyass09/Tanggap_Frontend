@@ -2,10 +2,8 @@ package com.example.massive.ui.screen.pengaduan
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,16 +24,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,11 +45,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.massive.data.DataKategori
-import com.example.massive.model.Kategori
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
-import com.example.massive.ui.theme.Biru2
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
 
@@ -251,7 +242,6 @@ fun ClickableTextPanduan(onTextSelected : (String) -> Unit) {
             fontFamily = poppins
         ),
         text = annotatedString, onClick = {offset ->
-
             annotatedString.getStringAnnotations(offset,offset)
                 .firstOrNull()?.also { span ->
                     Log.d("ClickableTextComponent","{${span.item}}")

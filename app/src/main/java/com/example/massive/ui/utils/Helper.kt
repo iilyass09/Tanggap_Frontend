@@ -23,6 +23,8 @@ fun String? .ShowTopBarWithIcon(): Boolean{
         Screen.DetailCommunity.route + "/{komunitasId}",
         Screen.Chatbot.route,
         Screen.AkunSaya.route,
+        Screen.PengaduanSaya.route,
+        Screen.DetailPengaduanSaya.route,
         Screen.HubungiKami.route,
         Screen.Pengaturan.route,
         Screen.Bantuan.route
@@ -32,6 +34,7 @@ fun String? .ShowTopBarWithIcon(): Boolean{
 fun String? .HideTopBar(): Boolean{
     return this !in setOf(
         Screen.Onboarding1.route,
+        Screen.Onboarding2.route,
         Screen.Onboarding2.route,
         Screen.Onboarding3.route,
         Screen.Login.route,

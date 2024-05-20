@@ -134,7 +134,7 @@ fun Register(navController: NavController) {
                             Text(
                                 text = "Benar",
                                 fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontWeight = FontWeight.Medium,
                                 fontFamily = poppins
                             )
                         }
