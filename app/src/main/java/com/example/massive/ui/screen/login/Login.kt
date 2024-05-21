@@ -80,22 +80,18 @@ fun LoginScreen(
             } else {
                 sharedPreferencesManager.name = name
                 sharedPreferencesManager.password = password
-                coroutineScope.launch{
+                coroutineScope.launch {
                     userDataStore.saveStatus(true)
-                }
-                navController.navigate(Screen.Home.route) {
-                    popUpTo(Screen.Login.route) {
-                        inclusive = true
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) {
+                            inclusive = true
+                        }
                     }
                 }
             }
         },
         moveToForgot = {
-            Toast.makeText(
-                context,
-                "Silahkan di kembangkan sendiri",
-                Toast.LENGTH_SHORT
-            ).show()
+            navController.navigate(Screen.FPassword1.route)
         },
         onSignUpClick = {
             navController.navigate(Screen.Register.route)

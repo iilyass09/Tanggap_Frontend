@@ -1,6 +1,7 @@
 package com.example.massive.ui.screen.pengaduan
 
 import android.annotation.SuppressLint
+import android.text.TextPaint
 import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -37,6 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -73,7 +76,7 @@ fun Pengaduan(navController: NavController) {
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             StepsProgressBar(
-                numberOfSteps = 2,
+                numberOfSteps = 3,
                 currentStep = currentStep.value
             )
             Spacer(modifier = Modifier.height(5.dp))
@@ -97,7 +100,7 @@ fun Pengaduan(navController: NavController) {
                     fontSize = 14.sp
                 )
             }
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(15.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Pilih kategori pengaduan anda",
@@ -187,18 +190,20 @@ fun StepsProgressBar(modifier: Modifier = Modifier, numberOfSteps: Int, currentS
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        for (step in 0..numberOfSteps) {
+        for (step in 0 until numberOfSteps) {
             Step(
                 modifier = Modifier.weight(1F),
                 isComplete = step < currentStep,
                 isCurrent = step == currentStep,
+                stepNumber = step + 1
             )
         }
     }
 }
+
 @Composable
-fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean) {
-    val color = if (isComplete || isCurrent) Biru else Color.LightGray
+fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean, stepNumber: Int) {
+    var colors = if (isComplete || isCurrent) Biru else Color.LightGray
     val innerCircleColor = if (isComplete || isCurrent) Biru else Color.LightGray
 
     Box(
@@ -206,18 +211,34 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean)
     ) {
         Divider(
             modifier = Modifier.align(Alignment.Center),
-            color = color,
+            color = colors,
             thickness = 5.dp
         )
-        Canvas(modifier = Modifier
-            .size(50.dp)
-            .align(Alignment.Center),
+        Canvas(
+            modifier = Modifier
+                .size(40.dp)
+                .align(Alignment.Center),
             onDraw = {
                 drawCircle(color = innerCircleColor)
+                drawIntoCanvas { canvas ->
+                    val textPaint = TextPaint().apply {
+                        this.color = android.graphics.Color.WHITE
+                        textAlign = android.graphics.Paint.Align.CENTER
+                        textSize = 15.sp.toPx()
+                        isAntiAlias = true
+                    }
+                    canvas.nativeCanvas.drawText(
+                        stepNumber.toString(),
+                        size.width / 2,
+                        (size.height / 2) - (textPaint.ascent() + textPaint.descent()) / 2,
+                        textPaint
+                    )
+                }
             }
         )
     }
 }
+
 
 @Composable
 fun ClickableTextPanduan(onTextSelected : (String) -> Unit) {

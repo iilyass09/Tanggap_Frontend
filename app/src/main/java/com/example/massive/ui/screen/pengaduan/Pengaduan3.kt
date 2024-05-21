@@ -155,7 +155,7 @@ fun Pengaduan3(navController: NavController) {
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             StepsProgressBar(
-                numberOfSteps = 2,
+                numberOfSteps = 3,
                 currentStep = currentStep.value
             )
             Spacer(modifier = Modifier.height(5.dp))

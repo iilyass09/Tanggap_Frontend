@@ -29,7 +29,10 @@ fun String? .ShowTopBarWithIcon(): Boolean{
         Screen.Pengaturan.route,
         Screen.Bantuan.route,
         Screen.Bahasa.route,
-        Screen.KebijakanPrivasi.route
+        Screen.KebijakanPrivasi.route,
+        Screen.FPassword1.route,
+        Screen.FPassword2.route,
+        Screen.FPassword3.route
     )
 }
 

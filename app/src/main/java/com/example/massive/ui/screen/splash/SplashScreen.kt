@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,12 +31,12 @@ fun SplashScreen(navController: NavController) {
     val isDarkMode = isSystemInDarkTheme()
     val scale = remember { Animatable(0f) }
     val userDataStore = UserDataStore(context)
-    val statusLoggedIn = userDataStore.getStatusLogin.collectAsState(initial = false)
-
+    val loginStatusFlow = userDataStore.getStatusLogin
+    val statusLoggedIn by loginStatusFlow.collectAsState(initial = false)
     LaunchedEffect(
-        key1 = true,
+        key1 = statusLoggedIn,
         block = {
-            if (statusLoggedIn.value) {
+            if (statusLoggedIn) {
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Splash.route) {
                         inclusive = true
@@ -69,6 +70,4 @@ fun SplashScreen(navController: NavController) {
             Image(painter = painterResource(id = image), contentDescription = null)
         }
     }
-
-    Log.d("STATUS LOGIN", statusLoggedIn.value.toString())
 }

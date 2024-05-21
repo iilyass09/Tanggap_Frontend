@@ -209,7 +209,7 @@ fun DetailPengaduanSaya(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(50.dp))
             Button(
-                onClick = { navController.navigate(Screen.Chatbot.route) },
+                onClick = { navController.navigate(Screen.Chatbot2.route) },
                 shape = MaterialTheme.shapes.small,
                 colors = ButtonDefaults.buttonColors(Biru),
                 modifier = Modifier

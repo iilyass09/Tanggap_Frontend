@@ -15,4 +15,8 @@
     <string name="menu_chatbot">Chatbot</string>
     <string name="menu_panduan">Panduan Pengaduan</string>
     <string name="salah"> </string>
+    <string name="verifikasi">Verifikasi Kode</string>
+    <string name="perbarui">Perbarui Kata Sandi</string>
+    <string name="masuk">Masuk</string>
+    <string name="FPassword">Lupa Kata Sandi</string>
 </resources>

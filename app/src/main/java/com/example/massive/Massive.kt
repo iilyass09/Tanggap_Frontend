@@ -42,7 +42,9 @@ import com.example.massive.ui.screen.akun.HubungiKami
 import com.example.massive.ui.screen.akun.KebijakanPrivasi
 import com.example.massive.ui.screen.akun.PengaduanSaya
 import com.example.massive.ui.screen.akun.Pengaturan
-import com.example.massive.ui.screen.chat.CustomerService
+import com.example.massive.ui.screen.fpassword.FPassword1
+import com.example.massive.ui.screen.fpassword.FPassword2
+import com.example.massive.ui.screen.fpassword.FPassword3
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
@@ -156,6 +158,9 @@ fun Massive(
             composable(Screen.Onboarding3.route){ Onboarding3(navController) }
             composable(Screen.Login.route){ LoginScreen(navController) }
             composable(Screen.Register.route){ Register(navController) }
+            composable(Screen.FPassword1.route){ FPassword1(navController) }
+            composable(Screen.FPassword2.route){ FPassword2(navController) }
+            composable(Screen.FPassword3.route){ FPassword3(navController) }
             composable(Screen.Home.route){ HomeScreen(navController) }
             composable(Screen.Community.route){ CommunityScreen(navController) }
             composable(Screen.Pengaduan.route) { Pengaduan(navController) }
@@ -173,7 +178,6 @@ fun Massive(
             composable(Screen.KebijakanPrivasi.route){ KebijakanPrivasi(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
-            composable(Screen.CustomerService.route){ CustomerService(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
             composable(
                 Screen.DetailBerita.route + "/{beritaId}",
@@ -275,6 +279,9 @@ fun BottomBar(
 @Composable
 fun getTitleForRoute(route: String?): String {
     return when (route) {
+        Screen.FPassword1.route -> stringResource(id = R.string.salah)
+        Screen.FPassword2.route -> stringResource(id = R.string.salah)
+        Screen.FPassword3.route -> stringResource(id = R.string.salah)
         Screen.Community.route -> stringResource(id = R.string.menu_komunitas)
         Screen.Pengaduan.route -> stringResource(id = R.string.menu_pengaduan)
         Screen.Pengaduan2.route -> stringResource(id = R.string.menu_pengaduan)

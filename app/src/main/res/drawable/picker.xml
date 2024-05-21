@@ -15,9 +15,9 @@
         android:pathData="M1,1h158v158h-158z"
         android:strokeWidth="2"
         android:fillColor="#00000000"
-        android:strokeColor="#00A3E8"/>
+        android:strokeColor="#FF8A8A8A"/>
 
     <path
-        android:pathData="M77.01,98L77.01,84.99L64,84.99L64,78.01L77.01,78.01L77.01,64L83.99,64L83.99,78.01L97,78.01L97,84.99L83.99,84.99L83.99,98z"
-        android:fillColor="#00A3E8"/>
+        android:pathData="M76,97L76,85L64,85L64,79L76,79L76,67L84,67L84,79L96,79L96,85L84,85L84,97z"
+        android:fillColor="#FF8A8A8A"/>
 </vector>
