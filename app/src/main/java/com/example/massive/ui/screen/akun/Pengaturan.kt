@@ -75,7 +75,9 @@ fun Pengaturan(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController.navigate(Screen.Bahasa.route) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.bahasa),

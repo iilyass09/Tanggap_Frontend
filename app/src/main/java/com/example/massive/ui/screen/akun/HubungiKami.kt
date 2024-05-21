@@ -1,6 +1,7 @@
 package com.example.massive.ui.screen.akun
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.Scaffold
 import com.example.massive.R
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.poppins
 
 @Composable
@@ -40,7 +42,9 @@ fun HubungiKami(navController: NavController) {
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController.navigate(Screen.CustomerService.route) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.customer_service),

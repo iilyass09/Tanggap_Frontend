@@ -28,6 +28,7 @@ fun String? .ShowTopBarWithIcon(): Boolean{
         Screen.HubungiKami.route,
         Screen.Pengaturan.route,
         Screen.Bantuan.route,
+        Screen.Bahasa.route,
         Screen.KebijakanPrivasi.route
     )
 }
@@ -41,7 +42,8 @@ fun String? .HideTopBar(): Boolean{
         Screen.Login.route,
         Screen.Register.route,
         Screen.Home.route,
-        Screen.Chatbot2.route
+        Screen.Chatbot2.route,
+        Screen.CustomerService.route
     )
 }
 

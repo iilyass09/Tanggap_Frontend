@@ -98,13 +98,10 @@ fun Bantuan(navController: NavController) {
                     if (expandedState1){
                         Text(
                             modifier = Modifier.padding(15.dp),
-                            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-                                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
-                                    "It has survived not only five centuries, but also the leap into electronic typesetting, " +
-                                    "remaining essentially unchanged. It was popularised in the 1960s with the release of " +
-                                    "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
-                                    "like Aldus PageMaker including versions of Lorem Ipsum.",
+                            text = "1. User mengisi form yang terdapat pada fitur pengaduan (dari topik pengaduan dan uraian mengenai pengaduan\n" +
+                                    "2. User dapat menambahkan bukti foto (opsional)\n" +
+                                    "3. User bisa melihat pratinjau dari pengaduan yang diajukan.\n" +
+                                    "4. Kirim pengaduan dan selesai menunggu proses.\n",
                             fontFamily = poppins,
                             fontWeight = FontWeight.Normal,
                             color = Color.Black,
@@ -154,13 +151,10 @@ fun Bantuan(navController: NavController) {
                     if (expandedState2){
                         Text(
                             modifier = Modifier.padding(15.dp),
-                            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-                                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
-                                    "It has survived not only five centuries, but also the leap into electronic typesetting, " +
-                                    "remaining essentially unchanged. It was popularised in the 1960s with the release of " +
-                                    "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
-                                    "like Aldus PageMaker including versions of Lorem Ipsum.",
+                            text = "Chatbot adalah program kecerdasan buatan (AI) yang  mampu menirukan " +
+                                    "percakapan manusia dalam bentuk pesan teks atau suara melalui aplikasi " +
+                                    "pesan, website, atau aplikasi mobile.Selain itu, Bot juga menjadi sarana " +
+                                    "dalam memberikan customer support dan merespon pertanyaan pelanggan dengan cepat.",
                             fontFamily = poppins,
                             fontWeight = FontWeight.Normal,
                             color = Color.Black,
@@ -210,13 +204,10 @@ fun Bantuan(navController: NavController) {
                     if (expandedState3){
                         Text(
                             modifier = Modifier.padding(15.dp),
-                            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-                                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
-                                    "It has survived not only five centuries, but also the leap into electronic typesetting, " +
-                                    "remaining essentially unchanged. It was popularised in the 1960s with the release of " +
-                                    "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
-                                    "like Aldus PageMaker including versions of Lorem Ipsum.",
+                            text = "1. Buka halaman Akun\n" +
+                                    "2. Buka menu Pengaduan Saya\n"+
+                                    "3. Klik tombol Tinjau Pengaduan\n"+
+                                    "4. Perkembangan proses pengaduan sudah terlihat",
                             fontFamily = poppins,
                             fontWeight = FontWeight.Normal,
                             color = Color.Black,
@@ -266,13 +257,11 @@ fun Bantuan(navController: NavController) {
                     if (expandedState4){
                         Text(
                             modifier = Modifier.padding(15.dp),
-                            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
-                                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
-                                    "It has survived not only five centuries, but also the leap into electronic typesetting, " +
-                                    "remaining essentially unchanged. It was popularised in the 1960s with the release of " +
-                                    "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
-                                    "like Aldus PageMaker including versions of Lorem Ipsum.",
+                            text = "Didalam fitur Komunitas anda bisa melihat " +
+                                    "pengaduan yang sudah dilaporkan oleh orang " +
+                                    "lain diberbagai daerah Kota Bandung. " +
+                                    "Selain itu, anda bisa memberikan komentar " +
+                                    "dipengaduan orang lain yang sudah muncul dihalaman Komunitas",
                             fontFamily = poppins,
                             fontWeight = FontWeight.Normal,
                             color = Color.Black,

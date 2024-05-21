@@ -21,8 +21,8 @@ import androidx.navigation.compose.*
 import com.example.massive.ui.screen.akun.AkunScreen
 import com.example.massive.ui.screen.berita.BeritaScreen
 import com.example.massive.ui.screen.berita.DetailBerita
-import com.example.massive.ui.screen.chatbot.Chatbot2
-import com.example.massive.ui.screen.chatbot.ChatbotScreen
+import com.example.massive.ui.screen.chat.Chatbot2
+import com.example.massive.ui.screen.chat.ChatbotScreen
 import com.example.massive.ui.screen.community.CommunityScreen
 import com.example.massive.ui.screen.home.HomeScreen
 import com.example.massive.ui.navigation.NavigationItem
@@ -35,12 +35,14 @@ import com.example.massive.ui.screen.register.Register
 import com.example.massive.ui.screen.community.DetailCommunity
 import com.example.massive.ui.screen.splash.SplashScreen
 import com.example.massive.ui.screen.akun.AkunSaya
+import com.example.massive.ui.screen.akun.Bahasa
 import com.example.massive.ui.screen.akun.Bantuan
 import com.example.massive.ui.screen.akun.DetailPengaduanSaya
 import com.example.massive.ui.screen.akun.HubungiKami
 import com.example.massive.ui.screen.akun.KebijakanPrivasi
 import com.example.massive.ui.screen.akun.PengaduanSaya
 import com.example.massive.ui.screen.akun.Pengaturan
+import com.example.massive.ui.screen.chat.CustomerService
 import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
@@ -167,9 +169,11 @@ fun Massive(
             composable(Screen.HubungiKami.route){ HubungiKami(navController) }
             composable(Screen.Pengaturan.route){ Pengaturan(navController) }
             composable(Screen.Bantuan.route){ Bantuan(navController) }
+            composable(Screen.Bahasa.route){ Bahasa(navController) }
             composable(Screen.KebijakanPrivasi.route){ KebijakanPrivasi(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
+            composable(Screen.CustomerService.route){ CustomerService(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
             composable(
                 Screen.DetailBerita.route + "/{beritaId}",
@@ -283,6 +287,7 @@ fun getTitleForRoute(route: String?): String {
         Screen.HubungiKami.route -> stringResource(id = R.string.hubungi_kami)
         Screen.Pengaturan.route -> stringResource(id = R.string.pengaturan)
         Screen.Bantuan.route -> stringResource(id = R.string.bantuan)
+        Screen.Bahasa.route -> stringResource(id = R.string.bahasa)
         Screen.KebijakanPrivasi.route -> stringResource(id = R.string.kebijakan)
         Screen.Chatbot.route -> stringResource(id = R.string.menu_chatbot)
         Screen.Panduan.route -> stringResource(id = R.string.menu_panduan)

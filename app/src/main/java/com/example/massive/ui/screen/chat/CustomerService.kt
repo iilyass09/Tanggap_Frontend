@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen.chatbot
+package com.example.massive.ui.screen.chat
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -42,20 +42,20 @@ import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.poppins
 
 @Composable
-fun Chatbot2(navController: NavController) {
+fun CustomerService(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         Column{
-            ChatbotTopBar(navController)
+            CSTopBar(navController)
             Spacer(modifier = Modifier.weight(1f))
-            SendMessageTextField()
+            SendMessageCSTextField()
         }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatbotTopBar(navController: NavController) {
+fun CSTopBar(navController: NavController) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(Abu2),
         title = {
@@ -64,7 +64,7 @@ fun ChatbotTopBar(navController: NavController) {
             ){
                 Text(
                     modifier = Modifier.offset(x = 5.dp, y = 7.dp),
-                    text = "Chatbot",
+                    text = "Customer Service",
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -86,7 +86,7 @@ fun ChatbotTopBar(navController: NavController) {
             Box{
                 Spacer(modifier = Modifier.width(10.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.chatbot),
+                    painter = painterResource(id = R.drawable.customer_service),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(top = 4.dp, start = 20.dp)
@@ -99,7 +99,7 @@ fun ChatbotTopBar(navController: NavController) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.exitchatbot),
-                    contentDescription = "Notif",
+                    contentDescription = "CS",
                     modifier = Modifier
                         .padding(end = 15.dp)
                         .size(23.dp)
@@ -111,7 +111,7 @@ fun ChatbotTopBar(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SendMessageTextField() {
+fun SendMessageCSTextField() {
     var message by remember { mutableStateOf("") }
 
     Row(

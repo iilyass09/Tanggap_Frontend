@@ -1,4 +1,4 @@
-package com.example.massive.ui.screen.chatbot
+package com.example.massive.ui.screen.chat
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
