@@ -103,7 +103,7 @@ fun Pengaduan(navController: NavController) {
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Pilih kategori pengaduan anda",
+                text = "Isi form pengaduan anda.",
                 fontFamily = poppins,
                 fontWeight = FontWeight.Medium,
                 fontSize = 18.sp,
@@ -139,9 +139,31 @@ fun Pengaduan(navController: NavController) {
                 shape = RoundedCornerShape(5),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(320.dp)
+                    .height(280.dp)
                     .clip(componentsShapes.small),
                 label = { Text(text = "Uraian Pengaduan") },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Biru,
+                    focusedLabelColor = Biru,
+                    cursorColor = Biru,
+                ),
+                keyboardActions = KeyboardActions.Default,
+                value = textUraian.value,
+                onValueChange = {
+                    textUraian.value = it
+                },
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // TEXTFIELD URAIAN
+            val textLokasi = remember { mutableStateOf("") }
+            OutlinedTextField(
+                shape = RoundedCornerShape(20),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(componentsShapes.small),
+                label = { Text(text = "Lokasi Pengaduan") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Biru,
                     focusedLabelColor = Biru,
