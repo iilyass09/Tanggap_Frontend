@@ -37,7 +37,7 @@ fun Panduan(navController: NavController) {
             item {
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "1. Dihalaman beranda terdapat 5 menu dibawah, [klik] menu Pengaduan",
+                    text = "1. Dihalaman beranda terdapat 5 menu dibawah, [klik] menu Pengaduan.",
                     fontSize = 13.sp,
                     fontFamily = poppins,
                     fontWeight = FontWeight.Medium,
@@ -51,7 +51,7 @@ fun Panduan(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "2. Setelah masuk, pilih salah satu kategori Pengaduan anda.",
+                    text = "2. Setelah masuk, isi form pengaduan untuk Judul dan Uraian.",
                     fontSize = 13.sp,
                     fontFamily = poppins,
                     fontWeight = FontWeight.Medium,
@@ -65,7 +65,7 @@ fun Panduan(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "3. Setelah memilih kategori, isi form seperti Judul, Uraian dan Foto",
+                    text = "3. Seteleh mengisi form, bisa menambahkan bukti foto (opsional).",
                     fontSize = 13.sp,
                     fontFamily = poppins,
                     fontWeight = FontWeight.Medium,
@@ -79,7 +79,7 @@ fun Panduan(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "4. Setelah mengisi semua form, anda bisa melihat pratinjau pengaduan.",
+                    text = "4. Seteleh itu, Anda bisa melihat pratinjau Pengaduan.",
                     fontSize = 13.sp,
                     fontFamily = poppins,
                     fontWeight = FontWeight.Medium,

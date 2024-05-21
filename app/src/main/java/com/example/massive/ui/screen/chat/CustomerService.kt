@@ -86,7 +86,7 @@ fun CSTopBar(navController: NavController) {
             Box{
                 Spacer(modifier = Modifier.width(10.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.customer_service),
+                    painter = painterResource(id = R.drawable.cs2),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(top = 4.dp, start = 20.dp)

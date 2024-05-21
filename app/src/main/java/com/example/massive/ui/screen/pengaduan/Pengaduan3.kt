@@ -209,9 +209,9 @@ fun Pengaduan3(navController: NavController) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Selanjutnya",
+                        text = "Kirim Pengaduan",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.SemiBold,
                         fontFamily = poppins
                     )
                 }

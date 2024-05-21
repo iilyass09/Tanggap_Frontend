@@ -172,7 +172,7 @@ fun Pengaduan(navController: NavController) {
                     Text(
                         text = "Selanjutnya",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.SemiBold,
                         fontFamily = poppins
                     )
                 }

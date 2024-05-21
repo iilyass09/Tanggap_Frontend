@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -67,7 +69,7 @@ fun Pengaduan2(navController: NavController) {
             ) {
                 Text(
                     text = "Isi Form",
-                    fontSize = 14.sp,
+                    fontSize = 14.sp
                 )
                 Text(
                     text = "Bukti",
@@ -77,10 +79,20 @@ fun Pengaduan2(navController: NavController) {
                 Text(
                     modifier = Modifier.offset(x = (-7).dp),
                     text = "Pratinjau",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
                 )
             }
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Tambahkan bukti foto (opsional)",
+                color = Color.Black,
+                fontSize = 20.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(50.dp))
             ImagePicker()
             Spacer(modifier = Modifier.weight(1f))
             Button(
@@ -103,7 +115,7 @@ fun Pengaduan2(navController: NavController) {
                     Text(
                         text = "Selanjutnya",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.SemiBold,
                         fontFamily = poppins
                     )
                 }
