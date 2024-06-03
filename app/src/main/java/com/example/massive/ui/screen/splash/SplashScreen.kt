@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.data.UserDataStore
 import com.example.massive.ui.navigation.Screen
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -33,17 +34,29 @@ fun SplashScreen(navController: NavController) {
     val userDataStore = UserDataStore(context)
     val loginStatusFlow = userDataStore.getStatusLogin
     val statusLoggedIn by loginStatusFlow.collectAsState(initial = false)
+    val isFirstLaunch = userDataStore.getFirstLaunch.collectAsState(initial = true)
+    
     LaunchedEffect(
         key1 = statusLoggedIn,
         block = {
-            if (statusLoggedIn) {
+            delay(500L)
+            if (isFirstLaunch.value){
+                navController.navigate(Screen.Onboarding1.route){
+                    popUpTo(Screen.Splash.route){
+                        inclusive = true
+                    }
+                }
+                userDataStore.setFirstTimeLaunch(false)
+            }
+            else if (statusLoggedIn) {
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Splash.route) {
                         inclusive = true
                     }
                 }
-            } else {
-                navController.navigate(Screen.Onboarding1.route) {
+            }
+            else {
+                navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.Splash.route) {
                         inclusive = true
                     }

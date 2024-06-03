@@ -42,6 +42,7 @@ import com.example.massive.ui.screen.akun.HubungiKami
 import com.example.massive.ui.screen.akun.KebijakanPrivasi
 import com.example.massive.ui.screen.akun.PengaduanSaya
 import com.example.massive.ui.screen.akun.Pengaturan
+import com.example.massive.ui.screen.chat.CustomerService
 import com.example.massive.ui.screen.fpassword.FPassword1
 import com.example.massive.ui.screen.fpassword.FPassword2
 import com.example.massive.ui.screen.fpassword.FPassword3
@@ -178,6 +179,7 @@ fun Massive(
             composable(Screen.KebijakanPrivasi.route){ KebijakanPrivasi(navController) }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
+            composable(Screen.CustomerService.route){ CustomerService(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
             composable(
                 Screen.DetailBerita.route + "/{beritaId}",

@@ -44,7 +44,7 @@ fun HubungiKami(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {  }
+                    .clickable { navController.navigate(Screen.CustomerService.route) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.customer_service),

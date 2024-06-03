@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.massive.ui.utils.PreferencesKey.FIRST_TIME_LAUNCH_KEY
 import com.example.massive.ui.utils.PreferencesKey.STATUS_LOGIN_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,11 +19,19 @@ class UserDataStore(private val context: Context) {
         preferences[STATUS_LOGIN_KEY] ?: false
     }
 
+    val getFirstLaunch: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[FIRST_TIME_LAUNCH_KEY] ?: true
+    }
+
     suspend fun saveStatus(isLogin: Boolean) = context.dataStore.edit { preferences ->
         preferences[STATUS_LOGIN_KEY] = isLogin
     }
 
     suspend fun clearStatus() = context.dataStore.edit { preferences ->
         preferences.remove(STATUS_LOGIN_KEY)
+    }
+
+    suspend fun setFirstTimeLaunch(isFirstTime : Boolean) = context.dataStore.edit { preferences ->
+        preferences[FIRST_TIME_LAUNCH_KEY] = isFirstTime
     }
 }

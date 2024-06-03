@@ -82,10 +82,10 @@ fun LoginScreen(
                 sharedPreferencesManager.password = password
                 coroutineScope.launch {
                     userDataStore.saveStatus(true)
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Login.route) {
-                            inclusive = true
-                        }
+                }
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
                     }
                 }
             }

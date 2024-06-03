@@ -34,5 +34,5 @@ sealed class Screen(val route : String) {
     object KebijakanPrivasi : Screen("kebijakan_privasi")
     object Chatbot : Screen("chatbot")
     object Chatbot2 : Screen("chatbot2")
-    object CustomerService : Screen("chatbot2")
+    object CustomerService : Screen("customer_service")
 }

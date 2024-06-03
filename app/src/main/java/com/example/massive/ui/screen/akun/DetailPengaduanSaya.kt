@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HourglassTop
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -24,6 +25,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -45,11 +49,14 @@ import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru
+import com.example.massive.ui.theme.Merah
 import com.example.massive.ui.theme.poppins
 
 @Composable
 fun DetailPengaduanSaya(navController: NavController) {
-    Scaffold {
+    var shouldShowDialog = remember { mutableStateOf(false) }
+
+    Box {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -226,10 +233,10 @@ fun DetailPengaduanSaya(navController: NavController) {
                 )
             }
             Spacer(modifier = Modifier.height(15.dp))
-            OutlinedButton(
-                onClick = {  },
+            Button(
+                onClick = { shouldShowDialog.value = true },
                 shape = MaterialTheme.shapes.small,
-                border = BorderStroke(1.dp, Biru),
+                colors = ButtonDefaults.buttonColors(Merah),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
@@ -239,11 +246,22 @@ fun DetailPengaduanSaya(navController: NavController) {
                     text = "Batalkan Pengaduan",
                     fontSize = 15.sp,
                     fontFamily = poppins,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
-                    color = Biru,
+                    color = Color.White,
                 )
             }
+        }
+        if (shouldShowDialog.value) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            )
+        }
+
+        if (shouldShowDialog.value) {
+            MyAlertDialog(shouldShowDialog = shouldShowDialog,navController)
         }
     }
 }

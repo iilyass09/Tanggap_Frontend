@@ -8,4 +8,5 @@ object PreferencesKey {
     const val PASSWORD_KEY = "password"
 
     val STATUS_LOGIN_KEY = booleanPreferencesKey("StatusLogin")
+    val FIRST_TIME_LAUNCH_KEY = booleanPreferencesKey("first_open")
 }

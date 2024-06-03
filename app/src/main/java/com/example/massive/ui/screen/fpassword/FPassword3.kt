@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
+import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -71,7 +72,7 @@ fun FPassword3(navController: NavController) {
 
             Spacer(modifier = Modifier.height(30.dp))
             Button(
-                onClick = { },
+                onClick = { navController.navigate(Screen.Login.route) },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()

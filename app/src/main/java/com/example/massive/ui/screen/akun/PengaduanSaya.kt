@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HourglassTop
 import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -43,6 +44,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Button
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
@@ -52,11 +56,14 @@ import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru
+import com.example.massive.ui.theme.Merah
 import com.example.massive.ui.theme.poppins
 
 @Composable
 fun PengaduanSaya(navController: NavController) {
-    Scaffold {
+    var shouldShowDialog = remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -138,10 +145,10 @@ fun PengaduanSaya(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        OutlinedButton(
-                            onClick = {  },
+                        Button(
+                            onClick = { shouldShowDialog.value = true },
                             shape = MaterialTheme.shapes.small,
-                            border = BorderStroke(1.dp, Biru),
+                            colors = ButtonDefaults.buttonColors(Merah),
                             modifier = Modifier
                                 .width(155.dp)
                                 .height(70.dp)
@@ -151,9 +158,9 @@ fun PengaduanSaya(navController: NavController) {
                                 text = "Batalkan Pengaduan",
                                 fontSize = 10.sp,
                                 fontFamily = poppins,
-                                fontWeight = FontWeight.Medium,
+                                fontWeight = FontWeight.SemiBold,
                                 textAlign = TextAlign.Center,
-                                color = Biru,
+                                color = Color.White,
                             )
                         }
                         Button(
@@ -168,7 +175,7 @@ fun PengaduanSaya(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 text = "Tinjau Pengaduan",
                                 fontFamily = poppins,
-                                fontWeight = FontWeight.Medium,
+                                fontWeight = FontWeight.SemiBold,
                                 fontSize = 11.sp,
                                 textAlign = TextAlign.Center,
                             )
@@ -177,8 +184,89 @@ fun PengaduanSaya(navController: NavController) {
                 }
             }
         }
+        if (shouldShowDialog.value) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            )
+        }
+
+        if (shouldShowDialog.value) {
+            MyAlertDialog(shouldShowDialog = shouldShowDialog,navController)
+        }
     }
 }
+
+@Composable
+fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>, navController: NavController) {
+    AlertDialog(
+        onDismissRequest = {
+            shouldShowDialog.value = false
+        },
+        text = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Batalkan Pengaduan?",
+                    color = Color.Black,
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp
+                )
+            }
+        },
+        confirmButton = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    Button(
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Abu),
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(100.dp),
+                        onClick = {
+                            shouldShowDialog.value = false
+                        }
+                    ) {
+                        Text(
+                            text = "Tidak",
+                            color = Color.White,
+                            fontFamily = poppins,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Button(
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Merah),
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(100.dp),
+                        onClick = {
+                            navController.navigate(Screen.Home.route)
+                        }
+                    ) {
+                        Text(
+                            text = "Ya",
+                            color = Color.White,
+                            fontFamily = poppins,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            }
+        }
+    )
+}
+
 
 @Preview
 @Composable
