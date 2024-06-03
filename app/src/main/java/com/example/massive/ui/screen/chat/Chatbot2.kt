@@ -1,36 +1,19 @@
 package com.example.massive.ui.screen.chat
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,21 +21,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
+import com.example.massive.data.ChatRequest
+import com.example.massive.data.ChatResponse
+import com.example.massive.data.RetrofitInstance
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.poppins
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun Chatbot2(navController: NavController) {
+    val chatMessages = remember { mutableStateListOf<Pair<String, Boolean>>() }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        Column{
+        Column {
             ChatbotTopBar(navController)
-            Spacer(modifier = Modifier.weight(1f))
-            SendMessageTextField()
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
+                items(chatMessages) { message ->
+                    ChatBubble(message = message.first, isUser = message.second)
+                }
+            }
+            SendMessageTextField(chatMessages)
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatbotTopBar(navController: NavController) {
@@ -111,8 +111,9 @@ fun ChatbotTopBar(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SendMessageTextField() {
+fun SendMessageTextField(chatMessages: MutableList<Pair<String, Boolean>>) {
     var message by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -134,7 +135,29 @@ fun SendMessageTextField() {
             ),
             trailingIcon = {
                 IconButton(
-                    onClick = { },
+                    onClick = {
+                        if (message.isNotEmpty()) {
+                            chatMessages.add(Pair(message, true))
+                            val api = RetrofitInstance.api
+                            val call = api.sendMessage(ChatRequest(message))
+                            call.enqueue(object : Callback<ChatResponse> {
+                                override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
+                                    if (response.isSuccessful) {
+                                        response.body()?.let {
+                                            chatMessages.add(Pair(it.response, false))
+                                        }
+                                    } else {
+                                        Toast.makeText(context, "Failed to get response", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<ChatResponse>, t: Throwable) {
+                                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                            message = ""
+                        }
+                    },
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Icon(
@@ -144,5 +167,26 @@ fun SendMessageTextField() {
                 }
             }
         )
+    }
+}
+
+@Composable
+fun ChatBubble(message: String, isUser: Boolean) {
+    Row(
+        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(if (isUser) Color.Blue else Color.Gray)
+                .padding(10.dp)
+        ) {
+            Text(
+                text = message,
+                color = Color.White
+            )
+        }
     }
 }
