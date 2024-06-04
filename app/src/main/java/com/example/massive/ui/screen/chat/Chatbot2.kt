@@ -6,12 +6,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -25,6 +27,7 @@ import com.example.massive.data.ChatRequest
 import com.example.massive.data.ChatResponse
 import com.example.massive.data.RetrofitInstance
 import com.example.massive.ui.theme.Abu2
+import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 import retrofit2.Call
 import retrofit2.Callback
@@ -176,16 +179,18 @@ fun ChatBubble(message: String, isUser: Boolean) {
         horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(10.dp)
+            .clip(RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp))
+
     ) {
         Box(
             modifier = Modifier
-                .background(if (isUser) Color.Blue else Color.Gray)
+                .background(if (isUser) Biru else Abu2)
                 .padding(10.dp)
         ) {
             Text(
                 text = message,
-                color = Color.White
+                color = if (isUser) Color.White else Color.Black
             )
         }
     }
