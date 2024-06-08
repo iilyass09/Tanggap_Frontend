@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,35 +25,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.data.models.Berita
-import com.example.massive.data.repository.DataBerita
-import com.example.massive.data.repository.DataKomunitas
-import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.data.models.Komunitas
+import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val komunitass: List<Komunitas> = DataKomunitas.ListKomunitas
-    val beritas: List<Berita> = DataBerita.ListBerita
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = viewModel()
+) {
+    val komunitasList by viewModel.komunitasList.collectAsState()
+    val beritaList by viewModel.beritaList.collectAsState()
     val context = LocalContext.current
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val name = sharedPreferencesManager.name ?: ""
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column {
             HomeTopBar(name = name)
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+            ) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy((-15).dp),
                     modifier = Modifier.fillMaxSize()
@@ -60,7 +65,7 @@ fun HomeScreen(navController: NavController) {
                         Banner()
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(komunitass.take(3)) { komunitas ->
+                    items(komunitasList.take(3)) { komunitas ->
                         KomunitasItem(komunitas = komunitas) { komunitasId ->
                             navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
                         }
@@ -84,7 +89,7 @@ fun HomeScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    items(beritas.filter { it.id in 1..3 }) { berita ->
+                    items(beritaList.filter { it.id in 1..3 }) { berita ->
                         BeritaItem(berita = berita) { beritaId ->
                             navController.navigate(Screen.DetailBerita.route + "/$beritaId")
                         }
@@ -94,7 +99,6 @@ fun HomeScreen(navController: NavController) {
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -333,50 +337,50 @@ fun BeritaItem(
     onItemClicked : (Int) -> Unit
 ) {
     if (berita.id in 1..3) {
-    Surface(
-        color = Color.White,
-        shape = RoundedCornerShape(20.dp),
-        shadowElevation = 10.dp,
-        modifier = Modifier
-            .padding(20.dp)
-            .height(150.dp)
-            .fillMaxWidth()
-    ) {
-        Row(
+        Surface(
+            color = Color.White,
+            shape = RoundedCornerShape(20.dp),
+            shadowElevation = 10.dp,
             modifier = Modifier
+                .padding(20.dp)
+                .height(150.dp)
                 .fillMaxWidth()
-                .clickable { onItemClicked(berita.id) }
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                modifier = Modifier.width(150.dp)
-            ) {
-                Text(
-                    text = berita.judul,
-                    color = Color.Black,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    fontStyle = FontStyle.Normal,
-                    fontFamily = poppins,
-                    lineHeight = 18.sp
-                )
-                Text(
-                    text = berita.waktu,
-                    color = Abu,
-                    fontSize = 10.sp,
-                    fontFamily = poppins,
-                    fontWeight = FontWeight.Normal,
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Image(
-                painter = painterResource(id = berita.foto),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            Row(
                 modifier = Modifier
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxWidth()
+                    .clickable { onItemClicked(berita.id) }
+                    .padding(20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier.width(150.dp)
+                ) {
+                    Text(
+                        text = berita.judul,
+                        color = Color.Black,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        fontStyle = FontStyle.Normal,
+                        fontFamily = poppins,
+                        lineHeight = 18.sp
+                    )
+                    Text(
+                        text = berita.waktu,
+                        color = Abu,
+                        fontSize = 10.sp,
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.Normal,
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(
+                    painter = painterResource(id = berita.foto),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(120.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
             }
         }
