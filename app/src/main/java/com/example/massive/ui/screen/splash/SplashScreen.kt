@@ -1,6 +1,5 @@
 package com.example.massive.ui.screen.splash
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.data.UserDataStore
+import com.example.massive.data.storage.UserDataStore
 import com.example.massive.ui.navigation.Screen
 import kotlinx.coroutines.delay
 

@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.massive.data.DataKomunitas
-import com.example.massive.model.Komunitas
+import com.example.massive.data.repository.DataKomunitas
+import com.example.massive.data.models.Komunitas
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.home.KomunitasItem
 

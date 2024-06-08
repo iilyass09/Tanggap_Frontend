@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.model.Berita
-import com.example.massive.data.DataBerita
-import com.example.massive.data.DataKomunitas
-import com.example.massive.data.SharedPreferencesManager
-import com.example.massive.model.Komunitas
+import com.example.massive.data.models.Berita
+import com.example.massive.data.repository.DataBerita
+import com.example.massive.data.repository.DataKomunitas
+import com.example.massive.data.storage.SharedPreferencesManager
+import com.example.massive.data.models.Komunitas
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru

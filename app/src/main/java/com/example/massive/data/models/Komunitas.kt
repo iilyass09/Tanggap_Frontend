@@ -1,4 +1,4 @@
-package com.example.massive.model
+package com.example.massive.data.models
 
 data class Komunitas(
     val id: Int,

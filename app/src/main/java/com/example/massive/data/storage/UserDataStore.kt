@@ -1,4 +1,4 @@
-package com.example.massive.data
+package com.example.massive.data.storage
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences

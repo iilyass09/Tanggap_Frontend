@@ -1,4 +1,4 @@
-package com.example.massive.data
+package com.example.massive.data.api
 
 import retrofit2.Call
 import retrofit2.http.Body

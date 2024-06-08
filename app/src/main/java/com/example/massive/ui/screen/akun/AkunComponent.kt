@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,12 +29,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
+import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NamaLengkap(isEditable: Boolean) {
+    val context = LocalContext.current
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val name = sharedPreferencesManager.name ?: ""
     var namaLengkap by remember { mutableStateOf("Muhammad Aziz") }
 
     Column(
@@ -49,7 +54,7 @@ fun NamaLengkap(isEditable: Boolean) {
             textAlign = TextAlign.Start
         )
         OutlinedTextField(
-            value = namaLengkap,
+            value = name,
             shape = MaterialTheme.shapes.medium,
             onValueChange = { newText -> namaLengkap = newText },
             singleLine = true,

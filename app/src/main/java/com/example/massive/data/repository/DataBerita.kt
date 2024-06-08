@@ -1,7 +1,7 @@
-package com.example.massive.data
+package com.example.massive.data.repository
 
 import com.example.massive.R
-import com.example.massive.model.Berita
+import com.example.massive.data.models.Berita
 
 object DataBerita {
     val ListBerita = listOf(

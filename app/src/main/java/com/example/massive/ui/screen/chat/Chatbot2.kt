@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.data.ChatRequest
-import com.example.massive.data.ChatResponse
-import com.example.massive.data.RetrofitInstance
+import com.example.massive.data.api.ChatRequest
+import com.example.massive.data.api.ChatResponse
+import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins

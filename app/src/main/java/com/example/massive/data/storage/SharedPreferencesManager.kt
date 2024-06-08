@@ -1,4 +1,4 @@
-package com.example.massive.data
+package com.example.massive.data.storage
 
 import android.content.Context
 import com.example.massive.ui.utils.PreferencesKey.NAME_KEY

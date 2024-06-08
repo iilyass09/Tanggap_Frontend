@@ -1,4 +1,4 @@
-package com.example.massive.data
+package com.example.massive.data.repository
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddRoad
@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.CastForEducation
 import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.Masks
 import androidx.compose.material.icons.filled.Money
-import com.example.massive.model.Kategori
+import com.example.massive.data.models.Kategori
 
 object DataKategori {
     val ListKategori = listOf(

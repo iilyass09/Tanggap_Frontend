@@ -1,6 +1,7 @@
 // com/example/massive/data/RetrofitInstance.kt
-package com.example.massive.data
+package com.example.massive.data.storage
 
+import com.example.massive.data.api.ChatbotApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

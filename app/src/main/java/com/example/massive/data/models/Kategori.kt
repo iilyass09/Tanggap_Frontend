@@ -1,4 +1,4 @@
-package com.example.massive.model
+package com.example.massive.data.models
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
