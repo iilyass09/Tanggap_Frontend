@@ -141,7 +141,7 @@ fun SendMessageTextField(chatMessages: MutableList<Pair<String, Boolean>>) {
                     onClick = {
                         if (message.isNotEmpty()) {
                             chatMessages.add(Pair(message, true))
-                            val api = RetrofitInstance.api
+                            val api = RetrofitInstance.chatbotApi
                             val call = api.sendMessage(ChatRequest(message))
                             call.enqueue(object : Callback<ChatResponse> {
                                 override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {

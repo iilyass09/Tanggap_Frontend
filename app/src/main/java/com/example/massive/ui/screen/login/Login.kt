@@ -1,5 +1,7 @@
 package com.example.massive.ui.screen.login
 
+import LoginViewModel
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
@@ -49,32 +52,55 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    loginViewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val userDataStore = UserDataStore(context)
-    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     LoginContent(
-        name = name,
+        name = email,
         password = password,
-        onNameChange = { name = it },
+        onNameChange = { email = it },
         onPasswordChange = { password = it },
         onLoginClick = {
-            if (name.isBlank() || password.isBlank()){
-                Toast.makeText(context, "Nama dan Password Wajib Diisi", Toast.LENGTH_SHORT).show()
+            if (email.isBlank() || password.isBlank()) {
+                Toast.makeText(context, "Email dan Password Wajib Diisi", Toast.LENGTH_SHORT).show()
             } else {
-                sharedPreferencesManager.name = name
-                sharedPreferencesManager.password = password
                 coroutineScope.launch {
-                    userDataStore.saveStatus(true)
-                }
-                navController.navigate(Screen.Home.route) {
-                    popUpTo(Screen.Splash.route) {
-                        inclusive = true
+                    try {
+                        val loginResponse = loginViewModel.login(email, password, sharedPreferencesManager)
+                        Log.d("LoginResponse", "Respons Lengkap: $loginResponse")
+
+                        // Cek struktur dan isi dari loginResponse
+                        loginResponse?.let { response ->
+                            Log.d("Token", "Token dari Respons: ${response.data.token}")
+                        }
+
+                        if (loginResponse != null && loginResponse.data.token.isNotBlank()) {
+                            val token = loginResponse.data.token
+                            Log.d("Token", "Token Valid: $token")
+                            sharedPreferencesManager.saveToken(token)
+                            Toast.makeText(context, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                            sharedPreferencesManager.name = email
+                            sharedPreferencesManager.password = password
+                            userDataStore.saveStatus(true)
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Splash.route) {
+                                    inclusive = true
+                                }
+                            }
+                        } else {
+                            Log.d("Token", "Token Tidak Valid atau Null")
+                            Toast.makeText(context, "Email atau Password anda salah", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        Log.e("LoginError", "Error: ${e.message}")
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

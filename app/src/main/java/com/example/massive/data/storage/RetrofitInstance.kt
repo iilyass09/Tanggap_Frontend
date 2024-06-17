@@ -1,14 +1,37 @@
 package com.example.massive.data.storage
 
+import com.example.massive.data.api.Berita
+import com.example.massive.data.api.BeritaApi
 import com.example.massive.data.api.ChatbotApi
+import com.example.massive.data.api.LoginApi
+import com.example.massive.data.api.RegisterApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val CHATBOT_URL = "https://chatbot-tanggap-c9421ff1fead.herokuapp.com/"
+    private const val CHATBOT_URL = "https://flask-docker.1i9m1x34nm5m.us-east.codeengine.appdomain.cloud/"
+    private const val BACKEND_URL = "http://202.10.41.84:5000"
 
-    //API CHATBOT
-    val api: ChatbotApi by lazy {
+    //Login
+    val loginApi: LoginApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BACKEND_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(LoginApi::class.java)
+    }
+
+    //Register
+    val registerApi: RegisterApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BACKEND_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RegisterApi::class.java)
+    }
+
+    //Chatbot
+    val chatbotApi: ChatbotApi by lazy {
         Retrofit.Builder()
             .baseUrl(CHATBOT_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -16,5 +39,12 @@ object RetrofitInstance {
             .create(ChatbotApi::class.java)
     }
 
-    //API BERITA
+    //Berita
+    val beritaApi: BeritaApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BACKEND_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BeritaApi::class.java)
+    }
 }

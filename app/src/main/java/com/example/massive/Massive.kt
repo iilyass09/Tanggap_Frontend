@@ -15,12 +15,11 @@ import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.example.massive.ui.screen.akun.AkunScreen
-import com.example.massive.ui.screen.berita.BeritaScreen
-import com.example.massive.ui.screen.berita.DetailBerita
 import com.example.massive.ui.screen.chat.Chatbot2
 import com.example.massive.ui.screen.chat.ChatbotScreen
 import com.example.massive.ui.screen.community.CommunityScreen
@@ -31,7 +30,6 @@ import com.example.massive.ui.screen.login.LoginScreen
 import com.example.massive.ui.screen.onboarding.Onboarding1
 import com.example.massive.ui.screen.onboarding.Onboarding2
 import com.example.massive.ui.screen.onboarding.Onboarding3
-import com.example.massive.ui.screen.register.Register
 import com.example.massive.ui.screen.community.DetailCommunity
 import com.example.massive.ui.screen.splash.SplashScreen
 import com.example.massive.ui.screen.akun.AkunSaya
@@ -42,6 +40,8 @@ import com.example.massive.ui.screen.akun.HubungiKami
 import com.example.massive.ui.screen.akun.KebijakanPrivasi
 import com.example.massive.ui.screen.akun.PengaduanSaya
 import com.example.massive.ui.screen.akun.Pengaturan
+import com.example.massive.ui.screen.berita.BeritaScreen
+import com.example.massive.ui.screen.berita.BeritaViewModel
 import com.example.massive.ui.screen.chat.CustomerService
 import com.example.massive.ui.screen.fpassword.FPassword1
 import com.example.massive.ui.screen.fpassword.FPassword2
@@ -50,6 +50,7 @@ import com.example.massive.ui.screen.pengaduan.Panduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan
 import com.example.massive.ui.screen.pengaduan.Pengaduan2
 import com.example.massive.ui.screen.pengaduan.Pengaduan3
+import com.example.massive.ui.screen.register.RegisterScreen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
 import com.example.massive.ui.utils.HideTopBar
@@ -158,7 +159,7 @@ fun Massive(
             composable(Screen.Onboarding2.route){ Onboarding2(navController) }
             composable(Screen.Onboarding3.route){ Onboarding3(navController) }
             composable(Screen.Login.route){ LoginScreen(navController) }
-            composable(Screen.Register.route){ Register(navController) }
+            composable(Screen.Register.route){ RegisterScreen(navController) }
             composable(Screen.FPassword1.route){ FPassword1(navController) }
             composable(Screen.FPassword2.route){ FPassword2(navController) }
             composable(Screen.FPassword3.route){ FPassword3(navController) }
@@ -167,7 +168,7 @@ fun Massive(
             composable(Screen.Pengaduan.route) { Pengaduan(navController) }
             composable(Screen.Pengaduan2.route) { Pengaduan2(navController) }
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
-            composable(Screen.Berita.route){ BeritaScreen(navController) }
+            composable(Screen.Berita.route) { BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController) }
             composable(Screen.AkunSaya.route){ AkunSaya(navController) }
             composable(Screen.PengaduanSaya.route){ PengaduanSaya(navController) }
@@ -181,12 +182,6 @@ fun Massive(
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.CustomerService.route){ CustomerService(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
-            composable(
-                Screen.DetailBerita.route + "/{beritaId}",
-                arguments = listOf(navArgument("beritaId") { type = NavType.IntType})
-            ) { navBackStackEntry ->
-                DetailBerita(navController = navController, beritasId = navBackStackEntry.arguments?.getInt("beritaId"))
-            }
             composable(
                 Screen.DetailCommunity.route + "/{komunitasId}",
                 arguments = listOf(navArgument("komunitasId") { type = NavType.IntType})

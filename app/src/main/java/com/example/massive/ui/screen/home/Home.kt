@@ -14,10 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -28,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.massive.R
-import com.example.massive.data.models.Berita
 import com.example.massive.data.models.Komunitas
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
@@ -42,7 +39,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
     val komunitasList by viewModel.komunitasList.collectAsState()
-    val beritaList by viewModel.beritaList.collectAsState()
     val context = LocalContext.current
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val name = sharedPreferencesManager.name ?: ""
@@ -88,11 +84,6 @@ fun HomeScreen(
                             fontFamily = poppins
                         )
                         Spacer(modifier = Modifier.height(10.dp))
-                    }
-                    items(beritaList.filter { it.id in 1..3 }) { berita ->
-                        BeritaItem(berita = berita) { beritaId ->
-                            navController.navigate(Screen.DetailBerita.route + "/$beritaId")
-                        }
                     }
                 }
             }
@@ -331,58 +322,3 @@ fun KomunitasItem(
     }
 }
 
-@Composable
-fun BeritaItem(
-    berita: Berita,
-    onItemClicked : (Int) -> Unit
-) {
-    if (berita.id in 1..3) {
-        Surface(
-            color = Color.White,
-            shape = RoundedCornerShape(20.dp),
-            shadowElevation = 10.dp,
-            modifier = Modifier
-                .padding(20.dp)
-                .height(150.dp)
-                .fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onItemClicked(berita.id) }
-                    .padding(20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(
-                    modifier = Modifier.width(150.dp)
-                ) {
-                    Text(
-                        text = berita.judul,
-                        color = Color.Black,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
-                        fontStyle = FontStyle.Normal,
-                        fontFamily = poppins,
-                        lineHeight = 18.sp
-                    )
-                    Text(
-                        text = berita.waktu,
-                        color = Abu,
-                        fontSize = 10.sp,
-                        fontFamily = poppins,
-                        fontWeight = FontWeight.Normal,
-                    )
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                Image(
-                    painter = painterResource(id = berita.foto),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-            }
-        }
-    }
-}
