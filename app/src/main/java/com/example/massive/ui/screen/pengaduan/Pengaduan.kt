@@ -49,6 +49,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.massive.data.api.Aduan
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
@@ -57,8 +58,12 @@ import com.example.massive.ui.theme.poppins
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Pengaduan(navController: NavController) {
+fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val currentStep = remember { mutableStateOf(0) }
+    val textJudul = remember { mutableStateOf("") }
+    val textUraian = remember { mutableStateOf("") }
+    val textLokasi = remember { mutableStateOf("") }
+
     Scaffold(
         modifier = Modifier
             .offset(y = (-10).dp)
@@ -113,7 +118,6 @@ fun Pengaduan(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             // TEXTFIELD JUDUL
-            val textJudul = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -134,7 +138,6 @@ fun Pengaduan(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             // TEXTFIELD URAIAN
-            val textUraian = remember { mutableStateOf("") }
             OutlinedTextField(
                 shape = RoundedCornerShape(5),
                 modifier = Modifier
@@ -156,8 +159,7 @@ fun Pengaduan(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // TEXTFIELD URAIAN
-            val textLokasi = remember { mutableStateOf("") }
+            // TEXTFIELD LOKASI
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -170,15 +172,35 @@ fun Pengaduan(navController: NavController) {
                     cursorColor = Biru,
                 ),
                 keyboardActions = KeyboardActions.Default,
-                value = textUraian.value,
+                value = textLokasi.value,
                 onValueChange = {
-                    textUraian.value = it
+                    textLokasi.value = it
                 },
             )
 
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { navController.navigate(Screen.Pengaduan2.route) },
+                onClick = {
+                    val pengaduan = Aduan(
+                        judul = textJudul.value,
+                        uraian = textUraian.value,
+                        lokasi = textLokasi.value,
+                        userId = "",
+                        foto = "",
+                        status = "",
+                        tanggapan = ""
+                    )
+                    viewModel.createAduan(
+                        aduan = pengaduan,
+                        onSuccess = { response ->
+                            navController.navigate(Screen.Pengaduan2.route)
+                        },
+                        onError = { error ->
+                            // Handle error
+                            Log.e("Pengaduan", "Error: ${error.message}")
+                        }
+                    )
+                },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -261,7 +283,6 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean,
     }
 }
 
-
 @Composable
 fun ClickableTextPanduan(onTextSelected : (String) -> Unit) {
     val initialText = "Panduan untuk melakukan pengaduan "
@@ -296,4 +317,5 @@ fun ClickableTextPanduan(onTextSelected : (String) -> Unit) {
         }
     )
 }
+
 

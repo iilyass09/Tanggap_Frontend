@@ -52,6 +52,7 @@ android {
 
 
 dependencies {
+    implementation ("com.auth0.android:jwtdecode:2.0.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
     implementation("com.airbnb.android:lottie-compose:6.0.0")
