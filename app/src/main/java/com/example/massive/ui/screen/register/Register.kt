@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,28 +51,21 @@ fun RegisterScreen(
     var namaBelakang by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var level by remember { mutableStateOf("admin") }
-    var aktif by remember { mutableStateOf("1") }
+    var level = "member"
+    var aktif = "1"
 
     RegisterContent(
         namaDepan = namaDepan,
         namaBelakang = namaBelakang,
         email = email,
         password = password,
-        level = level,
-        aktif = aktif,
         onNamaDepanChange = { namaDepan = it },
         onNamaBelakangChange = { namaBelakang = it },
         onEmailChange = { email = it },
         onPasswordChange = { password = it },
-        onLevelChange = { level = it },
-        onAktifChange = { aktif = it },
         onRegisterClick = {
-            if (namaDepan.isBlank() || namaBelakang.isBlank() || email.isBlank() || password.isBlank() ||
-                (level != "admin" && level != "member") || (aktif != "0" && aktif != "1")
-            ) {
-                Toast.makeText(context, "Semua kolom harus diisi dan valid", Toast.LENGTH_SHORT)
-                    .show()
+            if (namaDepan.isBlank() || namaBelakang.isBlank() || email.isBlank() || password.isBlank()) {
+                Toast.makeText(context, "Semua kolom harus diisi dan valid", Toast.LENGTH_SHORT).show()
             } else {
                 coroutineScope.launch {
                     try {
@@ -119,14 +113,10 @@ fun RegisterContent(
     namaBelakang: String,
     email: String,
     password: String,
-    level: String,
-    aktif: String,
     onNamaDepanChange: (String) -> Unit,
     onNamaBelakangChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLevelChange: (String) -> Unit,
-    onAktifChange: (String) -> Unit,
     onRegisterClick: () -> Unit,
     onLoginClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -139,8 +129,10 @@ fun RegisterContent(
             .padding(horizontal = 20.dp)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+            Spacer(modifier = Modifier.height(40.dp))
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -186,20 +178,6 @@ fun RegisterContent(
                 onValueChange = onPasswordChange,
                 label = "Kata Sandi"
             )
-            NameTextField(
-                value = level,
-                onValueChange = onLevelChange,
-                imageVector = Icons.Outlined.Person,
-                contentDescription = "Icon Level",
-                label = "Level (admin/member)",
-            )
-            NameTextField(
-                value = aktif,
-                onValueChange = onAktifChange,
-                imageVector = Icons.Outlined.Person,
-                contentDescription = "Icon Aktif",
-                label = "Aktif (0/1)",
-            )
             Button(
                 onClick = onRegisterClick,
                 colors = ButtonDefaults.buttonColors(Biru),
@@ -237,4 +215,10 @@ fun RegisterContent(
             Spacer(modifier = Modifier.height(160.dp))
         }
     }
+}
+
+@Preview
+@Composable
+private fun RegisterPrev() {
+    RegisterScreen(navController = rememberNavController())
 }

@@ -12,8 +12,8 @@ class RegisterViewModel : ViewModel() {
         namaBelakang: String,
         email: String,
         password: String,
-        level: String,
-        aktif: String
+        level: String = "member",
+        aktif: String = "1"
     ): RegisterResponse? {
         return try {
             val response = RetrofitInstance.registerApi.registerUser(

@@ -1,6 +1,5 @@
 package com.example.massive.ui.screen.login
 
-import LoginViewModel
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -19,10 +18,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,14 +54,15 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel() // Obtain ViewModel instance
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
-    val userDataStore = UserDataStore(context)
+    val userDataStore = remember { UserDataStore(context) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val isLoading by loginViewModel.isLoading.collectAsState()
 
     LoginContent(
         name = email,
@@ -73,29 +75,31 @@ fun LoginScreen(
             } else {
                 coroutineScope.launch {
                     try {
-                        val loginResponse = loginViewModel.login(email, password, sharedPreferencesManager)
-                        Log.d("LoginResponse", "Respons Lengkap: $loginResponse")
+                        loginViewModel.login(email, password, sharedPreferencesManager)?.let { loginResponse ->
+                            if (loginResponse.data.token.isNotBlank()) {
+                                val token = loginResponse.data.token
+                                val userId = loginResponse.data.id
+                                Log.d("Token", "Token Valid: $token")
+                                Log.d("User ID", "ID Pengguna Valid: $userId")
 
-                        // Cek struktur dan isi dari loginResponse
-                        loginResponse?.let { response ->
-                            Log.d("Token", "Token dari Respons: ${response.data.token}")
-                        }
+                                sharedPreferencesManager.saveToken(token)
+                                sharedPreferencesManager.userId = userId
+                                Toast.makeText(context, "Login Berhasil", Toast.LENGTH_SHORT).show()
 
-                        if (loginResponse != null && loginResponse.data.token.isNotBlank()) {
-                            val token = loginResponse.data.token
-                            Log.d("Token", "Token Valid: $token")
-                            sharedPreferencesManager.saveToken(token)
-                            Toast.makeText(context, "Login Berhasil", Toast.LENGTH_SHORT).show()
-                            sharedPreferencesManager.name = email
-                            sharedPreferencesManager.password = password
-                            userDataStore.saveStatus(true)
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Splash.route) {
-                                    inclusive = true
+                                sharedPreferencesManager.name = email
+                                sharedPreferencesManager.password = password
+                                userDataStore.saveStatus(true)
+
+                                navController.navigate(Screen.Home.route) {
+                                    popUpTo(Screen.Splash.route) {
+                                        inclusive = true
+                                    }
                                 }
+                            } else {
+                                Log.d("Token", "Token Tidak Valid atau Null")
+                                Toast.makeText(context, "Email atau Password anda salah", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Log.d("Token", "Token Tidak Valid atau Null")
+                        } ?: run {
                             Toast.makeText(context, "Email atau Password anda salah", Toast.LENGTH_SHORT).show()
                         }
                     } catch (e: Exception) {
@@ -111,9 +115,11 @@ fun LoginScreen(
         onSignUpClick = {
             navController.navigate(Screen.Register.route)
         },
+        isLoading = isLoading,
         modifier = modifier
     )
 }
+
 
 @Composable
 fun LoginContent(
@@ -125,6 +131,7 @@ fun LoginContent(
     moveToForgot: () -> Unit,
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLoading : Boolean
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -216,6 +223,13 @@ fun LoginContent(
                 }
             }
             Spacer(modifier = Modifier.height(160.dp))
+        }
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .offset(y = (-100).dp)
+            )
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.massive.ui.screen.berita
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -24,13 +26,18 @@ class BeritaViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     fun fetchBerita(token: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.value = true
             try {
                 val response = beritaApi.getBerita("Bearer $token")
                 if (response.isSuccessful) {
                     val data = response.body()?.data ?: emptyList()
                     _beritaList.emit(data)
+                    _errorMessage.emit(null)
                 } else {
                     _errorMessage.emit("Gagal memuat data berita")
                 }
@@ -40,6 +47,8 @@ class BeritaViewModel(
                 _errorMessage.emit("Error HTTP: ${e.message}")
             } catch (e: Exception) {
                 _errorMessage.emit("Error: ${e.message}")
+            } finally {
+                _isLoading.value = false
             }
         }
     }

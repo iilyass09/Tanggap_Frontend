@@ -1,10 +1,6 @@
 package com.example.massive.data.storage
 
-import com.example.massive.data.api.BeritaApi
-import com.example.massive.data.api.ChatbotApi
-import com.example.massive.data.api.LoginApi
-import com.example.massive.data.api.PengaduanApi
-import com.example.massive.data.api.RegisterApi
+import com.example.massive.data.api.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -55,5 +51,14 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PengaduanApi::class.java)
+    }
+
+    // Aduan
+    val aduanApi: AduanApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BACKEND_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AduanApi::class.java)
     }
 }

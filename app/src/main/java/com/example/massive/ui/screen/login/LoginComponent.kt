@@ -92,6 +92,8 @@ fun PasswordTextField(
         singleLine = true,
         visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
         label = { Text(text = label) },
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 20.dp)
     )
 }

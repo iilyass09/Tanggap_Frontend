@@ -27,8 +27,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.data.models.Komunitas
+import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
+import com.example.massive.ui.screen.berita.BeritaViewModel
+import com.example.massive.ui.screen.berita.BeritaViewModelFactory
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -36,12 +39,12 @@ import com.example.massive.ui.theme.poppins
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = viewModel()
+    viewModel2: HomeViewModel = viewModel()
 ) {
-    val komunitasList by viewModel.komunitasList.collectAsState()
     val context = LocalContext.current
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val name = sharedPreferencesManager.name ?: ""
+    val komunitasList by viewModel2.komunitasList.collectAsState()
 
     Surface(
         modifier = Modifier.fillMaxSize()

@@ -21,5 +21,6 @@ data class LoginResponse(
 )
 
 data class Data(
-    val token: String
+    val token: String,
+    val id : Int
 )

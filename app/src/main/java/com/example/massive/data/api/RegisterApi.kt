@@ -12,12 +12,12 @@ interface RegisterApi {
     @FormUrlEncoded
     @POST("/api/admin/register")
     suspend fun registerUser(
-        @Field("nama_depan") namaDepan: String,
-        @Field("nama_belakang") namaBelakang: String,
+        @Field("namadepan") namaDepan: String,
+        @Field("namabelakang") namaBelakang: String,
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("level") level: String, // enum 'admin' or 'member'
-        @Field("aktif") aktif: String  // '0' or '1'
+        @Field("level") level: String = "member",
+        @Field("aktif") aktif: String = "1"
     ): Response<RegisterResponse>
 }
 

@@ -1,4 +1,4 @@
-package com.example.massive
+package com.example.massive.ui.screen.pengaduan
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.massive.R
 
 @Composable
 fun ImagePicker() {

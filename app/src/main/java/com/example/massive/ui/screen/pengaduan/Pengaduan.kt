@@ -1,59 +1,62 @@
 package com.example.massive.ui.screen.pengaduan
 
 import android.annotation.SuppressLint
-import android.text.TextPaint
-import android.util.Log
+    import android.text.TextPaint
+    import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.massive.data.api.Aduan
-import com.example.massive.ui.navigation.Screen
-import com.example.massive.ui.theme.Biru
-import com.example.massive.ui.theme.componentsShapes
-import com.example.massive.ui.theme.poppins
+    import androidx.compose.foundation.background
+    import androidx.compose.foundation.layout.Arrangement
+    import androidx.compose.foundation.layout.Box
+    import androidx.compose.foundation.layout.Column
+    import androidx.compose.foundation.layout.PaddingValues
+    import androidx.compose.foundation.layout.Row
+    import androidx.compose.foundation.layout.Spacer
+    import androidx.compose.foundation.layout.fillMaxSize
+    import androidx.compose.foundation.layout.fillMaxWidth
+    import androidx.compose.foundation.layout.height
+    import androidx.compose.foundation.layout.heightIn
+    import androidx.compose.foundation.layout.offset
+    import androidx.compose.foundation.layout.padding
+    import androidx.compose.foundation.layout.size
+    import androidx.compose.foundation.shape.RoundedCornerShape
+    import androidx.compose.foundation.text.ClickableText
+    import androidx.compose.foundation.text.KeyboardActions
+    import androidx.compose.material3.Button
+    import androidx.compose.material3.ButtonDefaults
+    import androidx.compose.material3.Divider
+    import androidx.compose.material3.ExperimentalMaterial3Api
+    import androidx.compose.material3.OutlinedTextField
+    import androidx.compose.material3.Scaffold
+    import androidx.compose.material3.Text
+    import androidx.compose.material3.TextFieldDefaults
+    import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.mutableStateOf
+    import androidx.compose.runtime.remember
+    import androidx.compose.ui.Alignment
+    import androidx.compose.ui.Modifier
+    import androidx.compose.ui.draw.clip
+    import androidx.compose.ui.graphics.Brush
+    import androidx.compose.ui.graphics.Color
+    import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+    import androidx.compose.ui.graphics.nativeCanvas
+    import androidx.compose.ui.platform.LocalContext
+    import androidx.compose.ui.text.SpanStyle
+    import androidx.compose.ui.text.TextStyle
+    import androidx.compose.ui.text.buildAnnotatedString
+    import androidx.compose.ui.text.font.FontWeight
+    import androidx.compose.ui.text.input.TextFieldValue
+    import androidx.compose.ui.text.style.TextAlign
+    import androidx.compose.ui.text.withStyle
+    import androidx.compose.ui.unit.dp
+    import androidx.compose.ui.unit.sp
+    import androidx.navigation.NavController
+    import com.example.massive.data.api.Aduan
+    import com.example.massive.data.storage.SharedPreferencesManager
+    import com.example.massive.ui.navigation.Screen
+    import com.example.massive.ui.theme.Biru
+    import com.example.massive.ui.theme.componentsShapes
+    import com.example.massive.ui.theme.poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -63,6 +66,9 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
     val textJudul = remember { mutableStateOf("") }
     val textUraian = remember { mutableStateOf("") }
     val textLokasi = remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val userId = sharedPreferencesManager.userId
 
     Scaffold(
         modifier = Modifier
@@ -82,7 +88,7 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
             Spacer(modifier = Modifier.height(20.dp))
             StepsProgressBar(
                 numberOfSteps = 3,
-                currentStep = currentStep.value
+                currentStep = 0
             )
             Spacer(modifier = Modifier.height(5.dp))
             Row(
@@ -116,8 +122,6 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
             )
             ClickableTextPanduan(onTextSelected = { navController.navigate(Screen.Panduan.route) })
             Spacer(modifier = Modifier.height(10.dp))
-
-            // TEXTFIELD JUDUL
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -136,8 +140,6 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
                 },
             )
             Spacer(modifier = Modifier.height(10.dp))
-
-            // TEXTFIELD URAIAN
             OutlinedTextField(
                 shape = RoundedCornerShape(5),
                 modifier = Modifier
@@ -156,10 +158,7 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
                     textUraian.value = it
                 },
             )
-
             Spacer(modifier = Modifier.height(10.dp))
-
-            // TEXTFIELD LOKASI
             OutlinedTextField(
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -177,29 +176,37 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
                     textLokasi.value = it
                 },
             )
-
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = {
-                    val pengaduan = Aduan(
-                        judul = textJudul.value,
-                        uraian = textUraian.value,
-                        lokasi = textLokasi.value,
-                        userId = "",
-                        foto = "",
-                        status = "",
-                        tanggapan = ""
-                    )
-                    viewModel.createAduan(
-                        aduan = pengaduan,
-                        onSuccess = { response ->
-                            navController.navigate(Screen.Pengaduan2.route)
-                        },
-                        onError = { error ->
-                            // Handle error
-                            Log.e("Pengaduan", "Error: ${error.message}")
+                    if (userId != -1) {
+                        if (textJudul.value.isEmpty() || textUraian.value.isEmpty() || textLokasi.value.isEmpty()) {
+                            Log.e("Pengaduan", "Field tidak boleh kosong")
+                            return@Button
                         }
-                    )
+                        val pengaduan = Aduan(
+                            userId = userId,
+                            judul = textJudul.value,
+                            uraian = textUraian.value,
+                            lokasi = textLokasi.value,
+                            foto = "modol",
+                            status = "baru",
+                            tanggapan = "test"
+                        )
+                        viewModel.createAduan(
+                            aduan = pengaduan,
+                            onSuccess = { response ->
+                                Log.d("Pengaduan", "Sukses: ${response.message}")
+                                navController.navigate(Screen.Pengaduan2.route)
+                            },
+                            onError = { error ->
+                                Log.e("Pengaduan", "Error: ${error.message}")
+                                Toast.makeText(context, "Terjadi kesalahan saat mengirim data: ${error.message}", Toast.LENGTH_LONG).show()
+                            }
+                        )
+                    } else {
+                        Log.e("Pengaduan", "User ID tidak ditemukan")
+                    }
                 },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
@@ -247,7 +254,7 @@ fun StepsProgressBar(modifier: Modifier = Modifier, numberOfSteps: Int, currentS
 
 @Composable
 fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean, stepNumber: Int) {
-    var colors = if (isComplete || isCurrent) Biru else Color.LightGray
+    val colors = if (isComplete || isCurrent) Biru else Color.LightGray
     val innerCircleColor = if (isComplete || isCurrent) Biru else Color.LightGray
 
     Box(
@@ -269,12 +276,12 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean,
                         this.color = android.graphics.Color.WHITE
                         textAlign = android.graphics.Paint.Align.CENTER
                         textSize = 15.sp.toPx()
-                        isAntiAlias = true
+                        isFakeBoldText = true
                     }
                     canvas.nativeCanvas.drawText(
                         stepNumber.toString(),
                         size.width / 2,
-                        (size.height / 2) - (textPaint.ascent() + textPaint.descent()) / 2,
+                        (size.height / 2) - ((textPaint.descent() + textPaint.ascent()) / 2),
                         textPaint
                     )
                 }
@@ -284,38 +291,33 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean,
 }
 
 @Composable
-fun ClickableTextPanduan(onTextSelected : (String) -> Unit) {
-    val initialText = "Panduan untuk melakukan pengaduan "
-    val registerText = "klik disini."
-
-    val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = Biru)){
-            pushStringAnnotation(tag = registerText, annotation = registerText)
-            append(registerText)
+fun ClickableTextPanduan(onTextSelected: (String) -> Unit) {
+    val annotatedText = buildAnnotatedString {
+        append("Anda dapat membaca ketentuan yang berlaku pada halaman ")
+        pushStringAnnotation(tag = "Ketentuan Penggunaan", annotation = "Ketentuan Penggunaan")
+        withStyle(
+            style = SpanStyle(
+                color = Color.Blue,
+                fontWeight = FontWeight.Bold
+            )
+        ) {
+            append("Ketentuan Penggunaan")
         }
+        pop()
     }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 20.dp),
-        style = TextStyle(
-            fontSize = 13.sp,
-            fontWeight = FontWeight.Normal,
-            textAlign = TextAlign.Start,
-            fontFamily = poppins
-        ),
-        text = annotatedString, onClick = {offset ->
-            annotatedString.getStringAnnotations(offset,offset)
-                .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent","{${span.item}}")
 
-                    if (span.item == registerText) {
-                        onTextSelected(span.item)
-                    }
+    ClickableText(
+        text = annotatedText,
+        onClick = { offset ->
+            annotatedText.getStringAnnotations(tag = "Ketentuan Penggunaan", start = offset, end = offset)
+                .firstOrNull()?.let { annotation ->
+                    onTextSelected(annotation.item)
                 }
-        }
+        },
+        style = TextStyle(
+            fontFamily = poppins,
+            fontSize = 12.sp
+        ),
+        modifier = Modifier.fillMaxWidth()
     )
 }
-
-

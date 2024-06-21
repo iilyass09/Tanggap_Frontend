@@ -15,7 +15,6 @@ import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
@@ -40,8 +39,8 @@ import com.example.massive.ui.screen.akun.HubungiKami
 import com.example.massive.ui.screen.akun.KebijakanPrivasi
 import com.example.massive.ui.screen.akun.PengaduanSaya
 import com.example.massive.ui.screen.akun.Pengaturan
+import com.example.massive.ui.screen.berita.BeritaDetailScreen
 import com.example.massive.ui.screen.berita.BeritaScreen
-import com.example.massive.ui.screen.berita.BeritaViewModel
 import com.example.massive.ui.screen.chat.CustomerService
 import com.example.massive.ui.screen.fpassword.FPassword1
 import com.example.massive.ui.screen.fpassword.FPassword2
@@ -188,6 +187,12 @@ fun Massive(
             ) { navBackStackEntry ->
                 DetailCommunity(navController = navController, komunitassId = navBackStackEntry.arguments?.getInt("komunitasId"))
             }
+            composable("${Screen.BeritaDetail.route}/{beritaId}") { backStackEntry ->
+                val beritaId = backStackEntry.arguments?.getString("beritaId")
+                if (beritaId != null) {
+                    BeritaDetailScreen(beritaId)
+                }
+            }
         }
     }
 }
@@ -296,7 +301,7 @@ fun getTitleForRoute(route: String?): String {
         Screen.Chatbot.route -> stringResource(id = R.string.menu_chatbot)
         Screen.Panduan.route -> stringResource(id = R.string.menu_panduan)
         else -> {
-            if (route?.startsWith(Screen.DetailBerita.route) == true) {
+            if (route?.startsWith(Screen.BeritaDetail.route) == true) {
                 stringResource(id = R.string.menu_berita)
             } else if (route?.startsWith(Screen.DetailCommunity.route) == true) {
                 stringResource(id = R.string.menu_komunitas)
