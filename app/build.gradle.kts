@@ -52,6 +52,8 @@ android {
 
 
 dependencies {
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("com.auth0.android:jwtdecode:2.0.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
@@ -79,6 +81,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.libraries.mapsplatform.transportation:transportation-consumer:2.1.0")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

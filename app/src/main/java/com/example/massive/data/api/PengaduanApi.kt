@@ -28,7 +28,8 @@ data class Aduan(
 
     @field:SerializedName("status")
     val status: String
-)
+) {
+}
 
 data class PengaduanResponse(
     @field:SerializedName("status")

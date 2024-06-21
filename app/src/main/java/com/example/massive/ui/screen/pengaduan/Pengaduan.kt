@@ -184,26 +184,13 @@ fun Pengaduan(navController: NavController, viewModel: PengaduanViewModel = andr
                             Log.e("Pengaduan", "Field tidak boleh kosong")
                             return@Button
                         }
-                        val pengaduan = Aduan(
-                            userId = userId,
-                            judul = textJudul.value,
-                            uraian = textUraian.value,
-                            lokasi = textLokasi.value,
-                            foto = "modol",
-                            status = "baru",
-                            tanggapan = "test"
-                        )
-                        viewModel.createAduan(
-                            aduan = pengaduan,
-                            onSuccess = { response ->
-                                Log.d("Pengaduan", "Sukses: ${response.message}")
-                                navController.navigate(Screen.Pengaduan2.route)
-                            },
-                            onError = { error ->
-                                Log.e("Pengaduan", "Error: ${error.message}")
-                                Toast.makeText(context, "Terjadi kesalahan saat mengirim data: ${error.message}", Toast.LENGTH_LONG).show()
-                            }
-                        )
+
+                        // Save values to shared preferences
+                        sharedPreferencesManager.judul = textJudul.value
+                        sharedPreferencesManager.uraian = textUraian.value
+                        sharedPreferencesManager.lokasi = textLokasi.value
+                        navController.navigate(Screen.Pengaduan2.route)
+
                     } else {
                         Log.e("Pengaduan", "User ID tidak ditemukan")
                     }

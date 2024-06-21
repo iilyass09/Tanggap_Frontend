@@ -19,37 +19,42 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.massive.R
+import com.example.massive.data.storage.SharedPreferencesManager
 
 @Composable
 fun ImagePicker() {
     val context = LocalContext.current
-    var imageUri: Any? by remember { mutableStateOf(R.drawable.picker) }
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    var imageUri: Any? by remember { mutableStateOf(sharedPreferencesManager.imageUri ?: R.drawable.picker) }
+
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         if (uri != null) {
             Log.d("PhotoPicker", "Selected URI : $uri")
             imageUri = uri
+            sharedPreferencesManager.imageUri = uri.toString()
         } else {
             Log.d("PhotoPicker", "No media selected")
         }
     }
-        AsyncImage(
-            modifier = Modifier
-                .offset(x = 60.dp)
-                .size(250.dp)
-                .clickable {
-                    photoPicker.launch(
-                        PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.ImageOnly
-                        )
+
+    AsyncImage(
+        modifier = Modifier
+            .offset(x = 60.dp)
+            .size(250.dp)
+            .clickable {
+                photoPicker.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
                     )
-                },
-            model = ImageRequest.Builder(context)
-                .data(imageUri)
-                .crossfade(true)
-                .build(),
-            contentDescription = "Avatar Image",
-            contentScale = ContentScale.Crop,
-        )
-    }
+                )
+            },
+        model = ImageRequest.Builder(context)
+            .data(imageUri)
+            .crossfade(true)
+            .build(),
+        contentDescription = "Avatar Image",
+        contentScale = ContentScale.Crop,
+    )
+}

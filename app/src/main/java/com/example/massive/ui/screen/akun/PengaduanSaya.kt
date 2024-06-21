@@ -1,5 +1,7 @@
 package com.example.massive.ui.screen.akun
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -44,24 +46,66 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Button
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.contentColorFor
+import coil.compose.rememberImagePainter
 import com.example.massive.R
+import com.example.massive.data.api.AduanResponse
+import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.Merah
 import com.example.massive.ui.theme.poppins
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.POST
+
+object RetrofitInstance {
+    private const val BASE_URL = "http://202.10.41.84:5000/api/"
+
+    val api: AduanViewModel.ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AduanViewModel.ApiService::class.java)
+    }
+}
+
 
 @Composable
-fun PengaduanSaya(navController: NavController) {
-    var shouldShowDialog = remember { mutableStateOf(false) }
+fun PengaduanSaya(
+    navController: NavController,
+) {
+    val context = LocalContext.current
+    val aduanViewModel :AduanViewModel = viewModel()
+    val aduanList by aduanViewModel.aduanList.observeAsState(emptyList())
+    val shouldShowDialog = remember { mutableStateOf(false) }
+
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val userId = sharedPreferencesManager.userId ?: return
+    val token = sharedPreferencesManager.authToken ?: return
+
+    Log.d("Token", "Token Valid: $token")
+    Log.d("User ID", "ID Pengguna Valid: $userId")
+
+    LaunchedEffect(Unit) {
+        aduanViewModel.fetchAduanList(userId.toString(), token)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -70,120 +114,105 @@ fun PengaduanSaya(navController: NavController) {
                 .background(Color.White)
                 .padding(horizontal = 28.dp, vertical = 10.dp)
         ) {
-            Surface(
-                color = contentColorFor(backgroundColor = Color.White),
-                shape = RoundedCornerShape(10.dp),
-                border = BorderStroke(2.dp, color = Abu2),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(215.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(15.dp),
-                    verticalArrangement = Arrangement.Center
+            aduanList.forEach { aduan ->
+                Surface(
+                    color = contentColorFor(backgroundColor = Color.White),
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(2.dp, color = Abu2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(215.dp)
+                        .padding(vertical = 5.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier.padding(15.dp),
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.HourglassTop,
-                            contentDescription = null,
-                            tint = Biru
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = "Pengaduan dalam proses",
-                            fontFamily = poppins,
-                            fontSize = 12.sp,
-                            color = Biru
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = "05 Mei 2024",
-                            fontFamily = poppins,
-                            fontSize = 10.sp,
-                            color = Abu
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row {
-                        Box(
-                            modifier = Modifier
-                                .size(100.dp)
-                                .clipToBounds()
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.buktijuno),
+                            Icon(
+                                imageVector = Icons.Filled.HourglassTop,
                                 contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.matchParentSize()
+                                tint = Biru
                             )
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column{
+                            Spacer(modifier = Modifier.width(5.dp))
                             Text(
-                                text = "Buang Sampah Sembarangan",
+                                text = "Pengaduan dalam proses",
                                 fontFamily = poppins,
                                 fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black
+                                color = Biru
                             )
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.weight(1f))
                             Text(
-                                text = "Banyak orang buang sampah sembarangan, " +
-                                        "tolong pemerintah setempat segera buat " +
-                                        "jalan keluar untuk masalah ini",
+                                text = aduan.createdAt.substring(0, 10),
                                 fontFamily = poppins,
                                 fontSize = 10.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = Color.Black
+                                color = Abu
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Button(
-                            onClick = { shouldShowDialog.value = true },
-                            shape = MaterialTheme.shapes.small,
-                            colors = ButtonDefaults.buttonColors(Merah),
-                            modifier = Modifier
-                                .width(155.dp)
-                                .height(70.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Batalkan Pengaduan",
-                                fontSize = 10.sp,
-                                fontFamily = poppins,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center,
-                                color = Color.White,
-                            )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row {
+                            Box(
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .clipToBounds()
+                            ) {
+                                Image(
+                                    painter = rememberImagePainter(data = aduan.foto),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.matchParentSize()
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = aduan.judul,
+                                    fontFamily = poppins,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Black
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = aduan.uraian,
+                                    fontFamily = poppins,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = Color.Black
+                                )
+                            }
                         }
-                        Button(
-                            onClick = { navController.navigate(Screen.DetailPengaduanSaya.route) },
-                            shape = MaterialTheme.shapes.small,
-                            colors = ButtonDefaults.buttonColors(Biru),
-                            modifier = Modifier
-                                .width(155.dp)
-                                .height(70.dp)
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Tinjau Pengaduan",
-                                fontFamily = poppins,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 11.sp,
-                                textAlign = TextAlign.Center,
-                            )
+                            Button(
+                                onClick = { shouldShowDialog.value = true },
+                                shape = MaterialTheme.shapes.small,
+                                colors = ButtonDefaults.buttonColors(Merah),
+                                modifier = Modifier
+                                    .width(155.dp)
+                                    .height(70.dp)
+                            ) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = "Batalkan Pengaduan",
+                                    fontSize = 10.sp,
+                                    fontFamily = poppins,
+                                    fontWeight = FontWeight.SemiBold,
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+
         if (shouldShowDialog.value) {
             Box(
                 modifier = Modifier
@@ -193,7 +222,7 @@ fun PengaduanSaya(navController: NavController) {
         }
 
         if (shouldShowDialog.value) {
-            MyAlertDialog(shouldShowDialog = shouldShowDialog,navController)
+            MyAlertDialog(shouldShowDialog = shouldShowDialog, navController)
         }
     }
 }
@@ -268,8 +297,3 @@ fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>, navController: NavCon
 }
 
 
-@Preview
-@Composable
-fun PenGsayaPrev() {
-    PengaduanSaya(navController = rememberNavController())
-}

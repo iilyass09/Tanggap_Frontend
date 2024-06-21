@@ -1,6 +1,7 @@
 package com.example.massive.ui.screen.pengaduan
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -38,6 +41,7 @@ import com.example.massive.ui.theme.poppins
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Pengaduan2(navController: NavController) {
+
     val currentStep = remember { mutableStateOf(1) }
     Scaffold(
         modifier = Modifier
@@ -92,6 +96,7 @@ fun Pengaduan2(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(50.dp))
             ImagePicker()
+
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { navController.navigate(Screen.Pengaduan3.route) },

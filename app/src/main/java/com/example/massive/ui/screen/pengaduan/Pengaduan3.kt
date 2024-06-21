@@ -1,6 +1,11 @@
 package com.example.massive.ui.screen.pengaduan
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
+import android.provider.OpenableColumns
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,11 +34,13 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,20 +50,136 @@ import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.data.repository.DataKomunitas
 import com.example.massive.data.models.Komunitas
+import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.home.KomunitasItem
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import java.io.File
+
+interface ApiService {
+    @Multipart
+    @POST("/api/aduan/create")
+    suspend fun createAduan(
+        @Part("judul") judul: okhttp3.RequestBody?,
+        @Part("lokasi") lokasi: okhttp3.RequestBody?,
+        @Part("uraian") uraian: okhttp3.RequestBody?,
+        @Part("tanggapan") tanggapan: okhttp3.RequestBody,
+        @Part("status") status: okhttp3.RequestBody,
+        @Part("userId") userID: okhttp3.RequestBody,
+        @Part foto: MultipartBody.Part
+    )
+}
+
+fun getFileFromUri(context: Context, uri: Uri): File? {
+    val contentResolver: ContentResolver = context.contentResolver
+    val fileName: String = contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        cursor.moveToFirst()
+        cursor.getString(nameIndex)
+    } ?: return null
+
+    val file = File(context.cacheDir, fileName)
+    contentResolver.openInputStream(uri)?.use { inputStream ->
+        file.outputStream().use { outputStream ->
+            inputStream.copyTo(outputStream)
+        }
+    }
+    return file
+}
+
+fun createRetrofitService(token: String): ApiService {
+    val logging = HttpLoggingInterceptor()
+    logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+    val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            chain.proceed(request)
+        }
+        .build()
+
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://202.10.41.84:5000")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    return retrofit.create(ApiService::class.java)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Pengaduan3(navController: NavController) {
+
     val currentStep = remember { mutableStateOf(2) }
     val sheetState = rememberModalBottomSheetState()
     val pengaduanBottomSheet = rememberSaveable { mutableStateOf(false) }
     val komunitass: List<Komunitas> = DataKomunitas.ListKomunitas
+    val context = LocalContext.current
+    val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
+    val coroutineScope = rememberCoroutineScope()
+    val judul = sharedPreferencesManager.judul
+    val userId = sharedPreferencesManager.userId
+    val uraian = sharedPreferencesManager.uraian
+    val lokasi = sharedPreferencesManager.lokasi
+    val token = sharedPreferencesManager.authToken ?: return
+    val imageUri = sharedPreferencesManager.imageUri
+    val apiService = remember { createRetrofitService(token) }
+
+    fun sendData() {
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                val judulRequestBody = judul?.toRequestBody("text/plain".toMediaTypeOrNull())
+                val uraianRequestBody = uraian?.toRequestBody("text/plain".toMediaTypeOrNull())
+                val lokasiRequestBody = lokasi?.toRequestBody("text/plain".toMediaTypeOrNull())
+                val tanggapanRequestBody = "Tanggapan Statis".toRequestBody("text/plain".toMediaTypeOrNull())
+                val statusRequestBody = "Status Statis".toRequestBody("text/plain".toMediaTypeOrNull())
+                val userIDRequestBody = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+                val imageUri = Uri.parse(sharedPreferencesManager.imageUri)
+                val imageFile = getFileFromUri(context, imageUri)
+                if (imageFile != null) {
+                    val fotoRequestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    val fotoPart = MultipartBody.Part.createFormData("foto", imageFile.name, fotoRequestBody)
+
+                    apiService.createAduan(
+                        judul = judulRequestBody,
+                        lokasi = lokasiRequestBody,
+                        uraian = uraianRequestBody,
+                        tanggapan = tanggapanRequestBody,
+                        status = statusRequestBody,
+                        userID = userIDRequestBody,
+                        foto = fotoPart
+                    )
+                    Log.d("Pengaduan", "Pengaduan berhasil dikirim")
+                    pengaduanBottomSheet.value = true
+                } else {
+                    Log.e("Pengaduan", "Error mengirim pengaduan: file is null")
+                }
+
+            } catch (e: Exception) {
+                Log.e("Pengaduan", "Error mengirim pengaduan", e)
+            }
+        }
+    }
 
     //BottomSheet
     Surface(
@@ -192,7 +315,9 @@ fun Pengaduan3(navController: NavController) {
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { pengaduanBottomSheet.value = true },
+                onClick = {
+                    sendData()
+                },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()

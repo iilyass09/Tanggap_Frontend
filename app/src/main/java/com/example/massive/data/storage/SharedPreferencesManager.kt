@@ -13,6 +13,11 @@ class SharedPreferencesManager(context: Context) {
     companion object {
         private const val KEY_TOKEN = "token"
         private const val KEY_USER_ID = "user_id"
+        private const val KEY_JUDUL = "judul"
+        private const val KEY_URAIAN = "uraian"
+        private const val KEY_LOKASI = "lokasi"
+        private const val KEY_IMAGE_URI = "image_uri"
+
     }
     var authToken: String?
         get() = sharedPreferences.getString(KEY_TOKEN, null)
@@ -24,6 +29,30 @@ class SharedPreferencesManager(context: Context) {
         set(value) {
             editor.putInt(KEY_USER_ID, value).apply()
         }
+    //Aduan
+    var judul: String?
+        get() = preferences.getString(KEY_JUDUL, null)
+        set(value) {
+            editor.putString(KEY_JUDUL, value).apply()
+        }
+
+    var uraian: String?
+        get() = preferences.getString(KEY_URAIAN, null)
+        set(value) {
+            editor.putString(KEY_URAIAN, value).apply()
+        }
+
+    var lokasi: String?
+        get() = preferences.getString(KEY_LOKASI, null)
+        set(value) {
+            editor.putString(KEY_LOKASI, value).apply()
+        }
+
+    var imageUri: String?
+        get() = preferences.getString(KEY_IMAGE_URI, null)
+        set(value) {
+            editor.putString(KEY_IMAGE_URI, value).apply()
+        }
     fun saveToken(token: String) {
         sharedPreferences.edit().putString(KEY_TOKEN, token).apply()
     }
@@ -33,6 +62,8 @@ class SharedPreferencesManager(context: Context) {
     fun clearToken() {
         sharedPreferences.edit().remove(KEY_TOKEN).apply()
     }
+
+
 
     //User
     var name
