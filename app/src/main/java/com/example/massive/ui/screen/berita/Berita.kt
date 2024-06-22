@@ -38,9 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
-import com.example.massive.data.api.Berita
+import com.example.massive.data.models.Berita
 import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen

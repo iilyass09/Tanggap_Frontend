@@ -52,13 +52,4 @@ object RetrofitInstance {
             .build()
             .create(PengaduanApi::class.java)
     }
-
-    // Aduan
-    val aduanApi: AduanApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BACKEND_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(AduanApi::class.java)
-    }
 }

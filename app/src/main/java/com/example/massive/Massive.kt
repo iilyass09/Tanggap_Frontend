@@ -29,7 +29,6 @@ import com.example.massive.ui.screen.login.LoginScreen
 import com.example.massive.ui.screen.onboarding.Onboarding1
 import com.example.massive.ui.screen.onboarding.Onboarding2
 import com.example.massive.ui.screen.onboarding.Onboarding3
-import com.example.massive.ui.screen.community.DetailCommunity
 import com.example.massive.ui.screen.splash.SplashScreen
 import com.example.massive.ui.screen.akun.AkunSaya
 import com.example.massive.ui.screen.akun.Bahasa
@@ -168,7 +167,7 @@ fun Massive(
             composable(Screen.Pengaduan2.route) { Pengaduan2(navController) }
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
             composable(Screen.Berita.route) { BeritaScreen(navController) }
-            composable(Screen.Akun.route){ AkunScreen(navController) }
+            composable(Screen.Akun.route){ AkunScreen(navController ) }
             composable(Screen.AkunSaya.route){ AkunSaya(navController) }
             composable(Screen.PengaduanSaya.route){ PengaduanSaya(navController) }
             composable(Screen.DetailPengaduanSaya.route){ DetailPengaduanSaya(navController) }
@@ -181,12 +180,6 @@ fun Massive(
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.CustomerService.route){ CustomerService(navController) }
             composable(Screen.Panduan.route){ Panduan(navController) }
-            composable(
-                Screen.DetailCommunity.route + "/{komunitasId}",
-                arguments = listOf(navArgument("komunitasId") { type = NavType.IntType})
-            ) { navBackStackEntry ->
-                DetailCommunity(navController = navController, komunitassId = navBackStackEntry.arguments?.getInt("komunitasId"))
-            }
             composable("${Screen.BeritaDetail.route}/{beritaId}") { backStackEntry ->
                 val beritaId = backStackEntry.arguments?.getString("beritaId")
                 if (beritaId != null) {

@@ -1,44 +1,127 @@
 package com.example.massive.ui.screen.community
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.massive.data.repository.DataKomunitas
-import com.example.massive.data.models.Komunitas
-import com.example.massive.ui.navigation.Screen
-import com.example.massive.ui.screen.home.KomunitasItem
+import coil.compose.SubcomposeAsyncImage
+import com.example.massive.data.models.AduanSaya
+import com.example.massive.data.storage.SharedPreferencesManager
+import com.example.massive.ui.theme.Abu
+import com.example.massive.ui.theme.poppins
 
 @Composable
 fun CommunityScreen(navController: NavController) {
-    val komunitass: List<Komunitas> = DataKomunitas.ListKomunitas
+    val context = LocalContext.current
+    val sharedPreferencesManager = SharedPreferencesManager(context)
+    val viewModel: CommunityViewModel = viewModel()
+
+    val authToken = sharedPreferencesManager.authToken
+
+    authToken?.let {
+        LaunchedEffect(authToken) {
+            viewModel.fetchAduan(authToken)
+        }
+    } ?: run {
+        Text(
+            text = "Token tidak ditemukan",
+            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)
+        )
+    }
+
+    val aduanList = viewModel.aduanList
+
+    if (aduanList.isNotEmpty()) {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(aduanList) { aduan ->
+                AduanCard(aduan = aduan)
+            }
+        }
+    } else {
+        Text(
+            text = "Tidak ada aduan yang tersedia",
+            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)
+        )
+    }
+}
+
+@Composable
+fun AduanCard(aduan: AduanSaya) {
     Surface(
+        color = Color.White,
+        shape = RoundedCornerShape(20.dp),
+        shadowElevation = 10.dp,
         modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
+            .fillMaxWidth()
+            .padding(20.dp)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy((-15).dp),
-                modifier = Modifier.fillMaxSize().offset(y = (-5).dp)
-            ) {
-                items(komunitass.take(10), key = {it.id}) {
-                    KomunitasItem(komunitas = it) { komunitasId ->
-                        navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "${aduan.User.nama_depan} ${aduan.User.nama_belakang}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = poppins
+            )
+            Text(
+                modifier = Modifier.offset(y = (-3).dp),
+                text = aduan.createdAt,
+                color = Abu,
+                fontSize = 13.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.Normal,
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
+            SubcomposeAsyncImage(
+                model = aduan.foto,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp)),
+                loading = {
+                    Box(Modifier.matchParentSize()) {
+                        CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    }
+                },
+                error = {
+                    Box(Modifier.matchParentSize()) {
+                        Text("Gambar tidak dapat dimuat", Modifier.align(Alignment.Center))
                     }
                 }
-            }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = aduan.uraian,
+                fontSize = 14.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.Normal,
+                lineHeight = 20.sp
+            )
         }
     }
 }

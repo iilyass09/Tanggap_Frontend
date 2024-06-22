@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.massive.data.api.AduanResponse
-import com.example.massive.data.api.AduanSaya
+import com.example.massive.data.models.AduanResponse
+import com.example.massive.data.models.AduanSaya
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

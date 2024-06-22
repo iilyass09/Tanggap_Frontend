@@ -1,30 +1,53 @@
 package com.example.massive.ui.screen.community
 
-import com.example.massive.data.api.Response
-import com.example.massive.data.storage.RetrofitInstance
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.massive.data.models.AduanResponse
+import com.example.massive.data.models.AduanSaya
 import kotlinx.coroutines.launch
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Header
 
-class CommunityViewModel(application: Application) : AndroidViewModel(application) {
+class CommunityViewModel : ViewModel() {
 
-    val aduanResponse: MutableLiveData<Response> = MutableLiveData()
-    val errorMessage: MutableLiveData<String> = MutableLiveData()
+    interface CommunityApi {
+        @GET("api/aduan/get/baru")
+        suspend fun getAllAduan(@Header("Authorization") token: String): Response<AduanResponse>
+    }
 
-    fun fetchAduanBaru() {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://202.10.41.84:5000/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val api = retrofit.create(CommunityApi::class.java)
+
+    private val _aduanList = mutableStateListOf<AduanSaya>()
+    val aduanList: List<AduanSaya> get() = _aduanList
+
+    fun fetchAduan(authToken: String) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.aduanApi.getAduanBaru()
-                if (response.status == 201) {
-                    aduanResponse.value = response
+                val response = api.getAllAduan("Bearer $authToken")
+                println("Response Code: ${response.code()}")
+                if (response.isSuccessful) {
+                    response.body()?.data?.let {
+                        _aduanList.clear()
+                        _aduanList.addAll(it)
+                        println("Data diterima: ${_aduanList.size} items")
+                    }
                 } else {
-                    errorMessage.value = "Error: ${response.message}"
+                    println("Response tidak berhasil: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                errorMessage.value = "Exception: ${e.message}"
+                println("Exception terjadi: $e")
             }
         }
     }
+
 }
+

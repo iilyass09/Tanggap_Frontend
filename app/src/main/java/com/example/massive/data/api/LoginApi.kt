@@ -1,5 +1,6 @@
 package com.example.massive.data.api
 
+import com.example.massive.data.models.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -13,14 +14,3 @@ interface LoginApi {
         @Field("password") password: String
     ): LoginResponse
 }
-
-data class LoginResponse(
-    val status: Int,
-    val message: String,
-    val data: Data
-)
-
-data class Data(
-    val token: String,
-    val id : Int
-)

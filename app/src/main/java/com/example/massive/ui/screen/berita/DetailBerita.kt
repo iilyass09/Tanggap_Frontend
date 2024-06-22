@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.massive.data.api.BeritaDetail
+import com.example.massive.data.models.BeritaDetail
 import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.theme.poppins

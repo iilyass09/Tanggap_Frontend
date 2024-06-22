@@ -2,9 +2,8 @@ package com.example.massive.ui.screen.register
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.massive.data.api.RegisterResponse
+import com.example.massive.data.models.RegisterResponse
 import com.example.massive.data.storage.RetrofitInstance
-import retrofit2.Response
 
 class RegisterViewModel : ViewModel() {
     suspend fun registerUser(

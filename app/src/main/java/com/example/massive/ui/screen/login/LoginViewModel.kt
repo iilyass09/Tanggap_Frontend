@@ -1,7 +1,7 @@
 package com.example.massive.ui.screen.login
 
 import androidx.lifecycle.ViewModel
-import com.example.massive.data.api.LoginResponse
+import com.example.massive.data.models.LoginResponse
 import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.data.storage.SharedPreferencesManager
 import kotlinx.coroutines.Dispatchers

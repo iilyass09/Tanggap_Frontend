@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,19 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.massive.R
-import com.example.massive.data.api.Berita
-import com.example.massive.data.models.Komunitas
-import com.example.massive.data.storage.RetrofitInstance
+import com.example.massive.data.models.Berita
 import com.example.massive.data.storage.RetrofitInstance.beritaApi
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
-import com.example.massive.ui.screen.berita.BeritaTerbaru
 import com.example.massive.ui.screen.berita.BeritaViewModel
 import com.example.massive.ui.screen.berita.BeritaViewModelFactory
 import com.example.massive.ui.screen.berita.ErrorView
+import com.example.massive.ui.screen.community.AduanCard
+import com.example.massive.ui.screen.community.CommunityViewModel
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -51,37 +48,46 @@ import com.example.massive.ui.theme.poppins
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel2: HomeViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val name = sharedPreferencesManager.name ?: ""
-    val komunitasList by viewModel2.komunitasList.collectAsState()
     val factory = BeritaViewModelFactory(sharedPreferencesManager, beritaApi)
     val viewModel: BeritaViewModel = viewModel(factory = factory)
     val beritaList by viewModel.beritaList.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
-
-
-    LaunchedEffect(Unit) {
-        val token = sharedPreferencesManager.authToken ?: return@LaunchedEffect
-        viewModel.fetchBerita(token)
-    }
+    val viewModel3: CommunityViewModel = viewModel()
 
     val beritaTerbaru = remember(beritaList) {
         beritaList.sortedByDescending { it.createdAt }
             .take(3)
     }
 
-    Surface(
+    val aduanList = viewModel3.aduanList.take(3)
+    println("Jumlah Aduan: ${aduanList.size}")
+
+    LaunchedEffect(Unit) {
+        val token = sharedPreferencesManager.authToken ?: return@LaunchedEffect
+        viewModel.fetchBerita(token)
+    }
+
+    val authToken = sharedPreferencesManager.authToken
+    println("Token Otorisasi: $authToken")
+
+    authToken?.let {
+        LaunchedEffect(authToken) {
+            viewModel3.fetchAduan(authToken)
+        }
+    } ?: run {
+        Text(text = "Token tidak ditemukan", modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center))
+    }
+
+    Box(
         modifier = Modifier.fillMaxSize()
     ) {
         if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(50.dp)
-            )
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else if (errorMessage != null) {
             ErrorView(errorMessage = errorMessage!!) {
                 val token = sharedPreferencesManager.authToken ?: return@ErrorView
@@ -97,50 +103,49 @@ fun HomeScreen(
                         .fillMaxSize()
                         .padding(10.dp)
                 ) {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy((-15).dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        item {
-                            Banner()
-                            Spacer(modifier = Modifier.height(10.dp))
-                        }
-                        items(komunitasList.take(3)) { komunitas ->
-                            KomunitasItem(komunitas = komunitas) { komunitasId ->
-                                navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+                    if (aduanList.isNotEmpty()) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy((-15).dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            item {
+                                Banner()
+                                Spacer(modifier = Modifier.height(10.dp))
                             }
-                        }
-                        item {
-                            Text(
-                                modifier = Modifier.padding(start = 10.dp, top = 30.dp),
-                                text = "Berita Terbaru",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Black,
-                            )
-                            Text(
-                                modifier = Modifier.padding(start = 10.dp, top = 5.dp),
-                                text = "Temukan berita terbaru tentang\n" + "Kota Bandung",
-                                color = Abu,
-                                fontSize = 14.sp,
-                                lineHeight = 18.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontFamily = poppins
-                            )
-                            Spacer(modifier = Modifier.height(15.dp))
-                        }
-                        itemsIndexed(beritaTerbaru) { index, berita ->
-                            if (index > 0) {
-                                Spacer(modifier = Modifier.height(20.dp))
+                            items(aduanList) { aduan ->
+                                AduanCard(aduan)
                             }
-                            BeritaTerbaruHome(berita = berita, navController = navController)
+                            item {
+                                Text(
+                                    modifier = Modifier.padding(start = 10.dp, top = 30.dp),
+                                    text = "Berita Terbaru",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 18.sp,
+                                    color = Color.Black,
+                                )
+                                Text(
+                                    modifier = Modifier.padding(start = 10.dp, top = 5.dp),
+                                    text = "Temukan berita terbaru tentang\n" + "Kota Bandung",
+                                    color = Abu,
+                                    fontSize = 14.sp,
+                                    lineHeight = 18.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    fontFamily = poppins
+                                )
+                                Spacer(modifier = Modifier.height(15.dp))
+                            }
+                            itemsIndexed(beritaTerbaru) { index, berita ->
+                                if (index > 0) {
+                                    Spacer(modifier = Modifier.height(18.dp))
+                                }
+                                BeritaTerbaruHome(berita = berita, navController = navController)
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -261,116 +266,6 @@ fun Banner() {
             fontWeight = FontWeight.Normal,
             fontFamily = poppins
         )
-    }
-}
-
-@Composable
-fun KomunitasItem(
-    komunitas: Komunitas,
-    onItemClicked : (Int) -> Unit
-) {
-    Surface(
-        color = Color.White,
-        shape = RoundedCornerShape(20.dp),
-        shadowElevation = 10.dp,
-        modifier = Modifier
-            .padding(20.dp)
-            .clickable { onItemClicked(komunitas.id) }
-            .height(
-                if (komunitas.bukti != null) {
-                    380.dp
-                } else {
-                    230.dp
-                }
-            )
-            .fillMaxWidth()
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .padding(start = 10.dp, top = 15.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = komunitas.profil),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(30.dp)
-                )
-                Column {
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(
-                        text = komunitas.nama,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        fontFamily = poppins
-                    )
-                    Text(
-                        text = "20 menit yang lalu",
-                        color = Abu,
-                        fontSize = 13.sp,
-                        fontFamily = poppins,
-                        fontWeight = FontWeight.Normal,
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                }
-            }
-            if (komunitas.bukti != null) {
-                Image(
-                    painter = painterResource(id = komunitas.bukti),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth()
-                        .height(140.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(
-                modifier = Modifier.padding(horizontal = 20.dp),
-                text = komunitas.uraian,
-                fontSize = 14.sp,
-                fontFamily = poppins,
-                fontWeight = FontWeight.Normal,
-                lineHeight = 20.sp
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .padding(bottom = 10.dp)
-            ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.comment),
-                            contentDescription = null
-                        )
-                        Text(text = "20", modifier = Modifier.padding(start = 4.dp))
-                    }
-                }
-                Spacer(modifier = Modifier.width(5.dp))
-                IconButton(onClick = { /*TODO*/ }) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.like),
-                            contentDescription = null
-                        )
-                        Text(text = "10", modifier = Modifier.padding(start = 4.dp))
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /*TODO*/ }) {
-                    Row(Modifier.padding(end = 5.dp),verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.share),
-                            contentDescription = null
-                        )
-                        Text(text = "2", modifier = Modifier.padding(start = 4.dp))
-                    }
-                }
-            }
-        }
     }
 }
 

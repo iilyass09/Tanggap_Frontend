@@ -1,5 +1,6 @@
 package com.example.massive.data.api
 
+import com.example.massive.data.models.RegisterResponse
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.Response
@@ -20,8 +21,3 @@ interface RegisterApi {
         @Field("aktif") aktif: String = "1"
     ): Response<RegisterResponse>
 }
-
-data class RegisterResponse(
-    val success: Boolean,
-    val message: String
-)

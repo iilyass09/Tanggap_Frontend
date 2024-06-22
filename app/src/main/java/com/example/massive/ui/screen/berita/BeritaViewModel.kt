@@ -1,12 +1,9 @@
 package com.example.massive.ui.screen.berita
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.massive.data.api.Berita
 import com.example.massive.data.api.BeritaApi
+import com.example.massive.data.models.Berita
 import com.example.massive.data.storage.SharedPreferencesManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

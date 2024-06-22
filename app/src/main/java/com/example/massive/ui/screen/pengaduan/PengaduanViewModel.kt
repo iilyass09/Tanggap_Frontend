@@ -4,8 +4,8 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.massive.data.api.Aduan
-import com.example.massive.data.api.PengaduanResponse
+import com.example.massive.data.models.Aduan
+import com.example.massive.data.models.PengaduanResponse
 import com.example.massive.data.storage.RetrofitInstance
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.google.gson.Gson

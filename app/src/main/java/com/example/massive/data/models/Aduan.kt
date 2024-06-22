@@ -1,8 +1,4 @@
-package com.example.massive.data.api
-
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+package com.example.massive.data.models
 
 data class AduanResponse(
     val status: Int,
