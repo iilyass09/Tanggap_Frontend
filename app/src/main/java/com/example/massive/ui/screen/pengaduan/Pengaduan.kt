@@ -280,15 +280,15 @@ fun Step(modifier: Modifier = Modifier, isComplete: Boolean, isCurrent: Boolean,
 @Composable
 fun ClickableTextPanduan(onTextSelected: (String) -> Unit) {
     val annotatedText = buildAnnotatedString {
-        append("Anda dapat membaca ketentuan yang berlaku pada halaman ")
-        pushStringAnnotation(tag = "Ketentuan Penggunaan", annotation = "Ketentuan Penggunaan")
+        append("Panduan untuk melakukan pengaduan ")
+        pushStringAnnotation(tag = "Klik disini", annotation = "Klik disini")
         withStyle(
             style = SpanStyle(
-                color = Color.Blue,
+                color = Biru,
                 fontWeight = FontWeight.Bold
             )
         ) {
-            append("Ketentuan Penggunaan")
+            append("Klik disini")
         }
         pop()
     }

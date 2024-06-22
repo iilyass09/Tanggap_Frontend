@@ -17,7 +17,6 @@ class SharedPreferencesManager(context: Context) {
         private const val KEY_URAIAN = "uraian"
         private const val KEY_LOKASI = "lokasi"
         private const val KEY_IMAGE_URI = "image_uri"
-
     }
     var authToken: String?
         get() = sharedPreferences.getString(KEY_TOKEN, null)
@@ -53,6 +52,7 @@ class SharedPreferencesManager(context: Context) {
         set(value) {
             editor.putString(KEY_IMAGE_URI, value).apply()
         }
+
     fun saveToken(token: String) {
         sharedPreferences.edit().putString(KEY_TOKEN, token).apply()
     }

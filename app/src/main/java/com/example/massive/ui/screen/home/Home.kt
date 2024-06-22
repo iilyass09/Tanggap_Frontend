@@ -5,33 +5,45 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.example.massive.R
+import com.example.massive.data.api.Berita
 import com.example.massive.data.models.Komunitas
 import com.example.massive.data.storage.RetrofitInstance
+import com.example.massive.data.storage.RetrofitInstance.beritaApi
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.ui.navigation.Screen
+import com.example.massive.ui.screen.berita.BeritaTerbaru
 import com.example.massive.ui.screen.berita.BeritaViewModel
 import com.example.massive.ui.screen.berita.BeritaViewModelFactory
+import com.example.massive.ui.screen.berita.ErrorView
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
@@ -45,53 +57,90 @@ fun HomeScreen(
     val sharedPreferencesManager = remember { SharedPreferencesManager(context) }
     val name = sharedPreferencesManager.name ?: ""
     val komunitasList by viewModel2.komunitasList.collectAsState()
+    val factory = BeritaViewModelFactory(sharedPreferencesManager, beritaApi)
+    val viewModel: BeritaViewModel = viewModel(factory = factory)
+    val beritaList by viewModel.beritaList.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+
+    LaunchedEffect(Unit) {
+        val token = sharedPreferencesManager.authToken ?: return@LaunchedEffect
+        viewModel.fetchBerita(token)
+    }
+
+    val beritaTerbaru = remember(beritaList) {
+        beritaList.sortedByDescending { it.createdAt }
+            .take(3)
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        Column {
-            HomeTopBar(name = name)
-            Box(
+        if (isLoading) {
+            CircularProgressIndicator(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp)
+                    .size(50.dp)
+            )
+        } else if (errorMessage != null) {
+            ErrorView(errorMessage = errorMessage!!) {
+                val token = sharedPreferencesManager.authToken ?: return@ErrorView
+                viewModel.fetchBerita(token)
+            }
+        } else {
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy((-15).dp),
-                    modifier = Modifier.fillMaxSize()
+                HomeTopBar(name = name)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp)
                 ) {
-                    item {
-                        Banner()
-                        Spacer(modifier = Modifier.height(10.dp))
-                    }
-                    items(komunitasList.take(3)) { komunitas ->
-                        KomunitasItem(komunitas = komunitas) { komunitasId ->
-                            navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy((-15).dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        item {
+                            Banner()
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
-                    }
-                    item {
-                        Text(
-                            modifier = Modifier.padding(start = 10.dp, top = 20.dp),
-                            text = "Berita Terkini",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            color = Color.Black,
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 10.dp, top = 5.dp),
-                            text = "Temukan berita terupdate tentang\n" + "Kota Bandung",
-                            color = Abu,
-                            fontSize = 14.sp,
-                            lineHeight = 18.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = poppins
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        items(komunitasList.take(3)) { komunitas ->
+                            KomunitasItem(komunitas = komunitas) { komunitasId ->
+                                navController.navigate(Screen.DetailCommunity.route + "/$komunitasId")
+                            }
+                        }
+                        item {
+                            Text(
+                                modifier = Modifier.padding(start = 10.dp, top = 30.dp),
+                                text = "Berita Terbaru",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = Color.Black,
+                            )
+                            Text(
+                                modifier = Modifier.padding(start = 10.dp, top = 5.dp),
+                                text = "Temukan berita terbaru tentang\n" + "Kota Bandung",
+                                color = Abu,
+                                fontSize = 14.sp,
+                                lineHeight = 18.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = poppins
+                            )
+                            Spacer(modifier = Modifier.height(15.dp))
+                        }
+                        itemsIndexed(beritaTerbaru) { index, berita ->
+                            if (index > 0) {
+                                Spacer(modifier = Modifier.height(20.dp))
+                            }
+                            BeritaTerbaruHome(berita = berita, navController = navController)
+                        }
                     }
                 }
             }
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -321,6 +370,47 @@ fun KomunitasItem(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BeritaTerbaruHome(berita: Berita, navController: NavController) {
+    Card(
+        colors = CardDefaults.cardColors(Color.White),
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clickable {
+                navController.navigate("${Screen.BeritaDetail.route}/${berita.id}")
+            },
+        elevation = CardDefaults.elevatedCardElevation(10.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = berita.judul,
+                fontSize = 14.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 15.dp)
+            )
+            Image(
+                painter = rememberAsyncImagePainter(berita.foto),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(90.dp)
+                    .clip(RoundedCornerShape(10.dp))
+            )
         }
     }
 }

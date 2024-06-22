@@ -51,8 +51,8 @@ fun RegisterScreen(
     var namaBelakang by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var level = "member"
-    var aktif = "1"
+    val level = "member"
+    val aktif = "1"
 
     RegisterContent(
         namaDepan = namaDepan,
