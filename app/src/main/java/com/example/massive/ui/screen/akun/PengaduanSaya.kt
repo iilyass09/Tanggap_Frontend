@@ -1,20 +1,23 @@
 package com.example.massive.ui.screen.akun
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HourglassTop
@@ -40,6 +43,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,21 +57,6 @@ import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.Merah
 import com.example.massive.ui.theme.poppins
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-object RetrofitInstance {
-    private const val BASE_URL = "http://202.10.41.84:5000/api/"
-
-    val api: AduanViewModel.ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(AduanViewModel.ApiService::class.java)
-    }
-}
-
 
 @Composable
 fun PengaduanSaya(
@@ -82,21 +71,16 @@ fun PengaduanSaya(
     val userId = sharedPreferencesManager.userId ?: return
     val token = sharedPreferencesManager.authToken ?: return
 
-    Log.d("Token", "Token Valid: $token")
-    Log.d("User ID", "ID Pengguna Valid: $userId")
-
     LaunchedEffect(Unit) {
         aduanViewModel.fetchAduanList(userId.toString(), token)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(horizontal = 28.dp, vertical = 10.dp)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 28.dp, vertical = 10.dp)
         ) {
-            aduanList.forEach { aduan ->
+            items(aduanList) { aduan ->
                 Surface(
                     color = contentColorFor(backgroundColor = Color.White),
                     shape = RoundedCornerShape(10.dp),
@@ -166,27 +150,30 @@ fun PengaduanSaya(
                                 )
                             }
                         }
-                        Spacer(modifier = Modifier.height(15.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                        Button(
+                            onClick = { shouldShowDialog.value = true },
+                            shape = RoundedCornerShape(20),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(50.dp),
+                            contentPadding = PaddingValues(),
+                            colors = ButtonDefaults.buttonColors(Color.Transparent),
                         ) {
-                            Button(
-                                onClick = { shouldShowDialog.value = true },
-                                shape = MaterialTheme.shapes.small,
-                                colors = ButtonDefaults.buttonColors(Merah),
+                            Box(
                                 modifier = Modifier
-                                    .width(155.dp)
-                                    .height(70.dp)
+                                    .fillMaxWidth()
+                                    .heightIn(50.dp)
+                                    .background(brush = Brush.horizontalGradient(listOf(Merah, Merah))),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
                                     text = "Batalkan Pengaduan",
-                                    fontSize = 10.sp,
+                                    fontSize = 14.sp,
                                     fontFamily = poppins,
                                     fontWeight = FontWeight.SemiBold,
                                     textAlign = TextAlign.Center,
-                                    color = Color.White,
+                                    color = Color.White
                                 )
                             }
                         }

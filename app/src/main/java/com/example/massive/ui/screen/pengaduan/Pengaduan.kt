@@ -284,7 +284,7 @@ fun ClickableTextPanduan(onTextSelected: (String) -> Unit) {
         withStyle(
             style = SpanStyle(
                 color = Biru,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.SemiBold
             )
         ) {
             append("Klik disini")
@@ -295,7 +295,7 @@ fun ClickableTextPanduan(onTextSelected: (String) -> Unit) {
     ClickableText(
         text = annotatedText,
         onClick = { offset ->
-            annotatedText.getStringAnnotations(tag = "Ketentuan Penggunaan", start = offset, end = offset)
+            annotatedText.getStringAnnotations(tag = "Klik disini", start = offset, end = offset)
                 .firstOrNull()?.let { annotation ->
                     onTextSelected(annotation.item)
                 }

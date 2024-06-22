@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +45,7 @@ import com.example.massive.ui.screen.community.CommunityViewModel
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
+import com.example.yourapp.network.AkunSayaViewModel
 
 @Composable
 fun HomeScreen(
@@ -58,6 +60,11 @@ fun HomeScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
     val viewModel3: CommunityViewModel = viewModel()
+    val userViewModel: AkunSayaViewModel = viewModel()
+
+    LaunchedEffect(Unit) {
+        userViewModel.fetchUser(context)
+    }
 
     val beritaTerbaru = remember(beritaList) {
         beritaList.sortedByDescending { it.createdAt }
@@ -97,7 +104,7 @@ fun HomeScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                HomeTopBar(name = name)
+                HomeTopBar(navController)
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -150,43 +157,56 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar(name : String) {
-    TopAppBar(
-        title = {
-            Text(
-                text = name,
-                color = Color.Black,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontStyle = FontStyle.Normal,
-                fontFamily = poppins
-            )
-        },
-        navigationIcon = {
-            Box{
-                Spacer(modifier = Modifier.width(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.user),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(7.dp)
-                        .size(40.dp)
-                        .clickable { }
+fun HomeTopBar(navController: NavController) {
+    val context = LocalContext.current
+    val userViewModel: AkunSayaViewModel = viewModel()
+
+    LaunchedEffect(Unit) {
+        userViewModel.fetchUser(context)
+    }
+    if (userViewModel.isLoading) {
+        CircularProgressIndicator(modifier = Modifier.padding(8.dp))
+    } else if (userViewModel.user != null) {
+        val firstname by remember { mutableStateOf(userViewModel.user?.nama_depan ?: "") }
+        val lastname by remember { mutableStateOf(userViewModel.user?.nama_belakang ?: "") }
+
+        TopAppBar(
+            title = {
+                Text(
+                    text = "$firstname $lastname",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontStyle = FontStyle.Normal,
+                    fontFamily = poppins
                 )
+            },
+            navigationIcon = {
+                Box {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.user),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(7.dp)
+                            .size(40.dp)
+                            .clickable { navController.navigate(Screen.Akun.route) }
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = { }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.notif),
+                        contentDescription = "Notif",
+                        modifier = Modifier
+                            .padding(end = 15.dp)
+                            .size(23.dp)
+                    )
+                }
             }
-        },
-        actions = {
-            IconButton(onClick = {  }) {
-                Image(
-                    painter = painterResource(id = R.drawable.notif),
-                    contentDescription = "Notif",
-                    modifier = Modifier
-                        .padding(end = 15.dp)
-                        .size(23.dp)
-                )
-            }
-        }
-    )
+        )
+    }
 }
 
 @Composable

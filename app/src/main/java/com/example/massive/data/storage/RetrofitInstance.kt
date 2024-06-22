@@ -6,9 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     private const val CHATBOT_URL = "https://flask-docker.1i9m1x34nm5m.us-east.codeengine.appdomain.cloud/"
-    private const val BACKEND_URL = "http://202.10.41.84:5000"
+    const val BACKEND_URL = "http://202.10.41.84:5000"
 
-    //Login
+    //POST Login
     val loginApi: LoginApi by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)
@@ -17,7 +17,7 @@ object RetrofitInstance {
             .create(LoginApi::class.java)
     }
 
-    //Register
+    //POST Register
     val registerApi: RegisterApi by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)
@@ -26,7 +26,7 @@ object RetrofitInstance {
             .create(RegisterApi::class.java)
     }
 
-    //Chatbot
+    //POST Chatbot
     val chatbotApi: ChatbotApi by lazy {
         Retrofit.Builder()
             .baseUrl(CHATBOT_URL)
@@ -35,7 +35,7 @@ object RetrofitInstance {
             .create(ChatbotApi::class.java)
     }
 
-    //Berita
+    //GET Berita
     val beritaApi: BeritaApi by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)
@@ -44,12 +44,21 @@ object RetrofitInstance {
             .create(BeritaApi::class.java)
     }
 
-    //Pengaduan
+    //POST Pengaduan
     val pengaduanApi: PengaduanApi by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PengaduanApi::class.java)
+    }
+
+    //GET Pengaduan Saya
+    val api: PengaduanSayaApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BACKEND_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PengaduanSayaApi::class.java)
     }
 }

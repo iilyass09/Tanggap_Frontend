@@ -1,36 +1,39 @@
 package com.example.massive.ui.screen.akun
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import androidx.wear.compose.material.Scaffold
-import androidx.wear.compose.material.Text
 import com.example.massive.ui.theme.Biru
+import com.example.massive.ui.theme.componentsShapes
+import com.example.massive.ui.theme.poppins
+import com.example.yourapp.network.AkunSayaViewModel
 
-
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AkunSaya(
-    navController: NavController
-) {
+fun AkunSaya(navController: NavController) {
+    val userViewModel: AkunSayaViewModel = viewModel()
+    val context = LocalContext.current
     var isEditable by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        userViewModel.fetchUser(context)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -41,31 +44,105 @@ fun AkunSaya(
                 .padding(28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NamaLengkap(isEditable)
-            Spacer(modifier = Modifier.height(15.dp))
-            Email(isEditable)
-            Spacer(modifier = Modifier.height(15.dp))
-            Telepon(isEditable)
-            Spacer(modifier = Modifier.height(15.dp))
-            KataSandi(isEditable)
+            if (userViewModel.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.padding(8.dp))
+            } else if (userViewModel.user != null) {
+                var firstName by remember { mutableStateOf(userViewModel.user?.nama_depan ?: "") }
+                var lastName by remember { mutableStateOf(userViewModel.user?.nama_belakang ?: "") }
+                var email by remember { mutableStateOf(userViewModel.user?.email ?: "") }
+                var password by remember { mutableStateOf(userViewModel.user?.password ?: "") }
+
+                OutlinedTextField(
+                    value = firstName,
+                    onValueChange = { firstName = it },
+                    label = { Text("Nama Depan") },
+                    enabled = isEditable,
+                    shape = RoundedCornerShape(20),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(componentsShapes.small),
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                OutlinedTextField(
+                    value = lastName,
+                    onValueChange = { lastName = it },
+                    label = { Text("Nama Belakang") },
+                    enabled = isEditable,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Biru,
+                        focusedLabelColor = Biru,
+                        cursorColor = Biru,
+                    ),
+                    shape = RoundedCornerShape(20),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(componentsShapes.small),
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Email") },
+                    enabled = isEditable,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Biru,
+                        focusedLabelColor = Biru,
+                        cursorColor = Biru,
+                    ),
+                    shape = RoundedCornerShape(20),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(componentsShapes.small),
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    enabled = isEditable,
+                    visualTransformation = PasswordVisualTransformation(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Biru,
+                        focusedLabelColor = Biru,
+                        cursorColor = Biru,
+                    ),
+                    shape = RoundedCornerShape(20),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(componentsShapes.small),
+                )
+            } else {
+                Text(
+                    text = "Tidak ada data pengguna.",
+                    modifier = Modifier
+                        .padding(8.dp))
+            }
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = {isEditable = !isEditable},
-                shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors(Biru),
+                onClick = { isEditable = !isEditable },
+                shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp)
+                    .heightIn(55.dp)
+                    .align(Alignment.End),
+                contentPadding = PaddingValues(),
+                colors = ButtonDefaults.buttonColors(Color.Transparent)
             ) {
-                Text(text = if (isEditable) "Simpan" else "Edit Akun", color = Color.White)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(55.dp)
+                        .background(brush = Brush.horizontalGradient(listOf(Biru, Biru))),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (isEditable) "Simpan" else "Edit Akun",
+                        color = Color.White,
+                        fontFamily = poppins,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun AkunSayaPrev() {
-    AkunSaya(navController = rememberNavController())
 }
