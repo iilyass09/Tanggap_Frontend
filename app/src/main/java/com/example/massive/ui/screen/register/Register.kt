@@ -25,12 +25,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.massive.R
 import com.example.massive.ui.navigation.Screen
 import com.example.massive.ui.screen.login.NameTextField
@@ -215,10 +213,4 @@ fun RegisterContent(
             Spacer(modifier = Modifier.height(160.dp))
         }
     }
-}
-
-@Preview
-@Composable
-private fun RegisterPrev() {
-    RegisterScreen(navController = rememberNavController())
 }

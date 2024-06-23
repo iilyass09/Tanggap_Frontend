@@ -24,7 +24,6 @@ import androidx.compose.material.icons.filled.HourglassTop
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -136,20 +135,21 @@ fun PengaduanSaya(
                                 Text(
                                     text = aduan.judul,
                                     fontFamily = poppins,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold,
                                     color = Color.Black
                                 )
-                                Spacer(modifier = Modifier.height(10.dp))
+                                Spacer(modifier = Modifier.height(5.dp))
                                 Text(
                                     text = aduan.uraian,
                                     fontFamily = poppins,
-                                    fontSize = 10.sp,
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Normal,
                                     color = Color.Black
                                 )
                             }
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
                         Button(
                             onClick = { shouldShowDialog.value = true },
                             shape = RoundedCornerShape(20),
@@ -163,7 +163,14 @@ fun PengaduanSaya(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .heightIn(50.dp)
-                                    .background(brush = Brush.horizontalGradient(listOf(Merah, Merah))),
+                                    .background(
+                                        brush = Brush.horizontalGradient(
+                                            listOf(
+                                                Merah,
+                                                Merah
+                                            )
+                                        )
+                                    ),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(

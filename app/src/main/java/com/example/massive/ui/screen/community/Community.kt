@@ -107,7 +107,6 @@ fun AduanCard(aduan: AduanSaya) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            Spacer(modifier = Modifier.height(5.dp))
             Text(
                 text = "${aduan.User.nama_depan} ${aduan.User.nama_belakang}",
                 fontWeight = FontWeight.Bold,
@@ -116,7 +115,7 @@ fun AduanCard(aduan: AduanSaya) {
             )
             Text(
                 modifier = Modifier.offset(y = (-3).dp),
-                text = aduan.createdAt,
+                text = "${aduan.createdAt} - (${aduan.lokasi})",
                 color = Abu,
                 fontSize = 13.sp,
                 fontFamily = poppins,

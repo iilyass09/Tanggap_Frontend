@@ -52,6 +52,7 @@ android {
 
 
 dependencies {
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.30.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("com.auth0.android:jwtdecode:2.0.0")
