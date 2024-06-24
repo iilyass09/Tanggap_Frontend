@@ -1,6 +1,8 @@
 package com.example.massive.data.storage
 
 import com.example.massive.data.api.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -44,21 +46,26 @@ object RetrofitInstance {
             .create(BeritaApi::class.java)
     }
 
-    //POST Pengaduan
-    val pengaduanApi: PengaduanApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BACKEND_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+    //PENGADUAN
+    fun createRetrofitService(token: String): PengaduanApi {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                chain.proceed(request)
+            }
             .build()
-            .create(PengaduanApi::class.java)
-    }
 
-    //GET Pengaduan Saya
-    val api: PengaduanSayaApi by lazy {
-        Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
             .baseUrl(BACKEND_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(PengaduanSayaApi::class.java)
+
+        return retrofit.create(PengaduanApi::class.java)
     }
 }

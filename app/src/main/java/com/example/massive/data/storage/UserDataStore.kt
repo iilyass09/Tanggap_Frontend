@@ -5,8 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.massive.ui.utils.PreferencesKey.FIRST_TIME_LAUNCH_KEY
-import com.example.massive.ui.utils.PreferencesKey.STATUS_LOGIN_KEY
+import com.example.massive.data.storage.PreferencesKey.FIRST_TIME_LAUNCH_KEY
+import com.example.massive.data.storage.PreferencesKey.STATUS_LOGIN_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

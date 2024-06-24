@@ -1,9 +1,9 @@
 package com.example.massive.data.storage
 
 import android.content.Context
-import com.example.massive.ui.utils.PreferencesKey.NAME_KEY
-import com.example.massive.ui.utils.PreferencesKey.NAME_PREF
-import com.example.massive.ui.utils.PreferencesKey.PASSWORD_KEY
+import com.example.massive.data.storage.PreferencesKey.NAME_KEY
+import com.example.massive.data.storage.PreferencesKey.NAME_PREF
+import com.example.massive.data.storage.PreferencesKey.PASSWORD_KEY
 
 class SharedPreferencesManager(context: Context) {
     private val preferences = context.getSharedPreferences(NAME_PREF, Context.MODE_PRIVATE)

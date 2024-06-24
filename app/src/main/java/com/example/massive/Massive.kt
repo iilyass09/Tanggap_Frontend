@@ -18,43 +18,42 @@ import androidx.compose.ui.unit.*
 import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import com.example.massive.ui.screen.akun.AkunScreen
-import com.example.massive.ui.screen.chat.Chatbot2
-import com.example.massive.ui.screen.chat.ChatbotScreen
-import com.example.massive.ui.screen.community.CommunityScreen
-import com.example.massive.ui.screen.home.HomeScreen
-import com.example.massive.ui.navigation.NavigationItem
-import com.example.massive.ui.navigation.Screen
-import com.example.massive.ui.screen.login.LoginScreen
-import com.example.massive.ui.screen.onboarding.Onboarding1
-import com.example.massive.ui.screen.onboarding.Onboarding2
-import com.example.massive.ui.screen.onboarding.Onboarding3
-import com.example.massive.ui.screen.splash.SplashScreen
-import com.example.massive.ui.screen.akun.AkunSaya
-import com.example.massive.ui.screen.akun.Bahasa
-import com.example.massive.ui.screen.akun.Bantuan
-import com.example.massive.ui.screen.akun.DetailPengaduanSaya
-import com.example.massive.ui.screen.akun.HubungiKami
-import com.example.massive.ui.screen.akun.KebijakanPrivasi
-import com.example.massive.ui.screen.akun.PengaduanSaya
-import com.example.massive.ui.screen.akun.Pengaturan
-import com.example.massive.ui.screen.berita.BeritaDetailScreen
-import com.example.massive.ui.screen.berita.BeritaScreen
-import com.example.massive.ui.screen.chat.CustomerService
-import com.example.massive.ui.screen.fpassword.FPassword1
-import com.example.massive.ui.screen.fpassword.FPassword2
-import com.example.massive.ui.screen.fpassword.FPassword3
-import com.example.massive.ui.screen.pengaduan.Panduan
-import com.example.massive.ui.screen.pengaduan.Pengaduan
-import com.example.massive.ui.screen.pengaduan.Pengaduan2
-import com.example.massive.ui.screen.pengaduan.Pengaduan3
-import com.example.massive.ui.screen.register.RegisterScreen
+import com.example.massive.presentation.navigation.NavigationItem
+import com.example.massive.presentation.navigation.Screen
+import com.example.massive.presentation.screen.akun.AkunSaya
+import com.example.massive.presentation.screen.akun.AkunScreen
+import com.example.massive.presentation.screen.akun.Bahasa
+import com.example.massive.presentation.screen.akun.Bantuan
+import com.example.massive.presentation.screen.akun.HubungiKami
+import com.example.massive.presentation.screen.akun.KebijakanPrivasi
+import com.example.massive.presentation.screen.akun.PengaduanSaya
+import com.example.massive.presentation.screen.akun.Pengaturan
+import com.example.massive.presentation.screen.berita.BeritaDetailScreen
+import com.example.massive.presentation.screen.berita.BeritaScreen
+import com.example.massive.presentation.screen.chat.Chatbot2
+import com.example.massive.presentation.screen.chat.ChatbotScreen
+import com.example.massive.presentation.screen.chat.CustomerService
+import com.example.massive.presentation.screen.community.CommunityScreen
+import com.example.massive.presentation.screen.fpassword.FPassword1
+import com.example.massive.presentation.screen.fpassword.FPassword2
+import com.example.massive.presentation.screen.fpassword.FPassword3
+import com.example.massive.presentation.screen.home.HomeScreen
+import com.example.massive.presentation.screen.login.LoginScreen
+import com.example.massive.presentation.screen.onboarding.Onboarding1
+import com.example.massive.presentation.screen.onboarding.Onboarding2
+import com.example.massive.presentation.screen.onboarding.Onboarding3
+import com.example.massive.presentation.screen.pengaduan.Panduan
+import com.example.massive.presentation.screen.pengaduan.Pengaduan
+import com.example.massive.presentation.screen.pengaduan.Pengaduan2
+import com.example.massive.presentation.screen.pengaduan.Pengaduan3
+import com.example.massive.presentation.screen.register.RegisterScreen
+import com.example.massive.presentation.screen.splash.SplashScreen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.poppins
-import com.example.massive.ui.utils.HideTopBar
-import com.example.massive.ui.utils.ShowBottomBar
-import com.example.massive.ui.utils.ShowFAB
-import com.example.massive.ui.utils.ShowTopBarWithIcon
+import com.example.massive.utils.HideTopBar
+import com.example.massive.utils.ShowBottomBar
+import com.example.massive.utils.ShowFAB
+import com.example.massive.utils.ShowTopBarWithIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
@@ -162,24 +161,23 @@ fun Massive(
             composable(Screen.FPassword2.route){ FPassword2(navController) }
             composable(Screen.FPassword3.route){ FPassword3(navController) }
             composable(Screen.Home.route){ HomeScreen(navController) }
-            composable(Screen.Community.route){ CommunityScreen(navController) }
+            composable(Screen.Community.route){ CommunityScreen() }
             composable(Screen.Pengaduan.route) { Pengaduan(navController) }
             composable(Screen.Pengaduan2.route) { Pengaduan2(navController) }
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
             composable(Screen.Berita.route) { BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController ) }
-            composable(Screen.AkunSaya.route){ AkunSaya(navController) }
-            composable(Screen.PengaduanSaya.route){ PengaduanSaya(navController) }
-            composable(Screen.DetailPengaduanSaya.route){ DetailPengaduanSaya(navController) }
+            composable(Screen.AkunSaya.route){ AkunSaya() }
+            composable(Screen.PengaduanSaya.route){ PengaduanSaya() }
             composable(Screen.HubungiKami.route){ HubungiKami(navController) }
             composable(Screen.Pengaturan.route){ Pengaturan(navController) }
-            composable(Screen.Bantuan.route){ Bantuan(navController) }
-            composable(Screen.Bahasa.route){ Bahasa(navController) }
-            composable(Screen.KebijakanPrivasi.route){ KebijakanPrivasi(navController) }
+            composable(Screen.Bantuan.route){ Bantuan() }
+            composable(Screen.Bahasa.route){ Bahasa() }
+            composable(Screen.KebijakanPrivasi.route){ KebijakanPrivasi() }
             composable(Screen.Chatbot.route){ ChatbotScreen(navController) }
             composable(Screen.Chatbot2.route){ Chatbot2(navController) }
             composable(Screen.CustomerService.route){ CustomerService(navController) }
-            composable(Screen.Panduan.route){ Panduan(navController) }
+            composable(Screen.Panduan.route){ Panduan() }
             composable("${Screen.BeritaDetail.route}/{beritaId}") { backStackEntry ->
                 val beritaId = backStackEntry.arguments?.getString("beritaId")
                 if (beritaId != null) {
