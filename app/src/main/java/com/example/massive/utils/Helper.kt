@@ -5,7 +5,7 @@ import com.example.massive.presentation.navigation.Screen
 fun String?.ShowBottomBar(): Boolean {
     return this in setOf(
         Screen.Home.route,
-        Screen.Community.route,
+        Screen.Pantau.route,
         Screen.Pengaduan.route,
         Screen.Pengaduan2.route,
         Screen.Pengaduan3.route,
@@ -53,7 +53,7 @@ fun String? .HideTopBar(): Boolean{
 fun String? .ShowFAB(): Boolean{
     return this in setOf(
         Screen.Home.route,
-        Screen.Community.route,
+        Screen.Pantau.route,
         Screen.Berita.route,
         Screen.Akun.route
     )

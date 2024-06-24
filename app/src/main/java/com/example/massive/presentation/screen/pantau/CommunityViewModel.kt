@@ -1,4 +1,4 @@
-package com.example.massive.presentation.screen.community
+package com.example.massive.presentation.screen.pantau
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 
-class CommunityViewModel : ViewModel() {
+class PantauViewModel : ViewModel() {
 
     interface CommunityApi {
         @GET("api/aduan/get/baru")

@@ -16,7 +16,7 @@ sealed class Screen(val route : String) {
     object FPassword2 : Screen("FPassword2")
     object FPassword3 : Screen("FPassword3")
     object Home : Screen("home")
-    object Community : Screen("community")
+    object Pantau : Screen("pantau")
     object DetailCommunity : Screen("detail_community")
     object Pengaduan : Screen("pengaduan")
     object Pengaduan2 : Screen("pengaduan2")

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tanggap</string>
     <string name="menu_home">Beranda</string>
-    <string name="menu_komunitas">Komunitas</string>
+    <string name="menu_pantau">Pantau</string>
     <string name="menu_pengaduan">Pengaduan</string>
     <string name="menu_berita">Berita</string>
     <string name="menu_akun">Akun</string>

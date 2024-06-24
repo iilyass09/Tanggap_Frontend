@@ -1,4 +1,4 @@
-package com.example.massive.presentation.screen.community
+package com.example.massive.presentation.screen.pantau
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,17 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.massive.data.storage.SharedPreferencesManager
 import com.example.massive.presentation.components.AduanCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityScreen() {
+fun PantauScreen() {
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
     val sharedPreferencesManager = SharedPreferencesManager(context)
-    val viewModel: CommunityViewModel = viewModel()
+    val viewModel: PantauViewModel = viewModel()
     val aduanList = viewModel.aduanList
     val authToken = sharedPreferencesManager.authToken
 

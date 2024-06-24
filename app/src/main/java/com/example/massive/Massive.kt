@@ -33,7 +33,7 @@ import com.example.massive.presentation.screen.berita.BeritaScreen
 import com.example.massive.presentation.screen.chat.Chatbot2
 import com.example.massive.presentation.screen.chat.ChatbotScreen
 import com.example.massive.presentation.screen.chat.CustomerService
-import com.example.massive.presentation.screen.community.CommunityScreen
+import com.example.massive.presentation.screen.pantau.PantauScreen
 import com.example.massive.presentation.screen.fpassword.FPassword1
 import com.example.massive.presentation.screen.fpassword.FPassword2
 import com.example.massive.presentation.screen.fpassword.FPassword3
@@ -161,7 +161,7 @@ fun Massive(
             composable(Screen.FPassword2.route){ FPassword2(navController) }
             composable(Screen.FPassword3.route){ FPassword3(navController) }
             composable(Screen.Home.route){ HomeScreen(navController) }
-            composable(Screen.Community.route){ CommunityScreen() }
+            composable(Screen.Pantau.route){ PantauScreen() }
             composable(Screen.Pengaduan.route) { Pengaduan(navController) }
             composable(Screen.Pengaduan2.route) { Pengaduan2(navController) }
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
@@ -208,10 +208,10 @@ fun BottomBar(
                 screen = Screen.Home
             ),
             NavigationItem(
-                title = stringResource(id = R.string.menu_komunitas),
+                title = stringResource(id = R.string.menu_pantau),
                 iconClick = R.drawable.iconkomunitasclick,
                 iconUnclick = R.drawable.iconkomunitas,
-                screen = Screen.Community
+                screen = Screen.Pantau
             ),
             NavigationItem(
                 title = stringResource(id = R.string.menu_pengaduan),
@@ -275,7 +275,7 @@ fun getTitleForRoute(route: String?): String {
         Screen.FPassword1.route -> stringResource(id = R.string.salah)
         Screen.FPassword2.route -> stringResource(id = R.string.salah)
         Screen.FPassword3.route -> stringResource(id = R.string.salah)
-        Screen.Community.route -> stringResource(id = R.string.menu_komunitas)
+        Screen.Pantau.route -> stringResource(id = R.string.menu_pantau)
         Screen.Pengaduan.route -> stringResource(id = R.string.menu_pengaduan)
         Screen.Pengaduan2.route -> stringResource(id = R.string.menu_pengaduan)
         Screen.Pengaduan3.route -> stringResource(id = R.string.menu_pengaduan)
@@ -295,7 +295,7 @@ fun getTitleForRoute(route: String?): String {
             if (route?.startsWith(Screen.BeritaDetail.route) == true) {
                 stringResource(id = R.string.menu_berita)
             } else if (route?.startsWith(Screen.DetailCommunity.route) == true) {
-                stringResource(id = R.string.menu_komunitas)
+                stringResource(id = R.string.menu_pantau)
             } else {
                 stringResource(id = R.string.salah)
             }

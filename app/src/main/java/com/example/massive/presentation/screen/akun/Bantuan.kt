@@ -240,7 +240,7 @@ fun Bantuan() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Apa saja yang bisa saya lakukan\n" + "didalam fitur Komunitas?",
+                            text = "Apa saja yang bisa saya lakukan\n" + "didalam fitur Pantau?",
                             fontSize = 15.sp,
                             fontFamily = poppins,
                             fontWeight = FontWeight.Medium,
@@ -257,7 +257,7 @@ fun Bantuan() {
                     if (expandedState4){
                         Text(
                             modifier = Modifier.padding(15.dp),
-                            text = "Didalam fitur Komunitas anda bisa melihat " +
+                            text = "Didalam fitur Pantau anda bisa melihat " +
                                     "pengaduan yang sudah dilaporkan oleh orang " +
                                     "lain diberbagai daerah Kota Bandung. " +
                                     "Selain itu, anda bisa memberikan komentar " +

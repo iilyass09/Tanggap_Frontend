@@ -90,7 +90,7 @@ fun Banner() {
         }
         Text(
             modifier = Modifier.offset(x = 10.dp),
-            text = "Komunitas",
+            text = "Pantau",
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             fontFamily = poppins

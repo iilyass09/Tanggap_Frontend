@@ -28,7 +28,7 @@ import com.example.massive.presentation.components.ErrorView
 import com.example.massive.presentation.components.HomeTopBar
 import com.example.massive.presentation.screen.berita.BeritaViewModel
 import com.example.massive.presentation.screen.berita.BeritaViewModelFactory
-import com.example.massive.presentation.screen.community.CommunityViewModel
+import com.example.massive.presentation.screen.pantau.PantauViewModel
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.poppins
 import com.example.yourapp.network.AkunSayaViewModel
@@ -44,7 +44,7 @@ fun HomeScreen(
     val beritaList by viewModel.beritaList.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
-    val viewModel3: CommunityViewModel = viewModel()
+    val viewModel3: PantauViewModel = viewModel()
     val userViewModel: AkunSayaViewModel = viewModel()
 
     LaunchedEffect(Unit) {
