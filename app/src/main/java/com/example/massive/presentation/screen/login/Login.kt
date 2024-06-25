@@ -174,20 +174,20 @@ fun LoginContent(
                 onValueChange = onPasswordChange,
                 label = "Kata Sandi"
             )
-            TextButton(
-                onClick = moveToForgot,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(bottom = 8.dp)
-            ) {
-                Text(
-                    text = "Lupa Kata Sandi?",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontFamily = poppins,
-                    fontWeight = FontWeight.Normal,
-                    color = Biru
-                )
-            }
+//            TextButton(
+//                onClick = moveToForgot,
+//                modifier = Modifier
+//                    .align(Alignment.End)
+//                    .padding(bottom = 8.dp)
+//            ) {
+//                Text(
+//                    text = "Lupa Kata Sandi?",
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    fontFamily = poppins,
+//                    fontWeight = FontWeight.Normal,
+//                    color = Biru
+//                )
+//            }
             Button(
                 onClick = onLoginClick,
                 colors = ButtonDefaults.buttonColors(Biru),
