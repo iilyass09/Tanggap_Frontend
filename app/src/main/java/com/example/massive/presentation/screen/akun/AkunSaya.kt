@@ -17,11 +17,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
-import com.example.yourapp.network.AkunSayaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -30,9 +28,23 @@ fun AkunSaya() {
     val userViewModel: AkunSayaViewModel = viewModel()
     val context = LocalContext.current
     var isEditable by remember { mutableStateOf(false) }
+    var firstName by remember { mutableStateOf(userViewModel.user?.nama_depan ?: "") }
+    var lastName by remember { mutableStateOf(userViewModel.user?.nama_belakang ?: "") }
+    var email by remember { mutableStateOf(userViewModel.user?.email ?: "") }
+    var password by remember { mutableStateOf(userViewModel.user?.password ?: "") }
 
     LaunchedEffect(Unit) {
         userViewModel.fetchUser(context)
+    }
+
+
+    LaunchedEffect(userViewModel.user) {
+        userViewModel.user?.let { user ->
+            firstName = user.nama_depan
+            lastName = user.nama_belakang
+            email = user.email
+            password = user.password
+        }
     }
 
     Scaffold(
@@ -47,11 +59,6 @@ fun AkunSaya() {
             if (userViewModel.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.padding(8.dp))
             } else if (userViewModel.user != null) {
-                var firstName by remember { mutableStateOf(userViewModel.user?.nama_depan ?: "") }
-                var lastName by remember { mutableStateOf(userViewModel.user?.nama_belakang ?: "") }
-                var email by remember { mutableStateOf(userViewModel.user?.email ?: "") }
-                var password by remember { mutableStateOf(userViewModel.user?.password ?: "") }
-
                 OutlinedTextField(
                     value = firstName,
                     onValueChange = { firstName = it },
@@ -119,7 +126,22 @@ fun AkunSaya() {
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { isEditable = !isEditable },
+                onClick = {
+                    if (isEditable) {
+                        val updatedUser = userViewModel.update?.copy(
+                            namadepan = firstName,
+                            namabelakang = lastName,
+                            email = email,
+                            password = password,
+                            role = "member",
+                            aktif = 'Y'
+                        )
+                        updatedUser?.let {
+                            userViewModel.updateUser(context, it)
+                        }
+                    }
+                    isEditable = !isEditable
+                },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier
                     .fillMaxWidth()

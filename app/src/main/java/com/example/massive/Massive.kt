@@ -33,8 +33,8 @@ import com.example.massive.presentation.screen.berita.BeritaScreen
 import com.example.massive.presentation.screen.chat.Chatbot2
 import com.example.massive.presentation.screen.chat.ChatbotScreen
 import com.example.massive.presentation.screen.chat.CustomerService
-import com.example.massive.presentation.screen.pantau.PantauScreen
 import com.example.massive.presentation.screen.fpassword.FPassword1
+import com.example.massive.presentation.screen.pantau.PantauScreen
 import com.example.massive.presentation.screen.fpassword.FPassword2
 import com.example.massive.presentation.screen.fpassword.FPassword3
 import com.example.massive.presentation.screen.home.HomeScreen

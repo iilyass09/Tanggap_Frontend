@@ -26,12 +26,12 @@ import com.example.massive.presentation.components.Banner
 import com.example.massive.presentation.components.BeritaTerbaruHomeCard
 import com.example.massive.presentation.components.ErrorView
 import com.example.massive.presentation.components.HomeTopBar
+import com.example.massive.presentation.screen.akun.AkunSayaViewModel
 import com.example.massive.presentation.screen.berita.BeritaViewModel
 import com.example.massive.presentation.screen.berita.BeritaViewModelFactory
 import com.example.massive.presentation.screen.pantau.PantauViewModel
 import com.example.massive.ui.theme.Abu
 import com.example.massive.ui.theme.poppins
-import com.example.yourapp.network.AkunSayaViewModel
 
 @Composable
 fun HomeScreen(

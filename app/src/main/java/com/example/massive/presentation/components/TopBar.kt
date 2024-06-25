@@ -33,9 +33,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.massive.R
 import com.example.massive.presentation.navigation.Screen
+import com.example.massive.presentation.screen.akun.AkunSayaViewModel
 import com.example.massive.ui.theme.Abu2
 import com.example.massive.ui.theme.poppins
-import com.example.yourapp.network.AkunSayaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
