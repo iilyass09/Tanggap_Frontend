@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object UserInstance {
-    private const val BASE_URL = "http://202.10.41.84:5000/"
+    private const val BASE_URL = "http://202.10.41.84:5000/api/"
 
     fun getUserApi(context: Context): UserApi {
         val sharedPreferencesManager = SharedPreferencesManager(context)

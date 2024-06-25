@@ -17,6 +17,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.massive.data.models.UpdateUser
+import com.example.massive.data.storage.SharedPreferencesManager
+import com.example.massive.presentation.navigation.Screen
 import com.example.massive.ui.theme.Biru
 import com.example.massive.ui.theme.componentsShapes
 import com.example.massive.ui.theme.poppins
@@ -24,7 +28,9 @@ import com.example.massive.ui.theme.poppins
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AkunSaya() {
+fun AkunSaya(
+    navController: NavController
+) {
     val userViewModel: AkunSayaViewModel = viewModel()
     val context = LocalContext.current
     var isEditable by remember { mutableStateOf(false) }
@@ -128,19 +134,22 @@ fun AkunSaya() {
             Button(
                 onClick = {
                     if (isEditable) {
-                        val updatedUser = userViewModel.update?.copy(
+                        val sharedPreferencesManager = SharedPreferencesManager(context)
+                        val token = sharedPreferencesManager.authToken ?: return@Button
+
+                        val updateUser = UpdateUser(
+                            id = userViewModel.user?.id ?: return@Button,
                             namadepan = firstName,
                             namabelakang = lastName,
                             email = email,
                             password = password,
-                            role = "member",
-                            aktif = 'Y'
                         )
-                        updatedUser?.let {
-                            userViewModel.updateUser(context, it)
-                        }
+
+                        userViewModel.updateUser(context, updateUser, token)
+                        navController.navigate(Screen.Akun.route)
                     }
                     isEditable = !isEditable
+
                 },
                 shape = RoundedCornerShape(20),
                 modifier = Modifier

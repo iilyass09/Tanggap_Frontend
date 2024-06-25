@@ -167,7 +167,7 @@ fun Massive(
             composable(Screen.Pengaduan3.route) { Pengaduan3(navController) }
             composable(Screen.Berita.route) { BeritaScreen(navController) }
             composable(Screen.Akun.route){ AkunScreen(navController ) }
-            composable(Screen.AkunSaya.route){ AkunSaya() }
+            composable(Screen.AkunSaya.route){ AkunSaya(navController) }
             composable(Screen.PengaduanSaya.route){ PengaduanSaya() }
             composable(Screen.HubungiKami.route){ HubungiKami(navController) }
             composable(Screen.Pengaturan.route){ Pengaturan(navController) }

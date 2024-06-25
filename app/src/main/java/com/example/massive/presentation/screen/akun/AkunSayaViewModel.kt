@@ -14,6 +14,7 @@ import com.example.massive.data.storage.UserInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class AkunSayaViewModel : ViewModel() {
     var user by mutableStateOf<User?>(null)
@@ -23,6 +24,9 @@ class AkunSayaViewModel : ViewModel() {
         private set
 
     var isLoading by mutableStateOf(false)
+        private set
+
+    var errorMessage by mutableStateOf<String?>(null)
         private set
 
     fun fetchUser(context: Context) {
@@ -50,37 +54,47 @@ class AkunSayaViewModel : ViewModel() {
             isLoading = false
         }
     }
-
-    fun updateUser(context: Context, updatedUser: UpdateUser) {
+    fun updateUser(context: Context, updateUser: UpdateUser, token: String) {
         isLoading = true
-        val tag = "AkunSayaViewModel"
+        errorMessage = null
 
         viewModelScope.launch {
-            val sharedPreferencesManager = SharedPreferencesManager(context)
-            val userId = sharedPreferencesManager.userId
-
-            withContext(Dispatchers.IO) {
+            val updateUserResponse = withContext(Dispatchers.IO) {
                 try {
-                    Log.d(tag, "Memulai proses pembaruan pengguna.")
                     val apiService = UserInstance.getUserApi(context)
-                    val response = apiService.updateUser(userId, updatedUser)
-
+                    val response = apiService.updateUser(
+                        updateUser.id,
+                        updateUser.namadepan,
+                        updateUser.namabelakang,
+                        updateUser.email,
+                        updateUser.password,
+                        "member", // Nilai statis
+                        'Y' // Nilai statis
+                    )
                     if (response.status == 200) {
-                        Log.d(tag, "Pembaruan berhasil: ${response.data}")
-                        update = response.data
+                        response
+
                     } else {
-                        Log.e(tag, "Pembaruan gagal: Status = ${response.status}, Pesan = ${response.message}")
+                        errorMessage = "Gagal mengupdate user: ${response.message}"
+                        null
                     }
+                } catch (e: HttpException) {
+                    Log.e("AkunSayaViewModel", "HTTP error: ${e.response()?.errorBody()?.string()}", e)
+                    errorMessage = "Terjadi kesalahan: ${e.response()?.errorBody()?.string()}"
+                    null
                 } catch (e: Exception) {
-                    val errorMessage = e.message ?: "Unknown error"
-                    val responseBody = e.localizedMessage ?: "No response body"
-                    Log.e(tag, "Terjadi kesalahan saat memperbarui pengguna: $errorMessage")
-                    Log.e(tag, "Response body: $responseBody", e)
                     e.printStackTrace()
+                    Log.e("AkunSayaViewModel", "Error updating user", e)
+                    errorMessage = "Terjadi kesalahan: ${e.localizedMessage}"
+                    null
                 }
             }
+
+            if (updateUserResponse != null) {
+                update = updateUserResponse.data
+            }
             isLoading = false
-            Log.d(tag, "Proses pembaruan selesai.")
         }
     }
+
 }

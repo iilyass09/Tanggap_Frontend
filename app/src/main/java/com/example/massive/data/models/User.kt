@@ -16,8 +16,8 @@ data class UpdateUser(
     val namabelakang: String,
     val email: String,
     val password: String,
-    val role : String,
-    val aktif : Char
+    val role: String = "member", // Nilai default
+    val aktif: String = "Y" // Nilai default
 )
 
 data class UserRespone(
